@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/bt_navigation"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/nav_home" />
+
+    <!--SETAR O LAYOUT e a LABEL-->
+    
+    <fragment
+        android:id="@+id/nav_search" />
+
+    <fragment
+        android:id="@+id/nav_profile" />
+</navigation>
