@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Marvelnatics">
         <activity
+            android:name=".ui.CustomToolbar"
+            android:label="@string/title_activity_custom_toolbar"
+            android:theme="@style/Theme.Marvelnatics.NoActionBar"></activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Marvelnatics.NoActionBar">
