@@ -43,14 +43,14 @@ fun CustomToolbar (){
                         ) {
                             Text(
                                 text = "ORGANIZAR COLEÇÃO",
-                                style = TextStyle(color = white, fontSize = TextUnit(20)),
+                                style = TextStyle(color = white),
                                 modifier = Modifier.clickable(
                                     onClick = {}
                                 ).padding(end = 20.dp)
                             )
-                            Text(text = "|", style = TextStyle(color = white, fontSize = TextUnit(20)), modifier = Modifier.padding(end = 20.dp))
+                            Text(text = "|", style = TextStyle(color = white), modifier = Modifier.padding(end = 20.dp))
                             Text(text = "FAVORITOS",
-                                style = TextStyle(color = white, fontSize = TextUnit(20)),
+                                style = TextStyle(color = white),
                                 modifier = Modifier.clickable(
                                     onClick = {}
                                 ).padding(end = 20.dp))
