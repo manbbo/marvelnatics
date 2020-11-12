@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Marvelnatics</string>
     <string name="title_activity_custom_toolbar">Toolbar</string>
+    <string name="title_activity_splash">Splash</string>
 </resources>
