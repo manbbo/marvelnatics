@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Marvelnatics</string>
-    <string name="title_activity_custom_toolbar">Toolbar</string>
-    <string name="title_activity_splash">Splash</string>
+    
+    <string name="search">Pesquisar</string>
+
+    <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
+    <string name="tb_favorites">FAVORITOS</string>
+
+    <string name="nb_home">PRINCIPAL</string>
+    <string name="nb_search">BUSCAR</string>
+    <string name="nb_profile">PERFIL</string>
 </resources>
