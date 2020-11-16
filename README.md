@@ -47,8 +47,9 @@ No futuro, porém, a plataforma vai oferecer análise de estatísticas de leitur
 
 ### Para novos NERDS
 
-O método de monetização <!--
-            
+O método de monetização 
+
+<!--            
 Dentro da plataforma, será possível pesquisar empresas cadastradas e 
 negociar e fechar acordos com os demais usuários através de chat nativo 
 da aplicação. Os detalhes dos acordos feitos ficarão por conta dos 
@@ -82,7 +83,7 @@ Configure the Environment Variables needed at your machine, and download JAVA fo
 
 ### Else:
 
-Download <!-- [Flutter](https://flutter.dev/docs/get-started/install);
+Download <!--[Flutter](https://flutter.dev/docs/get-started/install);
 
 Unzip it to "C:\". It can be other path but just make sure to know where it is;
 
