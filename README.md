@@ -47,7 +47,7 @@ No futuro, porém, a plataforma vai oferecer análise de estatísticas de leitur
 
 ### Para novos NERDS
 
-O método de monetização <!--.
+O método de monetização <!--
             
 Dentro da plataforma, será possível pesquisar empresas cadastradas e 
 negociar e fechar acordos com os demais usuários através de chat nativo 
