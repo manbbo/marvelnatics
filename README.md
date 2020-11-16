@@ -83,8 +83,9 @@ Configure the Environment Variables needed at your machine, and download JAVA fo
 
 ### Else:
 
-Download <!--[Flutter](https://flutter.dev/docs/get-started/install);
+Download 
 
+<!--
 Unzip it to "C:\". It can be other path but just make sure to know where it is;
 
 Configure the Environment Variables needed at your machine, with "flutter" as the name and "C:\flutter" as the path;
@@ -106,7 +107,8 @@ and then you're going to be able to do
 
 ```sh
 flutter run
-```-->
+```
+-->
 
 
 ## Api Marvel
