@@ -26,13 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tb_organize"
-                android:background="null"
+                android:background="@color/material_on_background_disabled"
                 android:textSize="15dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/white" />
             <ImageView
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
@@ -44,10 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tb_favorites"
                 android:textSize="15dp"
-                android:background="null"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/material_on_background_disabled"
+                android:textColor="@color/white" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
