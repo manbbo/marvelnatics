@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#44444444">
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -40,30 +40,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:text="Já tenho"
-                android:textColor="@color/primaryColor"
-                app:chipBackgroundColor="@color/white"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_check_circle"
-                app:chipIconTint="@color/primaryColor" />
+                app:chipIconTint="@color/white" />
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:text="Já li"
-                android:textColor="@color/primaryColor"
-                app:chipBackgroundColor="@color/white"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_book"
-                app:chipIconTint="@color/primaryColor" />
+                app:chipIconTint="@color/white" />
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:text="Quero ler"
-                android:textColor="@color/primaryColor"
-                app:chipBackgroundColor="@color/white"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_favorite"
-                app:chipIconTint="@color/primaryColor" />
+                app:chipIconTint="@color/white" />
 
         </LinearLayout>
 
