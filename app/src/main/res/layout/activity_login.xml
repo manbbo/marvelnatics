@@ -52,7 +52,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                android:hint="Email"
+                android:hint="@string/email"
+                app:boxStrokeColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -70,11 +71,13 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="29dp"
                 android:layout_marginEnd="10dp"
-                android:hint="Senha"
+                android:hint="@string/senha"
+                app:boxStrokeColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_login_emailLayout">
+                app:layout_constraintTop_toBottomOf="@+id/til_login_emailLayout"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditText"
@@ -84,7 +87,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/cadastre_se"
+                android:id="@+id/tv_login_cadastreSe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -127,6 +130,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="47dp"
                 android:background="@drawable/entrar_com_facebook_background"
+                android:clickable="true"
                 android:elevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -166,6 +170,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="9dp"
                 android:background="@drawable/entrar_com_google_background"
+                android:clickable="true"
                 android:elevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
