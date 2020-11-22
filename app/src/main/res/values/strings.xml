@@ -12,7 +12,9 @@
     <string name="nb_home">PRINCIPAL</string>
     <string name="nb_search">BUSCAR</string>
     <string name="nb_profile">PERFIL</string>
-
-    <!--PERFIL-->
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="entrar_com_facebook">Entrar com Facebook</string>
+    <string name="entrar_com_google">Entrar com o Google</string>
+    <string name="login_entrar">Entrar</string>
     <string name="bt_my_favorites">MEUS FAVORITOS</string>
 </resources>
