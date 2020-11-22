@@ -84,20 +84,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_busca_resultado" />
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:backgroundTint="@color/primaryColor"
-        android:outlineAmbientShadowColor="#00000000"
-        android:outlineSpotShadowColor="#00000000"
-        app:elevation="0dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TODO" />
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
