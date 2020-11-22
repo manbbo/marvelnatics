@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Marvelnatics</string>
 
+    <!--BARRA DE PESQUISA-->
     <string name="search">Pesquisar</string>
 
+    <!--HOME-->
     <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
     <string name="tb_favorites">FAVORITOS</string>
 
+    <!--MENU-->
     <string name="nb_home">PRINCIPAL</string>
     <string name="nb_search">BUSCAR</string>
     <string name="nb_profile">PERFIL</string>
@@ -20,4 +23,5 @@
     <string name="sobrenome">Sobrenome</string>
     <string name="email">Email</string>
     <string name="senha">Senha</string>
+    <string name="bt_my_favorites">MEUS FAVORITOS</string>
 </resources>
