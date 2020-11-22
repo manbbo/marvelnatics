@@ -16,5 +16,12 @@
     <string name="entrar_com_facebook">Entrar com Facebook</string>
     <string name="entrar_com_google">Entrar com o Google</string>
     <string name="login_entrar">Entrar</string>
+    <string name="cadastrar_com_facebook">Cadastrar com Facebook</string>
+    <string name="cadastrar_com_google">Cadastrar com Google</string>
+    <string name="cadastro_cadastrar">Cadastrar</string>
+    <string name="nome">Nome</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
     <string name="bt_my_favorites">MEUS FAVORITOS</string>
 </resources>
