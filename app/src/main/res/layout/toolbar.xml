@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar
-    android:id="@+id/tb_piton"
+    android:id="@+id/tb_main_toolbar"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -26,13 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tb_organize"
-                android:background="@null"
-                android:textSize="15dp"
+                android:background="@color/material_on_background_disabled"
+                android:textSize="13dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/white" />
             <ImageView
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
@@ -43,11 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tb_favorites"
-                android:textSize="15dp"
-                android:background="@null"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="13dp"
+                android:background="@color/material_on_background_disabled"
+                android:textColor="@color/white" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
