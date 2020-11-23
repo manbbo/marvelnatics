@@ -1,81 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
-    android:background="@drawable/round_bkg">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/iv_story"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/profilemock"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp">
 
-    <LinearLayout
-        android:id="@+id/ll_review"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_right_bkg"
-        android:backgroundTint="@color/secondaryColor"
-        android:gravity="start|center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_story"
-        app:layout_constraintStart_toStartOf="@+id/iv_story">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="124dp">
 
-        <ImageView
-            android:id="@+id/s0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_star" />
+            <ImageView
+                android:id="@+id/iv_story"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:scrollY="-25dp"
+                android:src="@drawable/profilemock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/s1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_star" />
+            <LinearLayout
+                android:id="@+id/ll_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_right_top_5dp"
+                android:backgroundTint="@color/secondaryColor"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="2dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_story"
+                app:layout_constraintStart_toStartOf="@+id/iv_story">
 
-        <ImageView
-            android:id="@+id/s2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_star" />
+                <ImageView
+                    android:id="@+id/s0"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_star" />
 
-        <ImageView
-            android:id="@+id/s3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_star" />
+                <ImageView
+                    android:id="@+id/s1"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_star" />
 
-        <ImageView
-            android:id="@+id/s4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_star" />
+                <ImageView
+                    android:id="@+id/s2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_star" />
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/s3"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_star" />
 
-    <LinearLayout
-        android:id="@+id/ll_name"
-        android:layout_width="310dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_left_bkg"
-        android:backgroundTint="@color/secondaryColor"
-        android:gravity="end|center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/iv_story"
-        app:layout_constraintTop_toTopOf="@+id/iv_story">
-        <TextView
-            android:id="@+id/tv_comic_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:text="NAME"/>
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/s4"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_star" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_left_bottom_5dp"
+                android:backgroundTint="@color/secondaryColor"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingTop="2.5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="2.5dp"
+                app:layout_constraintEnd_toEndOf="@+id/iv_story"
+                app:layout_constraintTop_toTopOf="@+id/iv_story">
+
+                <TextView
+                    android:id="@+id/tv_comic_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NAME"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

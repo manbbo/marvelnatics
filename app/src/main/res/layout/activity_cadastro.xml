@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".CadastroActivity">
+            tools:context=".ui.cadastro.CadastroActivity">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tb_cadastro"
@@ -235,7 +235,7 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/btn_login"
                             android:layout_width="0dp"
                             android:layout_height="40dp"
                             android:background="@drawable/entrar_login_cadastro_background"
