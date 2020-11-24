@@ -24,4 +24,5 @@
     <string name="email">Email</string>
     <string name="senha">Senha</string>
     <string name="bt_my_favorites">MEUS FAVORITOS</string>
+    <string name="personagens_mais_populares">Personagens mais populares</string>
 </resources>
