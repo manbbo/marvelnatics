@@ -12,4 +12,7 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
     <color name="gold">#FDD835</color>
+    <color name="primaryBlue">#254EAE</color>
+    <color name="secondaryBlue">#2D9CDB</color>
+
 </resources>
