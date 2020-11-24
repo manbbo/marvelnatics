@@ -16,18 +16,19 @@
         android:paddingHorizontal="8dp"
         android:paddingBottom="18dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
             android:id="@+id/txt_busca_pesquisar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pesquisar">
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:hint="Pesquisar"
+            android:paddingHorizontal="8dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#555" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
