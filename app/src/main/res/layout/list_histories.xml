@@ -32,6 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/separator"
         android:orientation="horizontal"
         tools:listitem="@layout/item_histories"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:paddingBottom="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
