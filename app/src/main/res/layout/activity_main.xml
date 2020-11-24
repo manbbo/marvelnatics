@@ -11,7 +11,7 @@
         android:id="@+id/vp_main_fragmentViewer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="37dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

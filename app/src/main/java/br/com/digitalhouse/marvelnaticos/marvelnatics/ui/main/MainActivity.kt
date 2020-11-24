@@ -1,5 +1,8 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.MainPagerAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val pager: ViewPager2 = findViewById(R.id.vp_main_fragmentViewer)
-        val includeMainNavbar : View = findViewById(R.id.include_main_navbar)
+        val includeMainNavbar: View = findViewById(R.id.include_main_navbar)
         val navbar: BottomNavigationView = includeMainNavbar.findViewById(R.id.bn_main)
 
         mainPagerAdapter = MainPagerAdapter(this, 3)
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         navbar.setOnNavigationItemSelectedListener {
             it.isChecked = true
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.nb_home -> {
                     pager.currentItem = 0
                     return@setOnNavigationItemSelectedListener true
@@ -50,5 +52,11 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
+    fun goToActivity(target: Class<*>?, enterAnim: Int, exitAnim: Int) {
+        val intent = Intent(this, target)
+        startActivity(intent)
+        overridePendingTransition(enterAnim, exitAnim)
     }
 }
