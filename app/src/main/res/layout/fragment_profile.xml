@@ -6,109 +6,121 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.ProfileFragment">
 
-    <ImageView
-        android:id="@+id/iv_profile"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="214dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/profilemock"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/round_bkg"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_profile">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
-            android:text="NOME (APELIDO)"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="e@mail.com"
-            android:textSize="14dp"
-            android:textStyle="bold" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bt_favorites_profile"
-                android:layout_width="260dp"
-                android:layout_height="39dp"
-                android:background="@drawable/round_left_bkg"
-                android:backgroundTint="@color/primaryBlue"
-                android:drawableLeft="@drawable/ic_favorite"
-                android:paddingLeft="20dp"
-                android:text="@string/bt_my_favorites"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="19sp" />
-
-            <ImageButton
-                android:id="@+id/bt_share_profile"
-                android:layout_width="91dp"
-                android:layout_height="39dp"
-                android:background="@drawable/round_right_bkg"
-                android:backgroundTint="@color/secondaryBlue"
-                android:src="@drawable/ic_share" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="348dp"
-            android:layout_height="174dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/round_bkg"
-            android:backgroundTint="#eef3f6"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_read_comics"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="19dp"
-                android:text="10% HQs lidas"
-                android:textSize="30sp" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/profilemock"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_read_series"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20% Séries lidas"
-                android:textSize="30sp" />
+                android:background="@drawable/round_bkg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile">
 
-            <TextView
-                android:id="@+id/tv_read_characters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="7% Personagens vistos"
-                android:textSize="30sp" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="19dp"
+                    android:text="NOME (APELIDO)"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-        <include
-            android:id="@+id/include_pmp"
-            layout="@layout/list_characters"
-            android:layout_marginTop="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="e@mail.com"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bt_favorites_profile"
+                        android:layout_width="260dp"
+                        android:layout_height="39dp"
+                        android:background="@drawable/round_left_bkg"
+                        android:backgroundTint="@color/primaryBlue"
+                        android:drawableLeft="@drawable/ic_favorite"
+                        android:paddingLeft="20dp"
+                        android:text="@string/bt_my_favorites"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="19sp" />
+
+                    <ImageButton
+                        android:id="@+id/bt_share_profile"
+                        android:layout_width="91dp"
+                        android:layout_height="39dp"
+                        android:background="@drawable/round_right_bkg"
+                        android:backgroundTint="@color/secondaryBlue"
+                        android:src="@drawable/ic_share" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_bkg"
+                    android:backgroundTint="#eef3f6"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_read_comics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10% HQs lidas"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/tv_read_series"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20% Séries lidas"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/tv_read_characters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7% Personagens vistos"
+                        android:textSize="30sp" />
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/include_pmp"
+                    layout="@layout/list_characters"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
