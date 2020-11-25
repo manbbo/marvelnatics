@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="530dp"
         android:background="@drawable/round_bkg"
         android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -94,5 +94,14 @@
                 android:text="7% Personagens vistos"
                 android:textSize="30sp"/>
         </LinearLayout>
+
+        <include
+            android:id="@+id/include_pmp"
+            layout="@layout/list_characters"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
