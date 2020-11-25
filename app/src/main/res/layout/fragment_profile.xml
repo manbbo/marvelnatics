@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="550dp"
         android:background="@drawable/round_bkg"
         android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,14 +44,13 @@
             android:layout_width="match_parent"
             android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:background="@color/material_on_background_disabled"
             android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bt_favorites_profile"
                 android:background="@drawable/round_left_bkg"
                 android:backgroundTint="@color/primaryBlue"
                 android:layout_width="260dp"
-                android:textSize="19dp"
+                android:textSize="19sp"
                 android:text="@string/bt_my_favorites"
                 android:drawableLeft="@drawable/ic_favorite"
                 android:paddingLeft="20dp"
@@ -81,19 +80,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10% HQs lidas"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
             <TextView
                 android:id="@+id/tv_read_series"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20% Séries lidas"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
             <TextView
                 android:id="@+id/tv_read_characters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="7% Personagens vistos"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
