@@ -33,4 +33,8 @@
     <string name="historia_em_destaque">Historia em Destaque</string>
     <string name="personagens_mais_populares">Personagens mais populares</string>
     <string name="pesquisa">Pesquisa</string>
+
+    <string name="demo_comic_description">
+    "KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!
+    </string>
 </resources>

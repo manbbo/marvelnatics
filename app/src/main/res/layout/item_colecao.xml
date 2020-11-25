@@ -73,7 +73,9 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="-4dp"
                 android:scaleType="center"
-                android:src="@drawable/drawable_shopping_tag" />
+                android:src="@drawable/drawable_shopping_tag"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
         </LinearLayout>
 
         <View
@@ -92,7 +94,9 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_check_circle"
-                app:tint="#00BB44" />
+                app:tint="#00BB44"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
 
             <View
                 android:layout_width="1dp"
@@ -105,7 +109,9 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_favorite"
-                app:tint="#EE0000" />
+                app:tint="#EE0000"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
 
             <View
                 android:layout_width="1dp"
@@ -118,7 +124,9 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_star"
-                app:tint="#FFCC00" />
+                app:tint="#FFCC00"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
 
             <View
                 android:layout_width="1dp"
@@ -131,7 +139,9 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_book"
-                app:tint="#004488" />
+                app:tint="#004488"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"/>
         </LinearLayout>
 
 

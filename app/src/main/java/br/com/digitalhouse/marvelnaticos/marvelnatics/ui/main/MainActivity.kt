@@ -1,14 +1,16 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.viewpager2.widget.ViewPager2
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.MainPagerAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comics.ComicFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -58,5 +60,12 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, target)
         startActivity(intent)
         overridePendingTransition(enterAnim, exitAnim)
+    }
+
+    fun changeFragment(){
+        val comicFragment = ComicFragment.newInstance()
+        supportFragmentManager.commit {
+            replace<ComicFragment>(R.id.vp_main_fragmentViewer)
+        }
     }
 }

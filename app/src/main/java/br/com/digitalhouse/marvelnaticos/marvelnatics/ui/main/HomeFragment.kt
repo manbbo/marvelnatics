@@ -1,17 +1,15 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,14 +19,16 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.HePAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClick
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comics.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 import kotlinx.android.synthetic.main.toolbar.*
 import org.w3c.dom.Text
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ComicClick {
 
     private lateinit var ctx : MainActivity
 
@@ -130,5 +130,10 @@ class HomeFragment : Fragment() {
                 putInt(ARG_SECTION_NUMBER, sectionNumber)
             }
         }
+    }
+
+    override fun onComicClick(position: Int): View.OnClickListener = View.OnClickListener {
+        ctx.changeFragment()
+        Log.v("t", "try")
     }
 }
