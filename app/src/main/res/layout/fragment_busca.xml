@@ -34,12 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="4">
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
                 android:text="Já tenho"
                 android:textColor="@color/white"
                 app:chipBackgroundColor="@color/primaryColor"
@@ -49,7 +51,8 @@
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
                 android:text="Já li"
                 android:textColor="@color/white"
                 app:chipBackgroundColor="@color/primaryColor"
@@ -59,13 +62,12 @@
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
+                android:layout_weight="1"
                 android:text="Quero ler"
                 android:textColor="@color/white"
                 app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_favorite"
                 app:chipIconTint="@color/white" />
-
         </LinearLayout>
 
         <TextView
