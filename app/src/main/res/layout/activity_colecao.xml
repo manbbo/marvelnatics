@@ -13,37 +13,34 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/ib_colecao_backBtn"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_marginLeft="18dp"
-            android:src="@drawable/ic_btback" />
+            android:layout_marginStart="18dp"
+            android:background="@drawable/ic_btback"
+            android:clickable="true" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginTop="1.2dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/drawable_rounded_corners"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingRight="12dp">
+            android:paddingEnd="12dp">
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:lineHeight="12dp"
-                android:paddingLeft="28dp"
-                android:text="Pesquisa" />
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_weight="0"
-                android:src="@drawable/ic_search"
-                app:tint="#343434" />
+                android:paddingStart="28dp"
+                android:paddingEnd="14dp"
+                android:hint="@string/pesquisa"
+                android:background="@drawable/drawable_rounded_corners"
+                android:drawableEnd="@drawable/ic_search"
+                android:drawableTint="#343434" />
         </LinearLayout>
     </LinearLayout>
 

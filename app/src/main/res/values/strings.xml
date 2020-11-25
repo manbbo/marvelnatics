@@ -12,6 +12,8 @@
     <string name="nb_home">PRINCIPAL</string>
     <string name="nb_search">BUSCAR</string>
     <string name="nb_profile">PERFIL</string>
+
+    <!--Login e Cadastro -->
     <string name="cadastre_se">Cadastre-se</string>
     <string name="entrar_com_facebook">Entrar com Facebook</string>
     <string name="entrar_com_google">Entrar com o Google</string>
@@ -23,6 +25,10 @@
     <string name="sobrenome">Sobrenome</string>
     <string name="email">Email</string>
     <string name="senha">Senha</string>
+
+    <!--Main activity-->
     <string name="bt_my_favorites">MEUS FAVORITOS</string>
+    <string name="historia_em_destaque">Historia em Destaque</string>
     <string name="personagens_mais_populares">Personagens mais populares</string>
+    <string name="pesquisa">Pesquisa</string>
 </resources>

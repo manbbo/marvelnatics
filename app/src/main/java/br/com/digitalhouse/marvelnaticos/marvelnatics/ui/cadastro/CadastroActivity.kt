@@ -1,9 +1,10 @@
-package br.com.digitalhouse.marvelnaticos.marvelnatics
+package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.cadastro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 
 class CadastroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
