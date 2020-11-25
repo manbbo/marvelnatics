@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
@@ -23,6 +24,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
+import kotlinx.android.synthetic.main.toolbar.*
 
 class HomeFragment : Fragment() {
 
@@ -42,10 +44,15 @@ class HomeFragment : Fragment() {
         // Toolbar
         val toolbar: Toolbar = root.findViewById(R.id.include_toolbar)
         val colecao: TextView = toolbar.findViewById(R.id.btn_toolbar_colecao)
+        val favoritos: TextView = toolbar.findViewById(R.id.btn_toolbar_favoritos)
 
 
         colecao.setOnClickListener{
             ctx.goToActivity(ColecaoActivity::class.java, R.anim.slide_in_bottom, R.anim.static_animation)
+        }
+
+        favoritos.setOnClickListener{
+            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_bottom, R.anim.static_animation)
         }
 
         // Personagens mais populares

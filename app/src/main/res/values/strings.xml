@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Marvelnatics</string>
 
+
     <!--BARRA DE PESQUISA-->
+
     <string name="search">Pesquisar</string>
 
     <!--HOME-->
