@@ -76,7 +76,6 @@
                     android:layout_height="15dp"
                     android:layout_marginStart="2dp"
                     android:src="@drawable/ic_star" />
-
             </LinearLayout>
 
             <LinearLayout

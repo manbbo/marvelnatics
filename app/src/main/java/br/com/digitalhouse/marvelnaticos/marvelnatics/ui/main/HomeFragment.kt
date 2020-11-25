@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
@@ -25,6 +26,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 import kotlinx.android.synthetic.main.toolbar.*
+import org.w3c.dom.Text
 
 class HomeFragment : Fragment() {
 
@@ -48,11 +50,11 @@ class HomeFragment : Fragment() {
 
 
         colecao.setOnClickListener{
-            ctx.goToActivity(ColecaoActivity::class.java, R.anim.slide_in_bottom, R.anim.static_animation)
+            ctx.goToActivity(ColecaoActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
         favoritos.setOnClickListener{
-            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_bottom, R.anim.static_animation)
+            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
         // Personagens mais populares
@@ -95,8 +97,15 @@ class HomeFragment : Fragment() {
 
         // Historias mais lidas
         val includeHML: View = root.findViewById(R.id.include_hml)
+        val includeHMA: View = root.findViewById(R.id.include_hma)
         val rvHistoriasMaisLidas: RecyclerView = includeHML.findViewById(R.id.rv_list_listImages)
-        val spanCount = Utils.calculateSpan(root.context, 114)
+        val rvHistoriasMaisAvaliadas: RecyclerView = includeHMA.findViewById(R.id.rv_list_listImages)
+
+        val titleHML : TextView = includeHML.findViewById(R.id.tv_list_listName)
+        val titleHMA : TextView = includeHMA.findViewById(R.id.tv_list_listName)
+
+        titleHML.text = "Histórias mais lidas"
+        titleHMA.text = "Histórias melhor avaliadas"
 
         rvHistoriasMaisLidas.adapter = ComicsAdapter(root.context, mutableListOf(
             Comic(),
@@ -106,12 +115,13 @@ class HomeFragment : Fragment() {
             Comic(),
             Comic()
         ))
-        rvHistoriasMaisLidas.layoutManager = GridLayoutManager(root.context, spanCount)
+
+        rvHistoriasMaisAvaliadas.adapter = rvHistoriasMaisLidas.adapter
+
         return root
     }
 
     companion object {
-
         private const val ARG_SECTION_NUMBER = "section_number"
 
         @JvmStatic

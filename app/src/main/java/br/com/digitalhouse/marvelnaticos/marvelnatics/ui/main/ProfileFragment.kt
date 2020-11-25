@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
         val favoritos : AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
 
         favoritos.setOnClickListener{
-            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_bottom, R.anim.static_animation)
+            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
         return root
