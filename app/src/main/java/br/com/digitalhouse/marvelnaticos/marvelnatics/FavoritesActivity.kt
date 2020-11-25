@@ -3,6 +3,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,18 +17,24 @@ class FavoritesActivity : AppCompatActivity() {
 
         val include1: View = findViewById(R.id.include1)
         include1.findViewById<TextView>(R.id.tv_list_listName).text = "Lidos"
+        include1.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_book)
 
         val include2: View = findViewById(R.id.include2)
         include2.findViewById<TextView>(R.id.tv_list_listName).text = "Quero Ler"
+        include2.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_favorite)
+
 
         val include3: View = findViewById(R.id.include3)
         include3.findViewById<TextView>(R.id.tv_list_listName).text = "Minha Coleção"
+        include3.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_check_circle)
 
         val include4: View = findViewById(R.id.include4)
         include4.findViewById<TextView>(R.id.tv_list_listName).text = "Meus Favoritos"
+        include4.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_baseline_star_24_checked)
 
         val include5: View = findViewById(R.id.include5)
         include5.findViewById<TextView>(R.id.tv_list_listName).text = "Maiores Notas"
+        include5.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_baseline_star_24_checked)
 
 
         val recycleView1: RecyclerView = include1.findViewById(R.id.rv_list_listImages)
