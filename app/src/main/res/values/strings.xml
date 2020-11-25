@@ -1,3 +1,40 @@
 <resources>
-    <string name="app_name">marvelnatics</string>
+    <string name="app_name">Marvelnatics</string>
+
+
+    <!--BARRA DE PESQUISA-->
+
+    <string name="search">Pesquisar</string>
+
+    <!--HOME-->
+    <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
+    <string name="tb_favorites">FAVORITOS</string>
+
+    <!--MENU-->
+    <string name="nb_home">PRINCIPAL</string>
+    <string name="nb_search">BUSCAR</string>
+    <string name="nb_profile">PERFIL</string>
+
+    <!--Login e Cadastro -->
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="entrar_com_facebook">Entrar com Facebook</string>
+    <string name="entrar_com_google">Entrar com o Google</string>
+    <string name="login_entrar">Entrar</string>
+    <string name="cadastrar_com_facebook">Cadastrar com Facebook</string>
+    <string name="cadastrar_com_google">Cadastrar com Google</string>
+    <string name="cadastro_cadastrar">Cadastrar</string>
+    <string name="nome">Nome</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+
+    <!--Main activity-->
+    <string name="bt_my_favorites">MEUS FAVORITOS</string>
+    <string name="historia_em_destaque">Historia em Destaque</string>
+    <string name="personagens_mais_populares">Personagens mais populares</string>
+    <string name="pesquisa">Pesquisa</string>
+
+    <string name="demo_comic_description">
+    "KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!
+    </string>
 </resources>

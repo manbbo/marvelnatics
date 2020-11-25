@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:elevation="0dp"
+        android:outlineAmbientShadowColor="#00000000"
+        android:outlineSpotShadowColor="#00000000"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="18dp">
+
+        <EditText
+            android:id="@+id/txt_busca_pesquisar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:hint="Pesquisar"
+            android:paddingHorizontal="8dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#555" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:text="Já tenho"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/primaryColor"
+                app:chipIcon="@drawable/ic_check_circle"
+                app:chipIconTint="@color/white" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:text="Já li"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/primaryColor"
+                app:chipIcon="@drawable/ic_book"
+                app:chipIconTint="@color/white" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Quero ler"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/primaryColor"
+                app:chipIcon="@drawable/ic_favorite"
+                app:chipIconTint="@color/white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_busca_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mostrando 0 resultado(s)"
+            android:textColor="@color/black" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_busca_resultado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_busca_resultado" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
