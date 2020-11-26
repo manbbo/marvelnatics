@@ -2,16 +2,13 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
@@ -24,9 +21,6 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
-import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
-import kotlinx.android.synthetic.main.toolbar.*
-import org.w3c.dom.Text
 
 class HomeFragment : Fragment(), ComicClickListener {
 
@@ -114,7 +108,7 @@ class HomeFragment : Fragment(), ComicClickListener {
             Comic(),
             Comic(),
             Comic()
-        ))
+        ), this)
 
         rvHistoriasMaisAvaliadas.adapter = rvHistoriasMaisLidas.adapter
         return root
