@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/ib_comic_backbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_btback"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/ic_share"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_item_comic"
+        android:layout_width="114dp"
+        android:layout_height="171dp"
+        android:src="@drawable/img_comic"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ib_comic_backbtn" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bkg_rounded_2dp"
+        android:backgroundTint="#88070F"
+        android:padding="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager2">
+
+        <TextView
+            android:id="@+id/tv_comic_title"
+            style="@style/comic_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Titulo aqui"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="14dp" />
+
+        <View
+            android:id="@+id/view_comic_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="1dp"
+            android:background="#C4C4C4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_comic_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_comic_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_comic_separator">
+
+            <ImageView
+                android:id="@+id/s0"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/s1"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/s2"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/s3"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/s4"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_star" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_comic_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_comic_separator">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/ic_check_circle"
+                android:backgroundTint="#00BB44"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/ic_book"
+                android:backgroundTint="#004488"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/ic_favorite"
+                android:backgroundTint="#EE0000"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/ic_baseline_star_24"
+                android:backgroundTint="#FFCC00"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_comic_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/ll_comic_collection">
+
+            <TextView
+                android:id="@+id/tv_comic_data_pub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:lineSpacingExtra="2sp"
+                android:text="Data de publicação: 20/10/2004"
+                android:textAppearance="@style/comic_info" />
+
+            <TextView
+                android:id="@+id/tv_comic_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:lineSpacingExtra="2sp"
+                android:text="Criador: Mike Raicht"
+                android:textAppearance="@style/comic_info" />
+
+            <TextView
+                android:id="@+id/tv_comic_artist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:lineSpacingExtra="2sp"
+                android:text="Artista da capa: Michael Ryan"
+                android:textAppearance="@style/comic_info" />
+
+            <TextView
+                android:id="@+id/tv_comic_ilustrator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:lineSpacingExtra="2sp"
+                android:text="Desenhista: Gus Vazquez"
+                android:textAppearance="@style/comic_info" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_comic_characters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/ll_comic_info">
+
+            <TextView
+                style="@style/comic_topics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Personagens" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rc_comic_characters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_charbubble" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_comic_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/ll_comic_characters">
+
+            <TextView
+                style="@style/comic_topics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrição" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bkg_rounded_2dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="sfghknsjgjshsfgsgsgjlkahfckljsngjggkjdagljgfklnsbnklmn;lsajmgklnsf;,mghksngkj;dkgfjskljnjmdigjgopmoihjeojkhigjklnoghg" />
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

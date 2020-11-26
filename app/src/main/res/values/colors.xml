@@ -13,4 +13,6 @@
     <color name="secondaryTextColor">#ffffff</color>
     <color name="primaryBlue">#254EAE</color>
     <color name="secondaryBlue">#2D9CDB</color>
+
+    <color name="backgroupDialog">#CF0B0001</color>
 </resources>

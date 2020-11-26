@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -19,12 +20,14 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.HePAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListener
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ComicClickListener {
 
     private lateinit var ctx : MainActivity
 
@@ -98,7 +101,7 @@ class HomeFragment : Fragment() {
             Comic(),
             Comic(),
             Comic()
-        ))
+        ), this)
         rvHistoriasMaisLidas.layoutManager = GridLayoutManager(root.context, spanCount)
         return root
     }
@@ -113,5 +116,11 @@ class HomeFragment : Fragment() {
                 putInt(ARG_SECTION_NUMBER, sectionNumber)
             }
         }
+    }
+
+    override fun onComicClickListener(position: Int): View.OnClickListener = View.OnClickListener {
+        val t = ctx.supportFragmentManager.beginTransaction()
+        val frag: DialogFragment = ComicFragment.newInstance()
+        frag.show(t, "teste")
     }
 }
