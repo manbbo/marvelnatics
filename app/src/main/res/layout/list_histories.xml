@@ -16,6 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/iv_list_icon"
+        android:layout_width="31dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintStart_toEndOf="@+id/tv_list_listName"
+        app:srcCompat="@drawable/ic_baseline_star_24_checked" />
+
     <View
         android:id="@+id/separator"
         android:layout_width="150dp"
@@ -26,7 +36,9 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"/>
 
+
     <FrameLayout
+        android:id="@+id/frameLayout2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,5 +53,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_histories" />
     </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

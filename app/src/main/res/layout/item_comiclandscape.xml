@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
-        app:cardElevation="10dp">
+        app:cardElevation="10dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -76,7 +78,6 @@
                     android:layout_height="15dp"
                     android:layout_marginStart="2dp"
                     android:src="@drawable/ic_star" />
-
             </LinearLayout>
 
             <LinearLayout

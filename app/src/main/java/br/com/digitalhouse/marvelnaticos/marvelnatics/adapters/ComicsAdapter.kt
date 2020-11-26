@@ -36,9 +36,6 @@ class ComicsAdapter(private val context: Context, val listComics: MutableList<Co
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
         val layoutParams = holder.ivComic.layoutParams as ViewGroup.MarginLayoutParams
         val margin = Utils.calculateMargin(context, Utils.calculateSpan(context, 114), 114)
-        layoutParams.marginStart = margin
-        layoutParams.marginEnd = margin
-
     }
 
     override fun getItemCount(): Int = listComics.size
