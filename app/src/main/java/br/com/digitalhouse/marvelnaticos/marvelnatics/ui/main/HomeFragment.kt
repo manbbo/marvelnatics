@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,16 +19,16 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.HePAdapter
-import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClick
+import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListener
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
-import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comics.ComicFragment
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 import kotlinx.android.synthetic.main.toolbar.*
 import org.w3c.dom.Text
 
-class HomeFragment : Fragment(), ComicClick {
+class HomeFragment : Fragment(), ComicClickListener {
 
     private lateinit var ctx : MainActivity
 
@@ -117,7 +117,6 @@ class HomeFragment : Fragment(), ComicClick {
         ))
 
         rvHistoriasMaisAvaliadas.adapter = rvHistoriasMaisLidas.adapter
-
         return root
     }
 
@@ -132,8 +131,9 @@ class HomeFragment : Fragment(), ComicClick {
         }
     }
 
-    override fun onComicClick(position: Int): View.OnClickListener = View.OnClickListener {
-        ctx.changeFragment()
-        Log.v("t", "try")
+    override fun onComicClickListener(position: Int): View.OnClickListener = View.OnClickListener {
+        val t = ctx.supportFragmentManager.beginTransaction()
+        val frag: DialogFragment = ComicFragment.newInstance()
+        frag.show(t, "teste")
     }
 }

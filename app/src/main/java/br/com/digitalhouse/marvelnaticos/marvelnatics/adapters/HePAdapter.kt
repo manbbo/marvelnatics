@@ -20,6 +20,12 @@ class HePAdapter(private val context: Context, private val listHeP: MutableList<
         val root = LayoutInflater.from(context)
             .inflate(R.layout.item_comiclandscape, container, false)
         container.addView(root)
+
+        root.setOnTouchListener { v, event ->
+            v.parent?.requestDisallowInterceptTouchEvent(true)
+
+            v?.onTouchEvent(event) ?: true
+        }
         return root
     }
 
