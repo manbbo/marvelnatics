@@ -69,11 +69,12 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/shopping"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="-4dp"
                 android:scaleType="center"
-                android:src="@drawable/drawable_shopping_tag"
+                android:background="@drawable/drawable_shopping_tag"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"/>
         </LinearLayout>
@@ -90,11 +91,12 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="0dp"
+                android:id="@+id/bt_tenho_colecao"
+                android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_check_circle"
-                app:tint="#00BB44"
+                android:background="@drawable/ic_check_circle"
+                app:tint="@color/black"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"/>
 
@@ -105,11 +107,12 @@
                 android:background="#444444" />
 
             <ImageView
-                android:layout_width="0dp"
+                android:id="@+id/bt_queroler_colecao"
+                android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_favorite"
-                app:tint="#EE0000"
+                android:background="@drawable/ic_favorite"
+                app:tint="@color/black"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"/>
 
@@ -120,11 +123,12 @@
                 android:background="#444444" />
 
             <ImageView
-                android:layout_width="0dp"
+                android:id="@+id/bt_favorito_colecao"
+                android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star"
-                app:tint="#FFCC00"
+                android:background="@drawable/ic_star"
+                app:tint="@color/black"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"/>
 
@@ -135,11 +139,12 @@
                 android:background="#444444" />
 
             <ImageView
-                android:layout_width="0dp"
+                android:id="@+id/bt_jali_colecao"
+                android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_book"
-                app:tint="#004488"
+                android:background="@drawable/ic_book"
+                app:tint="@color/black"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"/>
         </LinearLayout>
