@@ -99,7 +99,7 @@
                 android:layout_height="26dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_star" />
+                android:background="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/s1"
@@ -108,7 +108,7 @@
                 android:layout_marginStart="2dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_star" />
+                android:background="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/s2"
@@ -117,7 +117,7 @@
                 android:layout_marginStart="2dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_star" />
+                android:background="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/s3"
@@ -126,7 +126,7 @@
                 android:layout_marginStart="2dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_star" />
+                android:background="@drawable/ic_star" />
 
             <ImageView
                 android:id="@+id/s4"
@@ -135,7 +135,7 @@
                 android:layout_marginStart="2dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_star" />
+                android:background="@drawable/ic_star" />
         </LinearLayout>
 
         <LinearLayout
@@ -148,38 +148,42 @@
             app:layout_constraintTop_toBottomOf="@+id/view_comic_separator">
 
             <ImageView
+                android:id="@+id/bt_tenho_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
                 android:background="@drawable/ic_check_circle"
-                android:backgroundTint="#00BB44"
+                android:backgroundTint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
+                android:id="@+id/bt_jali_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
                 android:background="@drawable/ic_book"
-                android:backgroundTint="#004488"
+                android:backgroundTint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
+                android:id="@+id/bt_queroler_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
                 android:background="@drawable/ic_favorite"
-                android:backgroundTint="#EE0000"
+                android:backgroundTint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
+                android:id="@+id/bt_favorito_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
                 android:background="@drawable/ic_baseline_star_24"
-                android:backgroundTint="#FFCC00"
+                android:backgroundTint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
         </LinearLayout>

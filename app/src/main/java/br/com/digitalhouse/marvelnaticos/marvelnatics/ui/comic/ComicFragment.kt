@@ -5,10 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +18,9 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
@@ -59,6 +63,116 @@ class ComicFragment : DialogFragment() {
         val rc: RecyclerView = root.findViewById(R.id.rc_comic_characters)
         val backBtn: ImageButton = root.findViewById(R.id.ib_comic_backbtn)
 
+        val btFavorito : ImageView = root.findViewById(R.id.bt_favorito_comic)
+        val btQueroler : ImageView = root.findViewById(R.id.bt_queroler_comic)
+        val btJali : ImageView = root.findViewById(R.id.bt_jali_comic)
+        val btTenho : ImageView = root.findViewById(R.id.bt_tenho_comic)
+
+        val btStars : List<ImageView> = listOf(root.findViewById(R.id.s0), root.findViewById(R.id.s1),
+                root.findViewById(R.id.s2), root.findViewById(R.id.s3), root.findViewById(R.id.s4))
+
+
+        // Botoes de ação
+        var countFav = false
+        btFavorito.setOnClickListener {
+            if (!countFav) {
+
+                val wrappedDrawable: Drawable = btFavorito.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.favoritebt))
+                btFavorito?.background = wrappedDrawable
+                countFav = true
+            }
+            else {
+                val wrappedDrawable: Drawable = btFavorito.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
+                btFavorito?.background = wrappedDrawable
+                countFav = false
+            }
+
+            Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
+        }
+
+        var countQler = false
+        btQueroler.setOnClickListener {
+            if (!countQler) {
+                val wrappedDrawable: Drawable = btQueroler.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.querolerbt))
+                btQueroler?.background = wrappedDrawable
+                countQler =true
+            }
+            else {
+                val wrappedDrawable: Drawable = btQueroler.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
+                btQueroler?.background = wrappedDrawable
+                countQler = false
+            }
+            Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
+        }
+
+        var countJali = false
+        btJali.setOnClickListener {
+            if (!countJali) {
+                val wrappedDrawable: Drawable = btJali.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.jalibt))
+                btJali?.background = wrappedDrawable
+                countJali = true
+            }
+            else {
+                val wrappedDrawable: Drawable = btJali.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
+                btJali?.background = wrappedDrawable
+                countJali = false
+            }
+
+            Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
+        }
+
+        var countTenho = false
+        btTenho.setOnClickListener {
+            if (!countTenho) {
+                val wrappedDrawable: Drawable = btTenho.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.tenhobt))
+                btTenho?.background = wrappedDrawable
+                countTenho = true
+            }
+            else {
+                val wrappedDrawable: Drawable = btTenho.background
+                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
+                btTenho?.background = wrappedDrawable
+                countTenho = false
+            }
+
+            Toast.makeText(ctx, "Você clicou em 'TENHO'", Toast.LENGTH_SHORT).show()
+        }
+        //////
+
+        // Botões de estrela - implementar para ficar com cor
+        btStars[0].setOnClickListener {
+
+            Toast.makeText(ctx, "Você clicou em '1 ESTRELAS'", Toast.LENGTH_SHORT).show()
+        }
+
+        btStars[1].setOnClickListener {
+
+            Toast.makeText(ctx, "Você clicou em '2 ESTRELAS'", Toast.LENGTH_SHORT).show()
+        }
+
+        btStars[2].setOnClickListener {
+
+            Toast.makeText(ctx, "Você clicou em '3 ESTRELAS'", Toast.LENGTH_SHORT).show()
+        }
+
+        btStars[3].setOnClickListener {
+
+            Toast.makeText(ctx, "Você clicou em '4 ESTRELAS'", Toast.LENGTH_SHORT).show()
+        }
+
+        btStars[4].setOnClickListener {
+
+            Toast.makeText(ctx, "Você clicou em '5 ESTRELAS'", Toast.LENGTH_SHORT).show()
+        }
+        ////
+
         backBtn.setOnClickListener {
             dismiss()
         }
@@ -71,6 +185,7 @@ class ComicFragment : DialogFragment() {
                 Character(),
             )
         )
+        ////////
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 
