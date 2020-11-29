@@ -14,6 +14,10 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
+        setSupportActionBar(findViewById(R.id.favToolbar))
+
+        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(true)
 
         val include1: View = findViewById(R.id.include1)
         include1.findViewById<TextView>(R.id.tv_list_listName).text = "Lidos"
@@ -55,6 +59,12 @@ class FavoritesActivity : AppCompatActivity() {
         recycleView4.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recycleView5.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 }

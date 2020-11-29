@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".FavoritesActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/favToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="FAVORITES"
+        app:navigationIcon="@drawable/ic_btback"
+        app:titleTextColor="@color/white"
+        android:background="@color/primaryColor"/>
 
     <ScrollView
         android:layout_width="match_parent"
