@@ -1,3 +1,3 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.models
 
-class Character
+class Character // talvez deletar no futuro ou readaptar
