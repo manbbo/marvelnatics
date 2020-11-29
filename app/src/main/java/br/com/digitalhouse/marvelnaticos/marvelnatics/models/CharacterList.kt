@@ -1,7 +1,10 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.models
 
-class CharacterList ( val available:Int,
-                      val returned: Int,
-                      val collectionURI: String,
-                      val items: ArrayList<CharacterSummary>) {
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+data class CharacterList (@SerializedName("available") @Expose var available:Int,
+                     @SerializedName("returned") @Expose var returned: Int,
+                     @SerializedName("collectionURI") @Expose var collectionURI: String,
+                     @SerializedName("items") @Expose var items: ArrayList<CharacterSummary>) {
 }

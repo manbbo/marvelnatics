@@ -64,6 +64,7 @@
                         android:background="@drawable/round_left_bkg"
                         android:backgroundTint="@color/primaryBlue"
                         android:drawableLeft="@drawable/ic_favorite"
+                        android:drawableTint="@color/white"
                         android:paddingLeft="20dp"
                         android:text="@string/bt_my_favorites"
                         android:textAlignment="center"

@@ -17,11 +17,11 @@ class ColecaoActivity : AppCompatActivity() {
         val rv:RecyclerView = findViewById(R.id.rv_organizarColecao_resultado)
         val backBtn: ImageButton = findViewById(R.id.ib_colecao_backBtn)
         rv.adapter = ComicSearchAdapter(this, mutableListOf(
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic()
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic()
         ))
 
         rv.layoutManager = LinearLayoutManager(this)

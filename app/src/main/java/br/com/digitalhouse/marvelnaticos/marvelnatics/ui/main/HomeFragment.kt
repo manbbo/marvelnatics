@@ -55,26 +55,26 @@ class HomeFragment : Fragment(), ComicClickListener {
         val includePmP: View = root.findViewById(R.id.include_pmp)
         val rvPmP: RecyclerView = includePmP.findViewById(R.id.rv_list_charsList)
         rvPmP.adapter = CharacterAdapter(root.context, mutableListOf(
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character()
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            // Character()
         ))
 
         // Historias em destaques
         val includeHeP: View = root.findViewById(R.id.include_hep)
         val vpHeP: ViewPager = includeHeP.findViewById(R.id.vp_hed)
         vpHeP.adapter = HePAdapter(root.context, mutableListOf(
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic()
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic()
         ))
 
         vpHeP.setOnTouchListener { v, event ->
@@ -102,12 +102,11 @@ class HomeFragment : Fragment(), ComicClickListener {
         titleHMA.text = "Histórias melhor avaliadas"
 
         rvHistoriasMaisLidas.adapter = ComicsAdapter(root.context, mutableListOf(
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic()
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic()
         ), this)
 
         rvHistoriasMaisAvaliadas.adapter = rvHistoriasMaisLidas.adapter

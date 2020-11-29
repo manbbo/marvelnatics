@@ -1,6 +1,9 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.models
 
-class CharacterSummary (val resourceURI: String,
-                        val name: String,
-                        val role: String) {
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+data class CharacterSummary (@SerializedName("resourceURI") @Expose var resourceURI: String,
+                             @SerializedName("name") @Expose var name: String,
+                             @SerializedName("role") @Expose var role: String) {
 }
