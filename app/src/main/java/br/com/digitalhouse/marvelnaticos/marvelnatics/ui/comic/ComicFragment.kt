@@ -134,13 +134,17 @@ class ComicFragment : DialogFragment() {
         for (i in 0..4) {
             btStars[i].setOnClickListener {
                 if (!countStars) {
+                    for (j in 0..4) {
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
+
                     for (j in 0..i) {
                         btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
                     }
 
                 }
                 else {
-                    for (j in 0..i) {
+                    for (j in 0..4) {
                         btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                     }
 
