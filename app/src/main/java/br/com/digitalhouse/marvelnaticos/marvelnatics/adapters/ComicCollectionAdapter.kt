@@ -32,16 +32,12 @@ class ComicCollectionAdapter(private val context: Context, private val listComic
         var countFav = false
         btFavorito.setOnClickListener {
             if (!countFav) {
-
-                val wrappedDrawable: Drawable = btFavorito.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.favoritebt))
-                btFavorito?.background = wrappedDrawable
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countFav = true
             }
             else {
-                val wrappedDrawable: Drawable = btFavorito.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.black))
-                btFavorito?.background = wrappedDrawable
+
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
                 countFav = false
             }
 
@@ -51,15 +47,11 @@ class ComicCollectionAdapter(private val context: Context, private val listComic
         var countQler = false
         btQueroler.setOnClickListener {
             if (!countQler) {
-                val wrappedDrawable: Drawable = btQueroler.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.querolerbt))
-                btQueroler?.background = wrappedDrawable
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countQler =true
             }
             else {
-                val wrappedDrawable: Drawable = btQueroler.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.black))
-                btQueroler?.background = wrappedDrawable
+                 btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
                 countQler = false
             }
             Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
@@ -68,15 +60,11 @@ class ComicCollectionAdapter(private val context: Context, private val listComic
         var countJali = false
         btJali.setOnClickListener {
             if (!countJali) {
-                val wrappedDrawable: Drawable = btJali.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.jalibt))
-                btJali?.background = wrappedDrawable
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countJali = true
             }
             else {
-                val wrappedDrawable: Drawable = btJali.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.black))
-                btJali?.background = wrappedDrawable
+               btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
                 countJali = false
             }
 
@@ -86,15 +74,11 @@ class ComicCollectionAdapter(private val context: Context, private val listComic
         var countTenho = false
         btTenho.setOnClickListener {
             if (!countTenho) {
-                val wrappedDrawable: Drawable = btTenho.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.tenhobt))
-                btTenho?.background = wrappedDrawable
+               btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countTenho = true
             }
             else {
-                val wrappedDrawable: Drawable = btTenho.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.black))
-                btTenho?.background = wrappedDrawable
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
                 countTenho = false
             }
 

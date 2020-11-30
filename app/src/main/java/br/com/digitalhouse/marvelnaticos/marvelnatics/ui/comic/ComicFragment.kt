@@ -76,16 +76,11 @@ class ComicFragment : DialogFragment() {
         var countFav = false
         btFavorito.setOnClickListener {
             if (!countFav) {
-
-                val wrappedDrawable: Drawable = btFavorito.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.favoritebt))
-                btFavorito?.background = wrappedDrawable
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countFav = true
             }
             else {
-                val wrappedDrawable: Drawable = btFavorito.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
-                btFavorito?.background = wrappedDrawable
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                 countFav = false
             }
 
@@ -95,15 +90,11 @@ class ComicFragment : DialogFragment() {
         var countQler = false
         btQueroler.setOnClickListener {
             if (!countQler) {
-                val wrappedDrawable: Drawable = btQueroler.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.querolerbt))
-                btQueroler?.background = wrappedDrawable
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countQler =true
             }
             else {
-                val wrappedDrawable: Drawable = btQueroler.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
-                btQueroler?.background = wrappedDrawable
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                 countQler = false
             }
             Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
@@ -112,15 +103,11 @@ class ComicFragment : DialogFragment() {
         var countJali = false
         btJali.setOnClickListener {
             if (!countJali) {
-                val wrappedDrawable: Drawable = btJali.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.jalibt))
-                btJali?.background = wrappedDrawable
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countJali = true
             }
             else {
-                val wrappedDrawable: Drawable = btJali.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
-                btJali?.background = wrappedDrawable
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                 countJali = false
             }
 
@@ -130,15 +117,11 @@ class ComicFragment : DialogFragment() {
         var countTenho = false
         btTenho.setOnClickListener {
             if (!countTenho) {
-                val wrappedDrawable: Drawable = btTenho.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.tenhobt))
-                btTenho?.background = wrappedDrawable
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), android.graphics.PorterDuff.Mode.SRC_IN)
                 countTenho = true
             }
             else {
-                val wrappedDrawable: Drawable = btTenho.background
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(ctx, R.color.white))
-                btTenho?.background = wrappedDrawable
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                 countTenho = false
             }
 
@@ -146,30 +129,25 @@ class ComicFragment : DialogFragment() {
         }
         //////
 
+        var countStars = false
         // Botões de estrela - implementar para ficar com cor
-        btStars[0].setOnClickListener {
+        for (i in 0..4) {
+            btStars[i].setOnClickListener {
+                if (!countStars) {
+                    for (j in 0..i) {
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
 
-            Toast.makeText(ctx, "Você clicou em '1 ESTRELAS'", Toast.LENGTH_SHORT).show()
-        }
+                }
+                else {
+                    for (j in 0..i) {
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
 
-        btStars[1].setOnClickListener {
-
-            Toast.makeText(ctx, "Você clicou em '2 ESTRELAS'", Toast.LENGTH_SHORT).show()
-        }
-
-        btStars[2].setOnClickListener {
-
-            Toast.makeText(ctx, "Você clicou em '3 ESTRELAS'", Toast.LENGTH_SHORT).show()
-        }
-
-        btStars[3].setOnClickListener {
-
-            Toast.makeText(ctx, "Você clicou em '4 ESTRELAS'", Toast.LENGTH_SHORT).show()
-        }
-
-        btStars[4].setOnClickListener {
-
-            Toast.makeText(ctx, "Você clicou em '5 ESTRELAS'", Toast.LENGTH_SHORT).show()
+                }
+                countStars = !countStars
+                Toast.makeText(ctx, "Você clicou em '$i ESTRELAS'", Toast.LENGTH_SHORT).show()
+            }
         }
         ////
 
