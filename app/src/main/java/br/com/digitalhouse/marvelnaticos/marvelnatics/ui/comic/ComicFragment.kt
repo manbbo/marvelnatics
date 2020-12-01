@@ -161,10 +161,10 @@ class ComicFragment : DialogFragment() {
 
         rc.adapter = CharacterAdapter(
             root.context, mutableListOf(
-                Character(),
-                Character(),
-                Character(),
-                Character(),
+                //Character(),
+                //Character(),
+               // Character(),
+                //Character(),
             )
         )
         ////////
