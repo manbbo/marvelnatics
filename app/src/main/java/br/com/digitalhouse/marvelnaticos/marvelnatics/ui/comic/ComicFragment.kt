@@ -5,10 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +18,9 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
@@ -59,6 +63,98 @@ class ComicFragment : DialogFragment() {
         val rc: RecyclerView = root.findViewById(R.id.rc_comic_characters)
         val backBtn: ImageButton = root.findViewById(R.id.ib_comic_backbtn)
 
+        val btFavorito : ImageView = root.findViewById(R.id.bt_favorito_comic)
+        val btQueroler : ImageView = root.findViewById(R.id.bt_queroler_comic)
+        val btJali : ImageView = root.findViewById(R.id.bt_jali_comic)
+        val btTenho : ImageView = root.findViewById(R.id.bt_tenho_comic)
+
+        val btStars : List<ImageView> = listOf(root.findViewById(R.id.s0), root.findViewById(R.id.s1),
+                root.findViewById(R.id.s2), root.findViewById(R.id.s3), root.findViewById(R.id.s4))
+
+
+        // Botoes de ação
+        var countFav = false
+        btFavorito.setOnClickListener {
+            if (!countFav) {
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
+                countFav = true
+            }
+            else {
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                countFav = false
+            }
+
+            Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
+        }
+
+        var countQler = false
+        btQueroler.setOnClickListener {
+            if (!countQler) {
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), android.graphics.PorterDuff.Mode.SRC_IN)
+                countQler =true
+            }
+            else {
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                countQler = false
+            }
+            Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
+        }
+
+        var countJali = false
+        btJali.setOnClickListener {
+            if (!countJali) {
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), android.graphics.PorterDuff.Mode.SRC_IN)
+                countJali = true
+            }
+            else {
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                countJali = false
+            }
+
+            Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
+        }
+
+        var countTenho = false
+        btTenho.setOnClickListener {
+            if (!countTenho) {
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), android.graphics.PorterDuff.Mode.SRC_IN)
+                countTenho = true
+            }
+            else {
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                countTenho = false
+            }
+
+            Toast.makeText(ctx, "Você clicou em 'TENHO'", Toast.LENGTH_SHORT).show()
+        }
+        //////
+
+        var countStars = false
+        // Botões de estrela - implementar para ficar com cor
+        for (i in 0..4) {
+            btStars[i].setOnClickListener {
+                if (!countStars) {
+                    for (j in 0..4) {
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
+
+                    for (j in 0..i) {
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
+
+                }
+                else {
+                    for (j in 0..4) {
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                    }
+
+                }
+                countStars = !countStars
+                Toast.makeText(ctx, "Você clicou em '$i ESTRELAS'", Toast.LENGTH_SHORT).show()
+            }
+        }
+        ////
+
         backBtn.setOnClickListener {
             dismiss()
         }
@@ -71,6 +167,7 @@ class ComicFragment : DialogFragment() {
                 //Character(),
             )
         )
+        ////////
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 

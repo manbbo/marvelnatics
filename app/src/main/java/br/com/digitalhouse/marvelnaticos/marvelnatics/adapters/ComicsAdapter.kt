@@ -11,7 +11,11 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListe
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 
-class ComicsAdapter(private val context: Context, val listComics: MutableList<Comic>, private val listener: ComicClickListener) :
+class ComicsAdapter(
+    private val context: Context,
+    val listComics: MutableList<Comic>,
+    private val listener: ComicClickListener
+) :
     RecyclerView.Adapter<ComicsAdapter.ComicViewHolder>() {
 
     inner class ComicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,7 +32,8 @@ class ComicsAdapter(private val context: Context, val listComics: MutableList<Co
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
-        val root = LayoutInflater.from(parent.context).inflate(R.layout.item_histories, parent, false)
+        val root =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_histories, parent, false)
         return ComicViewHolder(root)
     }
 

@@ -148,38 +148,42 @@
             app:layout_constraintTop_toBottomOf="@+id/view_comic_separator">
 
             <ImageView
+                android:id="@+id/bt_tenho_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
-                android:background="@drawable/ic_check_circle"
-                android:backgroundTint="#00BB44"
+                android:src="@drawable/ic_check_circle"
+                app:tint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
+                android:id="@+id/bt_jali_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
-                android:background="@drawable/ic_book"
-                android:backgroundTint="#004488"
+                android:src="@drawable/ic_book"
+                app:tint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
+                android:id="@+id/bt_queroler_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
-                android:background="@drawable/ic_favorite"
-                android:backgroundTint="#EE0000"
+                android:src="@drawable/ic_favorite"
+                app:tint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
+                android:id="@+id/bt_favorito_comic"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="2dp"
-                android:background="@drawable/ic_baseline_star_24"
-                android:backgroundTint="#FFCC00"
+                android:src="@drawable/ic_baseline_star_24"
+                app:tint="#FFFFFFFF"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground" />
         </LinearLayout>

@@ -2,11 +2,11 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +17,14 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.HePAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListener
+import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.HePClickListener
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 
-class HomeFragment : Fragment(), ComicClickListener {
+
+class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
 
     private lateinit var ctx : MainActivity
 
@@ -44,11 +46,19 @@ class HomeFragment : Fragment(), ComicClickListener {
 
 
         colecao.setOnClickListener{
-            ctx.goToActivity(ColecaoActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
+            ctx.goToActivity(
+                ColecaoActivity::class.java,
+                R.anim.slide_in_right,
+                R.anim.static_animation
+            )
         }
 
         favoritos.setOnClickListener{
-            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
+            ctx.goToActivity(
+                FavoritesActivity::class.java,
+                R.anim.slide_in_right,
+                R.anim.static_animation
+            )
         }
 
         // Personagens mais populares
@@ -83,11 +93,6 @@ class HomeFragment : Fragment(), ComicClickListener {
             v?.onTouchEvent(event) ?: true
         }
         vpHeP.pageMargin = 10
-
-//        vpHeP.setOnTouchListener { v, event ->
-//            v.parent?.requestDisallowInterceptTouchEvent(true)
-//            false
-//        }
 
         // Historias mais lidas
         val includeHML: View = root.findViewById(R.id.include_hml)
@@ -128,5 +133,12 @@ class HomeFragment : Fragment(), ComicClickListener {
         val t = ctx.supportFragmentManager.beginTransaction()
         val frag: DialogFragment = ComicFragment.newInstance()
         frag.show(t, "teste")
+    }
+
+    override fun onHePClickListener(position: Int): View.OnClickListener = View.OnClickListener {
+        Log.v("HeP", "Clock")
+        val t = ctx.supportFragmentManager.beginTransaction()
+        val frag: DialogFragment = ComicFragment.newInstance()
+        frag.show(t, "HeP")
     }
 }

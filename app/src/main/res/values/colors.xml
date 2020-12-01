@@ -16,4 +16,9 @@
     <color name="secondaryBlue">#2D9CDB</color>
   
     <color name="backgroupDialog">#CF0B0001</color>
+
+    <color name="favoritebt">#FFCC00</color>
+    <color name="querolerbt">#EE0000</color>
+    <color name="jalibt">#004488</color>
+    <color name="tenhobt">#00BB44</color>
 </resources>
