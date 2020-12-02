@@ -85,7 +85,7 @@ class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
             //Comic(),
             //Comic(),
             //Comic()
-        ))
+        ), this)
 
         vpHeP.setOnTouchListener { v, event ->
             v.parent?.requestDisallowInterceptTouchEvent(true)

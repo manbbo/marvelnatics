@@ -3,7 +3,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Comic (@SerializedName("id") @Expose var id: Int,
+data class Comic (@SerializedName("id") @Expose var id: Int,
              @SerializedName("title") @Expose var title: String,
              @SerializedName("description") @Expose var description: String,
              @SerializedName("dates") @Expose var dates: ArrayList<ComicDate>,
