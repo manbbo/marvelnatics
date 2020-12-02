@@ -8,3 +8,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/java/br/com/digitalhouse/marvelnaticos/marvelnatics/api/Credentials.kt

@@ -3,15 +3,12 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GestureDetectorCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
@@ -19,16 +16,15 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.HePAdapter
-import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClick
+import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListener
+import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.HePClickListener
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
-import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comics.ComicFragment
-import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
-import kotlinx.android.synthetic.main.toolbar.*
-import org.w3c.dom.Text
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 
-class HomeFragment : Fragment(), ComicClick {
+
+class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
 
     private lateinit var ctx : MainActivity
 
@@ -50,38 +46,46 @@ class HomeFragment : Fragment(), ComicClick {
 
 
         colecao.setOnClickListener{
-            ctx.goToActivity(ColecaoActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
+            ctx.goToActivity(
+                ColecaoActivity::class.java,
+                R.anim.slide_in_right,
+                R.anim.static_animation
+            )
         }
 
         favoritos.setOnClickListener{
-            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
+            ctx.goToActivity(
+                FavoritesActivity::class.java,
+                R.anim.slide_in_right,
+                R.anim.static_animation
+            )
         }
 
         // Personagens mais populares
         val includePmP: View = root.findViewById(R.id.include_pmp)
         val rvPmP: RecyclerView = includePmP.findViewById(R.id.rv_list_charsList)
         rvPmP.adapter = CharacterAdapter(root.context, mutableListOf(
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character(),
-            Character()
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            // Character()
         ))
 
         // Historias em destaques
         val includeHeP: View = root.findViewById(R.id.include_hep)
         val vpHeP: ViewPager = includeHeP.findViewById(R.id.vp_hed)
         vpHeP.adapter = HePAdapter(root.context, mutableListOf(
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic()
-        ))
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic()
+        ), this)
 
         vpHeP.setOnTouchListener { v, event ->
             v.parent?.requestDisallowInterceptTouchEvent(true)
@@ -89,11 +93,6 @@ class HomeFragment : Fragment(), ComicClick {
             v?.onTouchEvent(event) ?: true
         }
         vpHeP.pageMargin = 10
-
-//        vpHeP.setOnTouchListener { v, event ->
-//            v.parent?.requestDisallowInterceptTouchEvent(true)
-//            false
-//        }
 
         // Historias mais lidas
         val includeHML: View = root.findViewById(R.id.include_hml)
@@ -108,16 +107,14 @@ class HomeFragment : Fragment(), ComicClick {
         titleHMA.text = "Histórias melhor avaliadas"
 
         rvHistoriasMaisLidas.adapter = ComicsAdapter(root.context, mutableListOf(
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic(),
-            Comic()
-        ))
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic(),
+            //Comic()
+        ), this)
 
         rvHistoriasMaisAvaliadas.adapter = rvHistoriasMaisLidas.adapter
-
         return root
     }
 
@@ -132,8 +129,16 @@ class HomeFragment : Fragment(), ComicClick {
         }
     }
 
-    override fun onComicClick(position: Int): View.OnClickListener = View.OnClickListener {
-        ctx.changeFragment()
-        Log.v("t", "try")
+    override fun onComicClickListener(position: Int): View.OnClickListener = View.OnClickListener {
+        val t = ctx.supportFragmentManager.beginTransaction()
+        val frag: DialogFragment = ComicFragment.newInstance()
+        frag.show(t, "teste")
+    }
+
+    override fun onHePClickListener(position: Int): View.OnClickListener = View.OnClickListener {
+        Log.v("HeP", "Clock")
+        val t = ctx.supportFragmentManager.beginTransaction()
+        val frag: DialogFragment = ComicFragment.newInstance()
+        frag.show(t, "HeP")
     }
 }

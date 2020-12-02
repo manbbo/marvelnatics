@@ -18,7 +18,7 @@
             android:layout_width="330dp"
             android:layout_height="40dp"
             android:background="@drawable/round_bkg"
-            android:drawableRight="@drawable/ic_search"
+            android:drawableRight="@drawable/ic_search_white"
             android:drawableTint="@color/black"/>
     </androidx.appcompat.widget.Toolbar>
 </LinearLayout>

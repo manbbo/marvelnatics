@@ -22,6 +22,8 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="Pesquisar"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
             android:paddingHorizontal="8dp" />
 
         <View

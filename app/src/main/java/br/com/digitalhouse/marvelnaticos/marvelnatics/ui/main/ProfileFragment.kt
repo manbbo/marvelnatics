@@ -31,16 +31,17 @@ class ProfileFragment : Fragment() {
 
         val includePmP: View = root.findViewById(R.id.include_pmp)
         val rvPmP: RecyclerView = includePmP.findViewById(R.id.rv_list_charsList)
+
         rvPmP.adapter = CharacterAdapter(root.context, mutableListOf(
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character()
+                //Character(),
+                //Character(),
+                //Character(),
+                //Character(),
+                //Character(),
+                //Character(),
+                //Character(),
+                //Character(),
+               // Character()
         ))
 
         val favoritos : AppCompatButton = root.findViewById(R.id.bt_favorites_profile)

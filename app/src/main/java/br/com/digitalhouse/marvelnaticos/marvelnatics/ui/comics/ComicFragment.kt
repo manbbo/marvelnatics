@@ -24,8 +24,8 @@ class ComicFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_comic, container, false)
@@ -43,9 +43,9 @@ class ComicFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-            ComicFragment().apply {
-                arguments = Bundle().apply {
+                ComicFragment().apply {
+                    arguments = Bundle().apply {
+                    }
                 }
-            }
     }
 }
