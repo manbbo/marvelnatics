@@ -64,19 +64,19 @@ class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
         // Personagens mais populares
         val includePmP: View = root.findViewById(R.id.include_pmp)
         val rvPmP: RecyclerView = includePmP.findViewById(R.id.rv_list_charsList)
-        rvPmP.adapter = CharacterAdapter(
-            root.context, mutableListOf(
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-                Character()
-            )
-        )
+//        rvPmP.adapter = CharacterAdapter(
+//            root.context, mutableListOf(
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character()
+//            )
+//        )
 
         // Historias em destaques
         val includeHeP: View = root.findViewById(R.id.include_hep)

@@ -63,14 +63,14 @@ class ComicFragment : DialogFragment() {
             dismiss()
         }
 
-        rc.adapter = CharacterAdapter(
-            root.context, mutableListOf(
-                Character(),
-                Character(),
-                Character(),
-                Character(),
-            )
-        )
+//        rc.adapter = CharacterAdapter(
+//            root.context, mutableListOf(
+//                Character(),
+//                Character(),
+//                Character(),
+//                Character(),
+//            )
+//        )
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 
