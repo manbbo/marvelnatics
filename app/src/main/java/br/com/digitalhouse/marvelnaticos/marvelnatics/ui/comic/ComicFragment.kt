@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 
 class ComicFragment : DialogFragment() {
 
@@ -303,6 +304,11 @@ class ComicFragment : DialogFragment() {
     }
 
     companion object {
-        fun newInstance() = ComicFragment().apply { }
+        @JvmStatic
+        fun newInstance() =
+            ComicFragment().apply {
+                arguments = Bundle().apply {
+                }
+            }
     }
 }
