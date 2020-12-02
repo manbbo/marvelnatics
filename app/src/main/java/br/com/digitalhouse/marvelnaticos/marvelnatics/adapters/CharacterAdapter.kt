@@ -22,10 +22,13 @@ class CharacterAdapter(val context: Context, val listCharacter: MutableList<Char
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val root =
             LayoutInflater.from(parent.context).inflate(R.layout.item_charbubble, parent, false)
+
+
         return CharacterViewHolder(root)
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
+        holder.charPlace.text = (position+1).toString()
     }
 
     override fun getItemCount(): Int = listCharacter.size
