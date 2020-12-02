@@ -12,7 +12,7 @@ import androidx.fragment.app.replace
 import androidx.viewpager2.widget.ViewPager2
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.MainPagerAdapter
-import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comics.ComicFragment
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 
