@@ -269,7 +269,7 @@
                 style="@style/comic_topics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descrição" />
+                android:text="@string/descricao" />
 
             <FrameLayout
                 android:layout_width="match_parent"

@@ -159,7 +159,7 @@ class ComicFragment : DialogFragment() {
             dismiss()
         }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //        rc.adapter = CharacterAdapter(
 //            root.context, mutableListOf(
 //                Character(),
@@ -168,7 +168,7 @@ class ComicFragment : DialogFragment() {
 //                Character(),
 //            )
 //        )
-=======
+//=======
         rc.adapter = CharacterAdapter(
             root.context, mutableListOf(
                 //Character(),
@@ -178,7 +178,7 @@ class ComicFragment : DialogFragment() {
             )
         )
         ////////
->>>>>>> 1cc17d122152b6e7416d40cae40267a017ba172c
+//>>>>>>> 1cc17d122152b6e7416d40cae40267a017ba172c
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 

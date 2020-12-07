@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Marvelnatics</string>
+
+    <!--BARRA DE PESQUISA-->
+    <string name="search">Buscar</string>
+
+    <!--HOME-->
+    <string name="tb_organize">Organizar la colección</string>
+    <string name="tb_favorites">FAVORITOS</string>
+
+    <!--MENU-->
+    <string name="nb_home">PRINCIPAL</string>
+    <string name="nb_search">BUSCAR</string>
+    <string name="nb_profile">PERFIL</string>
+
+    <!--Login e Cadastro -->
+    <string name="cadastre_se">Registrarse</string>
+    <string name="entrar_com_facebook">Iniciar sesión con Facebook</string>
+    <string name="entrar_com_google">Iniciar sesión con Google</string>
+    <string name="cadastrar_com_facebook">Registrarse con Facebook</string>
+    <string name="cadastrar_com_google">Registrarse con Google</string>
+    <string name="cadastro_cadastrar">Registrar</string>
+    <string name="nome">Npmbre</string>
+    <string name="sobrenome">Apellido</string>
+    <string name="email">Email</string>
+    <string name="senha">Contraseña</string>
+
+
+    <!--Main activity-->
+    <string name="bt_my_favorites">MIS FAVORITOS</string>
+    <string name="historia_em_destaque">Cuentos destacados</string>
+    <string name="personagens_mais_populares">Personajes mas populares</string>
+    <string name="pesquisa">Buscar</string>
+
+
+    <!--fragmento de busca-->
+    <string name="login_entrar">Iniciar sesión</string>
+    <string name="Esqueci_Senha">Olividé la contraseña</string>
+    <string name="ja_tenho">Ya tengo</string>
+    <string name="ja_li">Ya leí</string>
+    <string name="quero_ler">Yo quiero leer</string>
+    <string name="motrando_qtd_resultados">Mostrando 0 resultado(s)</string>
+
+
+    <!--item colecao-->
+    <string name="descricao">Descripción</string>
+
+    <!--list histories-->
+    <string name="nome_lista">Lista de nombres</string>
+
+    <!--fragment comic-->
+    <string name="personagens">Caracteres</string>
+
+
+</resources>

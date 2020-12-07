@@ -65,7 +65,7 @@
                     android:shadowDx="0"
                     android:shadowDy="1"
                     android:shadowRadius="2"
-                    android:text="Descrição" />
+                    android:text="@string/descricao" />
             </LinearLayout>
 
             <ImageView
