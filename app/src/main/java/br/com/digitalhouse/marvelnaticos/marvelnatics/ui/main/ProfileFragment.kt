@@ -1,18 +1,24 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.User
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
 
@@ -50,6 +56,42 @@ class ProfileFragment : Fragment() {
             ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
+
+
+        //Implementar regras p/ preencher os seguintes dados:
+
+        val nameUser = "Fulano da Silva"
+        val readComics = "10% HQs lidas"
+        val readSeries = "20% Séries lidas"
+        val readCharacters = "7% Personagens vistos"
+
+        val tv_nameUser: TextView = root.findViewById(R.id.tv_name_user)
+        val tv_readComics: TextView = root.findViewById(R.id.tv_read_comics)
+        val tv_readSeries: TextView = root.findViewById(R.id.tv_read_series)
+        val tv_readCharacters: TextView = root.findViewById(R.id.tv_read_characters)
+
+        tv_nameUser.text = nameUser
+        tv_readComics.text = readComics
+        tv_readSeries.text = readSeries
+        tv_readCharacters.text = readCharacters
+
+        val infoShared: String = "$nameUser's Statistics on Marvelnaltics: \n\n $readComics \n $readSeries \n $readCharacters \n\nYou can also keep track of your Marvel Comics with Marvelnatics!"
+
+        val compartilhar: AppCompatImageButton = root.findViewById(R.id.bt_share_profile)
+
+        compartilhar.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, infoShared)
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+
+
+
         return root
     }
 
@@ -64,4 +106,8 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
+
+
+
 }
