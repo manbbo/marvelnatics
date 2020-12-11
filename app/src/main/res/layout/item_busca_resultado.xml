@@ -34,29 +34,31 @@
             android:layout_height="wrap_content"
             android:text="Titulo"
             android:textColor="#000000"
-            android:textSize="24dp"
-            tools:text="Lorem ipsum" />
+            android:textSize="18dp"
+            tools:text="Lorem ipsum"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/tv_buscaResultado_ano"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-6dp"
+            android:layout_marginTop="1dp"
             android:text="Ano"
             android:textColor="#000000"
-            android:textSize="14dp"
+            android:textSize="10dp"
             tools:text="2020" />
 
         <TextView
             android:id="@+id/tv_buscaResultado_descricao"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="-2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:justificationMode="inter_word"
-            android:text="Descrição"
             android:textColor="#888888"
+            android:maxLines="3"
+            android:ellipsize="marquee"
             android:textSize="11dp"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis dapibus tellus, quis aliquam arcu. Etiam eget finibus leo, a rutrum tortor." />
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis dapibus tellus, quis aliquam arcu. Etiam eget finibus leo, a rutrum tortor." />
 
     </LinearLayout>
 </LinearLayout>

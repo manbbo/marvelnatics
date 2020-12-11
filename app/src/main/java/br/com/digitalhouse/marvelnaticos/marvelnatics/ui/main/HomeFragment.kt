@@ -9,13 +9,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
-import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
-import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicsAdapter
-import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.HePAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.*
 import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
 import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListener
 import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.HePClickListener
@@ -33,9 +34,18 @@ import java.security.MessageDigest
 import kotlin.concurrent.thread
 
 
-class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
+class HomeFragment : Fragment(){
 
     private lateinit var ctx: MainActivity
+    private lateinit var adapterComicsML: ComicListAdapter
+    private lateinit var adapterComicsMA: ComicListAdapter
+    val viewModel: HomeViewModel by viewModels<HomeViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return HomeViewModel(repo) as T
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -91,63 +101,13 @@ class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
         val includeHeP: View = root.findViewById(R.id.include_hep)
         val vpHeP: ViewPager = includeHeP.findViewById(R.id.vp_hed)
 
-        vpHeP.adapter = HePAdapter(
-            root.context, this
-        ).also { hep ->
-            // TODO / APENAS PARA TESTES / APENAS PARA TESTES / APENAS PARA TESTES / APENAS PARA TESTES
-            thread(start = true) {
-                Credentials().apply {
-                    repo.getComics(publicKey, "1$privateKey$publicKey".let { txt ->
-                        MessageDigest.getInstance("MD5").digest(txt.toByteArray(Charsets.UTF_8))
-                            .joinToString(separator = "") { b ->
-                                "%02x".format(b)
-                            }
-                    }, "1")
-                        .enqueue(object : Callback<JsonObject> {
-                            override fun onResponse(
-                                call: Call<JsonObject>,
-                                response: Response<JsonObject>
-                            ) {
-                                val results = response.body()?.let { resp ->
-                                    resp.getAsJsonObject("data").getAsJsonArray("results")
-                                }
-                                if (results != null) {
-                                    val comics = Gson().fromJson(
-                                        results,
-                                        Array<Comic>::class.java
-                                    ) as Array<Comic>
-
-                                    activity?.runOnUiThread {
-                                        hep.listHeP = mutableListOf<Comic>().also { list ->
-                                            list.addAll(comics)
-                                        }
-                                        hep.notifyDataSetChanged()
-                                    }
-
-                                }
-                            }
-
-                            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                            }
-                        })
-                }
-            }
-            // TODO / APENAS PARA TESTES / APENAS PARA TESTES / APENAS PARA TESTES / APENAS PARA TESTES
-        }
-
-        vpHeP.setOnTouchListener { v, event ->
-            v.parent?.requestDisallowInterceptTouchEvent(true)
-
-            v?.onTouchEvent(event) ?: true
-        }
         vpHeP.pageMargin = 10
 
         // Historias mais lidas
         val includeHML: View = root.findViewById(R.id.include_hml)
         val includeHMA: View = root.findViewById(R.id.include_hma)
         val rvHistoriasMaisLidas: RecyclerView = includeHML.findViewById(R.id.rv_list_listImages)
-        val rvHistoriasMaisAvaliadas: RecyclerView =
-            includeHMA.findViewById(R.id.rv_list_listImages)
+        val rvHistoriasMaisAvaliadas: RecyclerView = includeHMA.findViewById(R.id.rv_list_listImages)
 
         val titleHML: TextView = includeHML.findViewById(R.id.tv_list_listName)
         val titleHMA: TextView = includeHMA.findViewById(R.id.tv_list_listName)
@@ -155,17 +115,15 @@ class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
         titleHML.text = "Histórias mais lidas"
         titleHMA.text = "Histórias melhor avaliadas"
 
-        rvHistoriasMaisLidas.adapter = ComicsAdapter(
-            root.context, mutableListOf(
-                //Comic(),
-                //Comic(),
-                //Comic(),
-                //Comic(),
-                //Comic()
-            ), this
-        )
+        viewModel.listComics.observe(viewLifecycleOwner){
+            adapterComicsML = ComicListAdapter(rvHistoriasMaisLidas.context, it, ctx)
+            adapterComicsMA = ComicListAdapter(rvHistoriasMaisAvaliadas.context, it, ctx)
+            rvHistoriasMaisLidas.adapter = adapterComicsML
+            rvHistoriasMaisAvaliadas.adapter = adapterComicsMA
+            vpHeP.adapter = HePAdapter(vpHeP.context, it, ctx)
+        }
 
-        rvHistoriasMaisAvaliadas.adapter = rvHistoriasMaisLidas.adapter
+        viewModel.popListResult("Iron")
         return root
     }
 
@@ -178,18 +136,5 @@ class HomeFragment : Fragment(), ComicClickListener, HePClickListener {
                 putInt(ARG_SECTION_NUMBER, sectionNumber)
             }
         }
-    }
-
-    override fun onComicClickListener(position: Int): View.OnClickListener = View.OnClickListener {
-        val t = ctx.supportFragmentManager.beginTransaction()
-        val frag: DialogFragment = ComicFragment.newInstance()
-        frag.show(t, "teste")
-    }
-
-    override fun onHePClickListener(position: Int): View.OnClickListener = View.OnClickListener {
-        Log.v("HeP", "Clock")
-        val t = ctx.supportFragmentManager.beginTransaction()
-        val frag: DialogFragment = ComicFragment.newInstance()
-        frag.show(t, "HeP")
     }
 }
