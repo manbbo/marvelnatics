@@ -3,7 +3,11 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.services
 import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
+<<<<<<< HEAD
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Res
+=======
+import com.google.gson.JsonObject
+>>>>>>> 75c1472df7de2fc9d99ecaf00d260d77b0415d5b
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,8 +40,15 @@ interface Repository {
         @Query("apikey") publicKey: String,
         @Query("hash") hash: String,
         @Query("ts") ts: String,
+<<<<<<< HEAD
         @Query("titleStartsWith") titleStartWith: String? = null
     ): Res
+=======
+        @Query("title") title: String? = null,
+        @Query("titleStartsWith") titleStartWith: String? = null,
+        @Query("characters") charactersList: List<Int>? = null
+    ): Call<JsonObject>
+>>>>>>> 75c1472df7de2fc9d99ecaf00d260d77b0415d5b
 
     /*
         Recebe o Id de uma comic e retorna os dados apenas dessa comic
