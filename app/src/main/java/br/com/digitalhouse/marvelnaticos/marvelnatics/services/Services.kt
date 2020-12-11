@@ -37,6 +37,7 @@ interface Repository {
         @Query("apikey") publicKey: String,
         @Query("hash") hash: String,
         @Query("ts") ts: String,
+        @Query("offset") offset: Int,
         @Query("title") title: String? = null,
         @Query("titleStartsWith") titleStartWith: String? = null,
         @Query("characters") charactersList: List<Int>? = null

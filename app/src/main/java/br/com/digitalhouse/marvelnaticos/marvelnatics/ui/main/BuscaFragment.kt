@@ -23,6 +23,8 @@ class BuscaFragment : Fragment() {
     private lateinit var adapterComics: ComicSearchAdapter
     private lateinit var ctx: MainActivity
     private lateinit var rvBuscaRes: RecyclerView
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private var txtPesquisaUsr = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,7 +50,8 @@ class BuscaFragment : Fragment() {
                     txtPesquisar.setOnEditorActionListener { v, actionId, event -> // LISTENER DE ACTIONS
                         when (actionId) { // VERIFICA A ACTION REALIZADA
                             EditorInfo.IME_ACTION_SEARCH -> { // TIPO DEFINIDO NO XML
-                                viewModel.popListResult(txtPesquisar.text.toString())
+                                txtPesquisaUsr = txtPesquisar.text.toString()
+                                viewModel.popListResult(txtPesquisaUsr)
                                 true
                             }
                             else -> false
@@ -60,7 +63,8 @@ class BuscaFragment : Fragment() {
         var totalResBusca = root.findViewById<TextView>(R.id.tv_busca_info)
 
         rvBuscaRes = root.findViewById<RecyclerView>(R.id.rv_busca_resultado)
-        rvBuscaRes.layoutManager = LinearLayoutManager(context)
+        linearLayoutManager = LinearLayoutManager(context)
+        rvBuscaRes.layoutManager = linearLayoutManager
 
         viewModel.listComics.observe(viewLifecycleOwner){
             adapterComics = ComicSearchAdapter(rvBuscaRes.context, it, ctx)
@@ -77,10 +81,16 @@ class BuscaFragment : Fragment() {
 
     fun setScroller(){
         rvBuscaRes.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0){
-                }
+            override fun onScrolled(rvBuscaRes: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(rvBuscaRes, dx, dy)
+
+//                val lItem = linearLayoutManager.itemCount
+//                val vItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+//                val itens = adapterComics.itemCount
+//
+//                if (lItem + vItem >= itens){
+//                    viewModel.popListResult(txtPesquisaUsr)
+//                }
             }
         })
     }

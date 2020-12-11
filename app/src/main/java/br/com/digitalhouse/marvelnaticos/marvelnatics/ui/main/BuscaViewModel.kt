@@ -18,6 +18,7 @@ class BuscaViewModel(val repository: Repository) : ViewModel() {
     val listComics = MutableLiveData<ArrayList<Comic>>()
     var credentials = Credentials()
     var totRes = MutableLiveData<Int>()
+    var offset = 0
 
     fun popListResult(query: String) {
         viewModelScope.launch {
@@ -26,10 +27,15 @@ class BuscaViewModel(val repository: Repository) : ViewModel() {
                     credentials.publicKey,
                     hashFormat(credentials.privateKey, credentials.publicKey, date),
                     date,
+                    offset,
                     titleStartWith = query
             )
 
-            listComics.value = res.data.results
+            offset++
+            Log.i("BUSCA: ", offset.toString())
+            if (listComics.value == null) listComics.value = res.data.results
+            else listComics.value?.addAll(res.data.results)
+
             totRes.value = res.data.total
         }
     }

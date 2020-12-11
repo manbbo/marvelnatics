@@ -16,6 +16,7 @@ class HomeViewModel(val repository: Repository) : ViewModel() {
     val listComics = MutableLiveData<ArrayList<Comic>>()
     var credentials = Credentials()
     var totRes = MutableLiveData<Int>()
+    var offset = 0
 
     fun popListResult(query: String) {
         viewModelScope.launch {
@@ -24,9 +25,11 @@ class HomeViewModel(val repository: Repository) : ViewModel() {
                     credentials.publicKey,
                     Utils.hashFormat(credentials.privateKey, credentials.publicKey, date),
                     date,
+                    offset,
                     titleStartWith = query
             )
 
+            offset++
             listComics.value = res.data.results
             totRes.value = res.data.total
         }

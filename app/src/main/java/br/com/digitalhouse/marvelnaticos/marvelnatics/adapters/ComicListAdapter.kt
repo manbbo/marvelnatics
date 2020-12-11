@@ -69,7 +69,6 @@ class ComicListAdapter(private val context: Context, private val listComics: Mut
             l = strDraw.length
             if (l > 1) strDraw = strDraw.substring(0, l - 2) + "."
 
-
             bundle.putString("creators", strCreator)
             bundle.putString("drawers", strDraw)
             bundle.putString("cover", strCover)
