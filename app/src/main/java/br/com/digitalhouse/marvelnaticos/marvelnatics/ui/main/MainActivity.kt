@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         mainPagerAdapter = MainPagerAdapter(this, 3)
         pager.adapter = mainPagerAdapter
+        pager.isUserInputEnabled = false
 
 
         navbar.setOnNavigationItemSelectedListener {
