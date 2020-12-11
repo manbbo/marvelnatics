@@ -3,6 +3,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.services
 import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Res
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,20 +32,18 @@ interface Repository {
             retornada as comics no qual esse personagem aparece
     */
     @GET("comics")
-    fun getComics(
+    suspend fun getComics(
         @Query("apikey") publicKey: String,
         @Query("hash") hash: String,
         @Query("ts") ts: String,
-        @Query("title") title: String? = null,
-        @Query("titleStartsWith") titleStartWith: String? = null,
-        @Query("characters") charactersList: List<Int>? = null
-    ): Call<Comic>
+        @Query("titleStartsWith") titleStartWith: String? = null
+    ): Res
 
     /*
         Recebe o Id de uma comic e retorna os dados apenas dessa comic
      */
     @GET("comics/{comicId}")
-    fun getComic(
+    suspend fun getComic(
         @Query("apikey") publicKey: String,
         @Query("hash") hash: String,
         @Query("ts") ts: String,
