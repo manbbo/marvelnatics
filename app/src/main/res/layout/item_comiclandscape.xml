@@ -99,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:text="NAME"
                     android:textColor="@color/white"
+                    android:singleLine="true"
                     android:textSize="14sp" />
             </LinearLayout>
 

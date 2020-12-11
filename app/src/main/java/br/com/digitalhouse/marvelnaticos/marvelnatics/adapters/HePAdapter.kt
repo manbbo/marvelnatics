@@ -19,7 +19,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class HePAdapter(
     private val context: Context,
-    private val listener: HePClickListener
+    private val listHeP: MutableList<Comic>
 ) : PagerAdapter() {
 
     private val spinner = CircularProgressDrawable(context).apply {
@@ -28,8 +28,6 @@ class HePAdapter(
         strokeWidth = 15f
         start()
     }
-
-    var listHeP = mutableListOf<Comic>()
 
     override fun getCount(): Int = listHeP.size
 
@@ -50,7 +48,9 @@ class HePAdapter(
         val card: CardView = view.findViewById(R.id.cv_hep_view)
 
         // Define a ação de click
-//        card.setOnClickListener(listener.onHePClickListener(position)) // TODO ESTA BUGANDO O SCROLL
+        card.setOnClickListener {
+
+        }
 
 
         (container as ViewPager).addView(view)
@@ -66,7 +66,7 @@ class HePAdapter(
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view.findViewById<ImageView>(R.id.iv_story))
 
-        view.findViewById<TextView>(R.id.tv_comic_name).text = listHeP[position].title // TODO TITULO
+        view.findViewById<TextView>(R.id.tv_comic_name).text = listHeP[position].title
 
         return view
     }

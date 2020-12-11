@@ -18,35 +18,29 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.MainActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class ComicSearchAdapter(private val context: Context, private val listComics: MutableList<Comic>, var ctx: MainActivity):RecyclerView.Adapter<ComicSearchAdapter.ComicSearchViewHolder>(){
+class ComicListAdapter(private val context: Context, private val listComics: MutableList<Comic>, var ctx: MainActivity): RecyclerView.Adapter<ComicListAdapter.ComicListViewHolder>(){
 
-    inner class ComicSearchViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class ComicListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var view = itemView
-        var tvTitulo = view.findViewById<TextView>(R.id.tv_buscaResultado_titulo)
-        var imvComic = view.findViewById<ImageView>(R.id.img_buscaResultado_imagem)
-        var desc = view.findViewById<TextView>(R.id.tv_buscaResultado_descricao)
-        var dataComic = view.findViewById<TextView>(R.id.tv_buscaResultado_ano)
+        var imvComic = view.findViewById<ImageView>(R.id.iv_item_comic)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicSearchViewHolder {
-        val root = LayoutInflater.from(parent.context).inflate(R.layout.item_busca_resultado, parent, false)
-        return ComicSearchViewHolder(root)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicListViewHolder {
+        val root = LayoutInflater.from(parent.context).inflate(R.layout.item_histories, parent, false)
+        return ComicListViewHolder(root)
     }
 
-    override fun onBindViewHolder(holder: ComicSearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ComicListViewHolder, position: Int) {
         var item = listComics[position]
 
-        holder.tvTitulo.text = item.title
-        holder.desc.text = item.description
-        holder.dataComic.text = item.dates[0].date.subSequence(0,4)
         var urlImg : String = item.thumbnail.path.replace("http", "https")+"."+item.thumbnail.extension
 
         Glide
-            .with(context)
-            .load(urlImg)
-            .placeholder(spinner)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(holder.imvComic)
+                .with(context)
+                .load(urlImg)
+                .placeholder(spinner)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.imvComic)
 
         holder.view.setOnClickListener {
             val t = ctx.supportFragmentManager.beginTransaction()

@@ -5,10 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Point
-import android.graphics.Rect
-import android.graphics.RectF
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -18,23 +15,35 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class ComicFragment : DialogFragment() {
 
     private lateinit var ctx: Context
+    private lateinit var spinner: CircularProgressDrawable
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         ctx = context
+
+        spinner = CircularProgressDrawable(ctx).apply {
+            strokeCap = android.graphics.Paint.Cap.ROUND
+            centerRadius = 40f
+            strokeWidth = 15f
+            start()
+        }
     }
 
     override fun onStart() {
@@ -53,13 +62,19 @@ class ComicFragment : DialogFragment() {
         dialog?.window?.setWindowAnimations(R.style.dialog_animation_from_top)
     }
 
-    private var imgExpandido: ImageView? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_comic, container, false)
+
+        val titulo: TextView = root.findViewById(R.id.tv_comic_title)
+        val descricao: TextView = root.findViewById(R.id.tv_comic_descricao)
+        val dataPub: TextView = root.findViewById(R.id.tv_comic_data_pub)
+        val ivCapa : ImageView = root.findViewById(R.id.iv_comic_capa)
+        val criadores: TextView = root.findViewById(R.id.tv_comic_creator)
+        val desenhistas: TextView = root.findViewById(R.id.tv_comic_ilustrator)
+        val artistasCapa: TextView = root.findViewById(R.id.tv_comic_cover)
 
         val rc: RecyclerView = root.findViewById(R.id.rc_comic_characters)
         val backBtn: ImageButton = root.findViewById(R.id.ib_comic_backbtn)
@@ -173,22 +188,53 @@ class ComicFragment : DialogFragment() {
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 
         val animShort = resources.getInteger(android.R.integer.config_shortAnimTime)
-        imgExpandido = root.findViewById(R.id.img_comic_zoom);
-        root.findViewById<ImageView>(R.id.iv_item_comic).also { miniImg ->
+        var imgExpandido = root.findViewById<ImageView>(R.id.img_comic_zoom)
+        root.findViewById<ImageView>(R.id.iv_comic_capa).also { miniImg ->
             miniImg.setOnClickListener {
                 // CHAMA A ANIMAÇÃO
                 zoomImage(
-                    root,
-                    miniImg,
-                    imgExpandido!!,
-                    animShort
+                        root,
+                        miniImg,
+                        imgExpandido!!,
+                        animShort
                 )
             }
         }
 
+        var title = arguments?.getString("title");
+        titulo.text = title
+
+        var desc = arguments?.getString("desc");
+        descricao.text = desc
+
+        var dataP = arguments?.getString("date");
+        dataPub.text = dataP
+
+        var creators = arguments?.getString("creators");
+        criadores.text = creators
+
+        var drawers = arguments?.getString("drawers");
+        desenhistas.text = drawers
+
+        var cover = arguments?.getString("cover");
+        artistasCapa.text = cover
+
+        var urlImg = arguments?.getString("urlImage");
+        Glide
+            .with(ctx)
+            .load(urlImg)
+            .placeholder(spinner!!)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(ivCapa)
+
+        Glide
+            .with(ctx)
+            .load(urlImg)
+            .placeholder(spinner!!)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(imgExpandido)
         return root
     }
-
 
     // REFERENCIA https://developer.android.com/training/animation/zoom.html
     private var animator: Animator? = null
