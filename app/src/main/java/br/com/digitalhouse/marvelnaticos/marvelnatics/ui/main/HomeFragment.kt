@@ -120,7 +120,7 @@ class HomeFragment : Fragment(){
             adapterComicsMA = ComicListAdapter(rvHistoriasMaisAvaliadas.context, it, ctx)
             rvHistoriasMaisLidas.adapter = adapterComicsML
             rvHistoriasMaisAvaliadas.adapter = adapterComicsMA
-            vpHeP.adapter = HePAdapter(ctx, it)
+            vpHeP.adapter = HePAdapter(vpHeP.context, it, ctx)
         }
 
         viewModel.popListResult("Iron")
