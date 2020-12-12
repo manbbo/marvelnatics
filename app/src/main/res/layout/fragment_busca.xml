@@ -76,7 +76,7 @@
             android:id="@+id/tv_busca_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mostrando 0 resultado(s)"
+            android:text="0 resultado(s) encontrado(s)"
             android:textColor="@color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>
