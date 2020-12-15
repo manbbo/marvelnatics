@@ -1,40 +1,59 @@
 <resources>
     <string name="app_name">Marvelnatics</string>
 
-
     <!--BARRA DE PESQUISA-->
-
-    <string name="search">Pesquisar</string>
+    <string name="search">Search</string>
 
     <!--HOME-->
-    <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
-    <string name="tb_favorites">FAVORITOS</string>
+    <string name="tb_organize">ORGANIZE COLLECTION</string>
+    <string name="tb_favorites">FAVORITES</string>
 
     <!--MENU-->
-    <string name="nb_home">PRINCIPAL</string>
-    <string name="nb_search">BUSCAR</string>
-    <string name="nb_profile">PERFIL</string>
+    <string name="nb_home">MAIN</string>
+    <string name="nb_search">SEARCH</string>
+    <string name="nb_profile">PROFILE</string>
 
     <!--Login e Cadastro -->
-    <string name="cadastre_se">Cadastre-se</string>
-    <string name="entrar_com_facebook">Entrar com Facebook</string>
-    <string name="entrar_com_google">Entrar com o Google</string>
-    <string name="login_entrar">Entrar</string>
-    <string name="cadastrar_com_facebook">Cadastrar com Facebook</string>
-    <string name="cadastrar_com_google">Cadastrar com Google</string>
-    <string name="cadastro_cadastrar">Cadastrar</string>
-    <string name="nome">Nome</string>
-    <string name="sobrenome">Sobrenome</string>
+    <string name="cadastre_se">Register</string>
+    <string name="entrar_com_facebook">Login with Facebook</string>
+    <string name="entrar_com_google">Sign in with Google</string>
+    <string name="login_entrar">Log in</string>
+    <string name= "Esqueci_Senha">Forgot Password</string>
+    <string name="cadastrar_com_facebook">Sign up with Facebook</string>
+    <string name="cadastrar_com_google">Sign up with Google</string>
+    <string name="cadastro_cadastrar">Register</string>
+    <string name="nome">Name</string>
+    <string name="sobrenome">Surname</string>
     <string name="email">Email</string>
-    <string name="senha">Senha</string>
+    <string name="senha">password</string>
 
     <!--Main activity-->
-    <string name="bt_my_favorites">MEUS FAVORITOS</string>
-    <string name="historia_em_destaque">Historia em Destaque</string>
-    <string name="personagens_mais_populares">Personagens mais populares</string>
-    <string name="pesquisa">Pesquisa</string>
+    <string name="bt_my_favorites">MY FAVORITES</string>
+    <string name="historia_em_destaque">Featured Story</string>
+    <string name="personagens_mais_populares">Most popular characters</string>
+    <string name="pesquisa">Search</string>
 
-    <string name="demo_comic_description">
-    "KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!
-    </string>
+
+    <!--fragmento de busca-->
+    <string name="ja_tenho">Already have</string>
+    <string name="ja_li">Already have</string>
+    <string name="quero_ler">Want to read</string>
+    <string name="motrando_qtd_resultados">Showing 0 result(s)</string>
+
+
+    <!--item colecao-->
+    <string name="descricao">Description</string>
+
+    <!--list histories-->
+    <string name="nome_lista">List Name</string>
+    <string name="most_read_stories">Most Read Stories</string>
+    <string name="most_evaluated_stories">Better Evaluated Stories</string>
+
+
+    <!--fragment comic-->
+    <string name="personagens">Characters</string>
+
+
+
+    <!-- <string name="demo_comic_description">KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!</string> -->
 </resources>

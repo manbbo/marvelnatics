@@ -22,6 +22,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListe
 import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.HePClickListener
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
+import br.com.digitalhouse.marvelnaticos.marvelnatics.services.Translator
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
@@ -112,8 +113,13 @@ class HomeFragment : Fragment(){
         val titleHML: TextView = includeHML.findViewById(R.id.tv_list_listName)
         val titleHMA: TextView = includeHMA.findViewById(R.id.tv_list_listName)
 
-        titleHML.text = "Histórias mais lidas"
-        titleHMA.text = "Histórias melhor avaliadas"
+        //titleHML.text = getString(R.string.most_read_stories)
+        val translator = Translator()
+        val getLanguage = translator.getLanguage(getString(R.string.most_read_stories))
+        val translatedHML = translator.translate(getLanguage, "OI TUDO BEM")
+
+        titleHML.text = translatedHML
+        titleHMA.text = getString(R.string.most_evaluated_stories)
 
         viewModel.listComics.observe(viewLifecycleOwner){
             adapterComicsML = ComicListAdapter(rvHistoriasMaisLidas.context, it, ctx)
