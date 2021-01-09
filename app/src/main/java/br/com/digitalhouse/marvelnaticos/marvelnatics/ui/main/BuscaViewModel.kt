@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicSearchAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Data
@@ -15,13 +16,19 @@ import kotlin.collections.ArrayList
 
 class BuscaViewModel(val repository: Repository) : ViewModel() {
 
-    val listComics = MutableLiveData<ArrayList<Comic>>()
+    val listComics = ArrayList<Comic?>()
+    val mutableListComics = MutableLiveData<ArrayList<Comic?>>()
     var credentials = Credentials()
     var totRes = MutableLiveData<Int>()
+    var isLoading = MutableLiveData<Boolean>(false)
     var offset = 0
+    var adapterComics = MutableLiveData<ComicSearchAdapter>()
 
     fun popListResult(query: String) {
         viewModelScope.launch {
+            isLoading.value = true
+            adapterComics.value?.addNullData()
+
             var date = Date().toString()
             var res = repository.getComics(
                     credentials.publicKey,
@@ -31,12 +38,30 @@ class BuscaViewModel(val repository: Repository) : ViewModel() {
                     titleStartWith = query
             )
 
-            offset++
-            Log.i("BUSCA: ", offset.toString())
-            if (listComics.value == null) listComics.value = res.data.results
-            else listComics.value?.addAll(res.data.results)
+            adapterComics.value?.removeNullData()
+
+            isLoading.value = false
+            if (offset == 0 || mutableListComics.value == null) mutableListComics.value = res.data.results
+            else {
+                mutableListComics.value?.addAll(res.data.results)
+                adapterComics.value?.notifyItemRangeInserted(offset + 1, res.data.count)
+            }
+
+            offset += res.data.count
 
             totRes.value = res.data.total
+
         }
     }
+
+    fun isLoading() = (isLoading.value == true)
+
+    fun clearList(){
+        offset = 0
+        isLoading.value = false
+        listComics.clear()
+        mutableListComics.value = listComics
+    }
+
+    fun isLastPage() = (offset == totRes.value)
 }

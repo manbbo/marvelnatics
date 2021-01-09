@@ -18,71 +18,84 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.MainActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class ComicSearchAdapter(private val context: Context, private val listComics: MutableList<Comic>, var ctx: MainActivity):RecyclerView.Adapter<ComicSearchAdapter.ComicSearchViewHolder>(){
+class ComicSearchAdapter(private val context: Context, private val listComics: ArrayList<Comic?>, var ctx: MainActivity):RecyclerView.Adapter<ComicSearchAdapter.CustomViewHolder>(){
 
-    inner class ComicSearchViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        var view = itemView
+    inner class ComicSearchViewHolder(itemView: View):CustomViewHolder(itemView){
         var tvTitulo = view.findViewById<TextView>(R.id.tv_buscaResultado_titulo)
         var imvComic = view.findViewById<ImageView>(R.id.img_buscaResultado_imagem)
         var desc = view.findViewById<TextView>(R.id.tv_buscaResultado_descricao)
         var dataComic = view.findViewById<TextView>(R.id.tv_buscaResultado_ano)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicSearchViewHolder {
-        val root = LayoutInflater.from(parent.context).inflate(R.layout.item_busca_resultado, parent, false)
-        return ComicSearchViewHolder(root)
+    inner class LoadingViewHolder(itemView: View):CustomViewHolder(itemView)
+
+    open inner class CustomViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+        var view = itemView
     }
 
-    override fun onBindViewHolder(holder: ComicSearchViewHolder, position: Int) {
-        var item = listComics[position]
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+        if (viewType == 1) {
+            val root = LayoutInflater.from(parent.context).inflate(R.layout.item_busca_resultado, parent, false)
+            return ComicSearchViewHolder(root)
+        }else{
+            val root = LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
+            return LoadingViewHolder(root)
+        }
+    }
 
-        holder.tvTitulo.text = item.title
-        holder.desc.text = item.description
-        holder.dataComic.text = item.dates[0].date.subSequence(0,4)
-        var urlImg : String = item.thumbnail.path.replace("http", "https")+"."+item.thumbnail.extension
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        if (holder is LoadingViewHolder) return
+        if (holder is ComicSearchViewHolder){
+            var item = listComics[position]
 
-        Glide
-            .with(context)
-            .load(urlImg)
-            .placeholder(spinner)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(holder.imvComic)
+            holder.tvTitulo.text = item!!.title
+            holder.desc.text = item!!.description
+            holder.dataComic.text = item!!.dates[0].date.subSequence(0,4)
+            var urlImg : String = item!!.thumbnail.path.replace("http", "https")+"."+item!!.thumbnail.extension
 
-        holder.view.setOnClickListener {
-            val t = ctx.supportFragmentManager.beginTransaction()
-            val frag: DialogFragment = ComicFragment.newInstance()
+            Glide
+                    .with(context)
+                    .load(urlImg)
+                    .placeholder(spinner)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(holder.imvComic)
 
-            var bundle = Bundle()
-            bundle.putString("title", item.title)
-            bundle.putString("urlImage", urlImg)
-            bundle.putString("desc", item.description)
-            bundle.putString("date", item.dates[0].date)
+            holder.view.setOnClickListener {
+                val t = ctx.supportFragmentManager.beginTransaction()
+                val frag: DialogFragment = ComicFragment.newInstance()
 
-            var strCreator = ""
-            var strCover = ""
-            var strDraw = ""
-            for (it in item.creators.items){
-                if (it.role == "writer") strCreator += it.name + ", "
-                else if (it.role.contains("cover"))  strCover += it.name + ", "
-                else if (it.role.contains("colorist") || it.role.contains("inker") )  strDraw += it.name + ", "
+                var bundle = Bundle()
+                bundle.putString("title", item!!.title)
+                bundle.putString("urlImage", urlImg)
+                bundle.putString("desc", item!!.description)
+                bundle.putString("date", item!!.dates[0].date)
+
+                var strCreator = ""
+                var strCover = ""
+                var strDraw = ""
+                for (it in item.creators.items){
+                    if (it.role == "writer") strCreator += it.name + ", "
+                    else if (it.role.contains("cover"))  strCover += it.name + ", "
+                    else if (it.role.contains("colorist") || it.role.contains("inker") )  strDraw += it.name + ", "
+                }
+                var l = strCreator.length
+                if (l > 1) strCreator = strCreator.substring(0, l - 2) + "."
+
+                l = strCover.length
+                if (l > 1) strCover = strCover.substring(0, l - 2) + "."
+
+                l = strDraw.length
+                if (l > 1) strDraw = strDraw.substring(0, l - 2) + "."
+
+
+                bundle.putString("creators", strCreator)
+                bundle.putString("drawers", strDraw)
+                bundle.putString("cover", strCover)
+
+                frag.arguments = bundle
+
+                frag.show(t, "Comic")
             }
-            var l = strCreator.length
-            if (l > 1) strCreator = strCreator.substring(0, l - 2) + "."
-
-            l = strCover.length
-            if (l > 1) strCover = strCover.substring(0, l - 2) + "."
-
-            l = strDraw.length
-            if (l > 1) strDraw = strDraw.substring(0, l - 2) + "."
-
-
-            bundle.putString("creators", strCreator)
-            bundle.putString("drawers", strDraw)
-            bundle.putString("cover", strCover)
-
-            frag.arguments = bundle
-
-            frag.show(t, "Comic")
         }
     }
 
@@ -93,5 +106,18 @@ class ComicSearchAdapter(private val context: Context, private val listComics: M
         centerRadius = 40f
         strokeWidth = 15f
         start()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (listComics[position] != null) return 1; //VIEW_TYPE_ITEM
+        else return 2; //VIEW_TYPE_LOADING
+    }
+
+    fun addNullData(){
+        listComics.add(null)
+    }
+
+    fun removeNullData(){
+        listComics.removeAt(listComics.size - 1)
     }
 }
