@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 
 class HomeViewModel(val repository: Repository) : ViewModel() {
 
-    val listComics = MutableLiveData<ArrayList<Comic>>()
+    val listComics = MutableLiveData<ArrayList<Comic?>>()
     var credentials = Credentials()
     var totRes = MutableLiveData<Int>()
     var offset = 0

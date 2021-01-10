@@ -18,6 +18,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicSearchAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 
+
 class BuscaFragment : Fragment() {
 
     private lateinit var adapterComics: ComicSearchAdapter
@@ -25,6 +26,7 @@ class BuscaFragment : Fragment() {
     private lateinit var rvBuscaRes: RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var txtPesquisaUsr = ""
+    private var isLoading = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,9 +42,9 @@ class BuscaFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_busca, container, false).also { root -> // VIEW
             root.findViewById<EditText>(R.id.txt_busca_pesquisar)
@@ -50,6 +52,7 @@ class BuscaFragment : Fragment() {
                     txtPesquisar.setOnEditorActionListener { v, actionId, event -> // LISTENER DE ACTIONS
                         when (actionId) { // VERIFICA A ACTION REALIZADA
                             EditorInfo.IME_ACTION_SEARCH -> { // TIPO DEFINIDO NO XML
+                                viewModel.clearList()
                                 txtPesquisaUsr = txtPesquisar.text.toString()
                                 viewModel.popListResult(txtPesquisaUsr)
                                 true
@@ -66,13 +69,24 @@ class BuscaFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         rvBuscaRes.layoutManager = linearLayoutManager
 
-        viewModel.listComics.observe(viewLifecycleOwner){
+        viewModel.mutableListComics.observe(viewLifecycleOwner){
+            rvBuscaRes.adapter = null
+            rvBuscaRes.layoutManager = null
+
             adapterComics = ComicSearchAdapter(rvBuscaRes.context, it, ctx)
             rvBuscaRes.adapter = adapterComics
+            viewModel.adapterComics.value = adapterComics
+
+            linearLayoutManager.removeAllViews()
+            rvBuscaRes.layoutManager = linearLayoutManager
         }
 
         viewModel.totRes.observe(viewLifecycleOwner){
             totalResBusca.text = viewModel.totRes.value.toString() + " resultado(s) encontrado(s)"
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            isLoading = viewModel.isLoading.value == true
         }
 
         setScroller()
@@ -84,13 +98,16 @@ class BuscaFragment : Fragment() {
             override fun onScrolled(rvBuscaRes: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(rvBuscaRes, dx, dy)
 
-//                val lItem = linearLayoutManager.itemCount
-//                val vItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
-//                val itens = adapterComics.itemCount
-//
-//                if (lItem + vItem >= itens){
-//                    viewModel.popListResult(txtPesquisaUsr)
-//                }
+                val lItem = linearLayoutManager.childCount
+                val vItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+                val itens = adapterComics.itemCount
+
+                if (!viewModel.isLoading() && !viewModel.isLastPage() && lItem + vItem >= itens && vItem >= 0) {
+                    viewModel.popListResult(txtPesquisaUsr)
+                    rvBuscaRes.post(Runnable {
+                        viewModel.adapterComics.value!!.notifyItemInserted(viewModel.listComics.size - 1)
+                    })
+                }
             }
         })
     }
