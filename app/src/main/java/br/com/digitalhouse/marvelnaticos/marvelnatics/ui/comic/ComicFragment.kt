@@ -213,6 +213,7 @@ class ComicFragment : DialogFragment() {
         var finalText = ""
         val source = TranslateLanguage.ENGLISH
         val target = Locale.getDefault().getLanguage().toString();
+
         val options = TranslatorOptions.Builder()
             .setSourceLanguage(source)
             .setTargetLanguage(target)
@@ -229,6 +230,7 @@ class ComicFragment : DialogFragment() {
             var conditions = DownloadConditions.Builder()
                 .requireWifi()
                 .build()
+
             translator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener {
                     Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
@@ -250,6 +252,8 @@ class ComicFragment : DialogFragment() {
         }
 
         descricao.text = finalText
+
+        translator.close()
 
         var dataP = arguments?.getString("date");
         dataPub.text = dataP
