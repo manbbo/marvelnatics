@@ -211,49 +211,51 @@ class ComicFragment : DialogFragment() {
         titulo.text = title
 
         var finalText = ""
-        val source = TranslateLanguage.ENGLISH
-        val target = Locale.getDefault().getLanguage().toString();
 
-        val options = TranslatorOptions.Builder()
-            .setSourceLanguage(source)
-            .setTargetLanguage(target)
-            .build()
+        if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null){
 
-        val translator = Translation.getClient(options)
+            val source = TranslateLanguage.ENGLISH
+            val target = Locale.getDefault().language
 
-        if (arguments?.getString("desc").toString().trim() != "" &&
-            source.toString() != target.toString()){
+            val options = TranslatorOptions.Builder()
+                    .setSourceLanguage(source)
+                    .setTargetLanguage(target)
+                    .build()
 
+            val translator = Translation.getClient(options)
 
             getLifecycle().addObserver(translator)
 
-            var conditions = DownloadConditions.Builder()
-                .requireWifi()
-                .build()
+            if (source!=target) {
+                var conditions = DownloadConditions.Builder()
+                        .requireWifi()
+                        .build()
 
-            translator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener {
-                    Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
-                }
-                .addOnFailureListener { exception ->
-                    Log.i("TRANSLATOR", "DOWNLOAD OF MODELS FAILED: $exception")
-                }
+                translator.downloadModelIfNeeded(conditions)
+                        .addOnSuccessListener {
+                            Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.i("TRANSLATOR", "DOWNLOAD OF MODELS FAILED: $exception")
+                        }
 
-            translator.translate(arguments?.getString("desc")!!)
-                .addOnSuccessListener { translatedText ->
-                    descricao.text = translatedText
-                    Log.i("TRANSLATOR", "translate: successful")
-                }
-                .addOnFailureListener { exception ->
-                    finalText = descricao.text.toString()
-                    Log.i("TRANSLATOR", "translate: failed, exception: $exception")
-                }
-
+                translator.translate(arguments?.getString("desc")!!)
+                        .addOnSuccessListener { translatedText ->
+                            descricao.text = translatedText
+                            Log.i("TRANSLATOR", "translate: successful")
+                        }
+                        .addOnFailureListener { exception ->
+                            finalText = descricao.text.toString()
+                            Log.i("TRANSLATOR", "translate: failed, exception: $exception")
+                        }
+            } else {
+                finalText = arguments?.getString("desc").toString().trim()
+            }
+        } else {
+            finalText = arguments?.getString("desc").toString().trim()
         }
 
         descricao.text = finalText
-
-        translator.close()
 
         var dataP = arguments?.getString("date");
         dataPub.text = dataP
