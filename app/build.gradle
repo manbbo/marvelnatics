@@ -47,9 +47,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
 
-
-
-
     testImplementation 'junit:junit:4.+'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -70,6 +67,9 @@ dependencies {
 
     // FACEBOOK
     implementation 'com.facebook.android:facebook-login:6.+'
+
+    // Google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
     // Android Room
     def room_version = "2.2.5"
