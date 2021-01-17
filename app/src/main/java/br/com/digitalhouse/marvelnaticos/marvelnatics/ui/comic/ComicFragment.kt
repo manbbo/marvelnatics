@@ -215,7 +215,7 @@ class ComicFragment : DialogFragment() {
         if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null){
 
             val source = TranslateLanguage.ENGLISH
-            val target = Locale.getDefault().language
+            val target = TranslateLanguage.PORTUGUESE//Locale.getDefault().language
 
             val options = TranslatorOptions.Builder()
                     .setSourceLanguage(source)
@@ -234,20 +234,23 @@ class ComicFragment : DialogFragment() {
                 translator.downloadModelIfNeeded(conditions)
                         .addOnSuccessListener {
                             Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
+
+                            translator.translate(arguments?.getString("desc")!!)
+                                    .addOnSuccessListener { translatedText ->
+                                        descricao.text = translatedText
+                                        Log.i("TRANSLATOR", "translate: successful")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        finalText = descricao.text.toString()
+                                        Log.i("TRANSLATOR", "translate: failed, exception: $exception")
+                                    }
                         }
                         .addOnFailureListener { exception ->
+                            finalText = " "
                             Log.i("TRANSLATOR", "DOWNLOAD OF MODELS FAILED: $exception")
                         }
 
-                translator.translate(arguments?.getString("desc")!!)
-                        .addOnSuccessListener { translatedText ->
-                            descricao.text = translatedText
-                            Log.i("TRANSLATOR", "translate: successful")
-                        }
-                        .addOnFailureListener { exception ->
-                            finalText = descricao.text.toString()
-                            Log.i("TRANSLATOR", "translate: failed, exception: $exception")
-                        }
+
             } else {
                 finalText = arguments?.getString("desc").toString().trim()
             }
