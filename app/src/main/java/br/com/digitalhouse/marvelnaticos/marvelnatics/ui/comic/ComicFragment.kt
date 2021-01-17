@@ -215,7 +215,7 @@ class ComicFragment : DialogFragment() {
         if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null){
 
             val source = TranslateLanguage.ENGLISH
-            val target = TranslateLanguage.PORTUGUESE//Locale.getDefault().language
+            val target = Locale.getDefault().language
 
             val options = TranslatorOptions.Builder()
                     .setSourceLanguage(source)
