@@ -3,6 +3,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.adapters
 import android.content.Context
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,13 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.MainActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ComicSearchAdapter(private val context: Context, private val listComics: ArrayList<Comic?>, var ctx: MainActivity):RecyclerView.Adapter<ComicSearchAdapter.CustomViewHolder>(){
 
@@ -49,7 +57,9 @@ class ComicSearchAdapter(private val context: Context, private val listComics: A
             var item = listComics[position]
 
             holder.tvTitulo.text = item!!.title
-            holder.desc.text = item!!.description
+
+            holder.desc.text= item!!.description
+
             holder.dataComic.text = item!!.dates[0].date.subSequence(0,4)
             var urlImg : String = item!!.thumbnail.path.replace("http", "https")+"."+item!!.thumbnail.extension
 

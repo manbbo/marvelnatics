@@ -9,6 +9,7 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,11 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
+import java.util.*
 
 class ComicFragment : DialogFragment() {
 
@@ -92,11 +98,11 @@ class ComicFragment : DialogFragment() {
         var countFav = false
         btFavorito.setOnClickListener {
             if (!countFav) {
-                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
                 countFav = true
             }
             else {
-                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
                 countFav = false
             }
 
@@ -106,11 +112,11 @@ class ComicFragment : DialogFragment() {
         var countQler = false
         btQueroler.setOnClickListener {
             if (!countQler) {
-                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), android.graphics.PorterDuff.Mode.SRC_IN)
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
                 countQler =true
             }
             else {
-                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
                 countQler = false
             }
             Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
@@ -119,11 +125,11 @@ class ComicFragment : DialogFragment() {
         var countJali = false
         btJali.setOnClickListener {
             if (!countJali) {
-                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), android.graphics.PorterDuff.Mode.SRC_IN)
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
                 countJali = true
             }
             else {
-                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
                 countJali = false
             }
 
@@ -133,11 +139,11 @@ class ComicFragment : DialogFragment() {
         var countTenho = false
         btTenho.setOnClickListener {
             if (!countTenho) {
-                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), android.graphics.PorterDuff.Mode.SRC_IN)
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
                 countTenho = true
             }
             else {
-                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
                 countTenho = false
             }
 
@@ -151,17 +157,17 @@ class ComicFragment : DialogFragment() {
             btStars[i].setOnClickListener {
                 if (!countStars) {
                     for (j in 0..4) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
                     }
 
                     for (j in 0..i) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), android.graphics.PorterDuff.Mode.SRC_IN)
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
                     }
 
                 }
                 else {
                     for (j in 0..4) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
                     }
 
                 }
@@ -204,8 +210,55 @@ class ComicFragment : DialogFragment() {
         var title = arguments?.getString("title");
         titulo.text = title
 
-        var desc = arguments?.getString("desc");
-        descricao.text = desc
+        var finalText = ""
+
+        if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null){
+
+            val source = TranslateLanguage.ENGLISH
+            val target = TranslateLanguage.PORTUGUESE//Locale.getDefault().language
+
+            val options = TranslatorOptions.Builder()
+                    .setSourceLanguage(source)
+                    .setTargetLanguage(target)
+                    .build()
+
+            val translator = Translation.getClient(options)
+
+            getLifecycle().addObserver(translator)
+
+            if (source!=target) {
+                var conditions = DownloadConditions.Builder()
+                        .requireWifi()
+                        .build()
+
+                translator.downloadModelIfNeeded(conditions)
+                        .addOnSuccessListener {
+                            Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
+
+                            translator.translate(arguments?.getString("desc")!!)
+                                    .addOnSuccessListener { translatedText ->
+                                        descricao.text = translatedText
+                                        Log.i("TRANSLATOR", "translate: successful")
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        finalText = descricao.text.toString()
+                                        Log.i("TRANSLATOR", "translate: failed, exception: $exception")
+                                    }
+                        }
+                        .addOnFailureListener { exception ->
+                            finalText = " "
+                            Log.i("TRANSLATOR", "DOWNLOAD OF MODELS FAILED: $exception")
+                        }
+
+
+            } else {
+                finalText = arguments?.getString("desc").toString().trim()
+            }
+        } else {
+            finalText = arguments?.getString("desc").toString().trim()
+        }
+
+        descricao.text = finalText
 
         var dataP = arguments?.getString("date");
         dataPub.text = dataP
