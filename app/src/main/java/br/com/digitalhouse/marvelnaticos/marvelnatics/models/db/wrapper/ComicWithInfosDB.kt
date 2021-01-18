@@ -12,4 +12,4 @@ data class ComicWithInfosDB(
     @Relation(parentColumn = "dbid", entityColumn = "comicID", entity = ComicColecaoInfoDB::class)
     var infos: List<ComicColecaoInfoDB>
 
-)
+)  
