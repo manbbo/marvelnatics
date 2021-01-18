@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "comic")
 data class ComicDB(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     val dbID: Long? = null,
 
     @ColumnInfo(defaultValue = "0")
