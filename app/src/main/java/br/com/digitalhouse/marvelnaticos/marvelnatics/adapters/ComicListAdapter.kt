@@ -48,6 +48,7 @@ class ComicListAdapter(private val context: Context, private val listComics: Mut
 
             var bundle = Bundle()
             bundle.putString("title", item!!.title)
+            bundle.putInt("id", item!!.id)
             bundle.putString("urlImage", urlImg)
             bundle.putString("desc", item!!.description)
             bundle.putString("date", item!!.dates[0].date)

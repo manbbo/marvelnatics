@@ -13,7 +13,7 @@ data class ComicDB(
     val dbID: Long? = null,
 
     @ColumnInfo(defaultValue = "0")
-    var apiID: Long = 0,
+    var apiID: Int = 0,
 
     @ColumnInfo(defaultValue = "")
     var titulo: String,
@@ -29,6 +29,9 @@ data class ComicDB(
 
     @ColumnInfo(defaultValue = "")
     var artistasCapa: String,
+
+    @ColumnInfo(defaultValue = "")
+    var criadores: String,
 
     @ColumnInfo(defaultValue = "")
     var imagemCapaUrl: String

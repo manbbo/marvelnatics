@@ -1,6 +1,7 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.services
 
 import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
+import br.com.digitalhouse.marvelnaticos.marvelnatics.database.AppDatabase
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Res

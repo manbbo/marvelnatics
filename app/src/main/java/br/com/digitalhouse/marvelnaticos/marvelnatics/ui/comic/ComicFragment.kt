@@ -18,27 +18,53 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
+import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ComicFragment : DialogFragment() {
 
     private lateinit var ctx: Context
     private lateinit var spinner: CircularProgressDrawable
+    private var comicId: Int = 0
+    private lateinit var title: String
+    private lateinit var originalText: String
+    private lateinit var finalText: String
+    private lateinit var dataP: String
+    private lateinit var urlImg: String
+    private lateinit var cover: String
+    private lateinit var creators: String
+    private lateinit var drawers: String
+
+    val viewModel: OfflineViewModel by viewModels<OfflineViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return OfflineViewModel(repo, context!!) as T
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -93,18 +119,23 @@ class ComicFragment : DialogFragment() {
         val btStars : List<ImageView> = listOf(root.findViewById(R.id.s0), root.findViewById(R.id.s1),
                 root.findViewById(R.id.s2), root.findViewById(R.id.s3), root.findViewById(R.id.s4))
 
+        btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+        btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+        btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+        btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
 
         // Botoes de ação
         var countFav = false
         btFavorito.setOnClickListener {
             if (!countFav) {
                 btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
-                countFav = true
-            }
-            else {
+                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "F")
+            } else {
                 btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                countFav = false
+                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "F")
             }
+
+            countFav = !countFav
 
             Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
         }
@@ -113,12 +144,14 @@ class ComicFragment : DialogFragment() {
         btQueroler.setOnClickListener {
             if (!countQler) {
                 btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
-                countQler =true
-            }
-            else {
+                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "Q")
+            } else {
                 btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                countQler = false
+                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "Q")
             }
+
+            countQler = !countQler
+
             Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
         }
 
@@ -126,12 +159,13 @@ class ComicFragment : DialogFragment() {
         btJali.setOnClickListener {
             if (!countJali) {
                 btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
-                countJali = true
-            }
-            else {
+                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "J")
+            }else {
                 btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                countJali = false
+                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "J")
             }
+
+            countJali = !countJali
 
             Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
         }
@@ -140,19 +174,20 @@ class ComicFragment : DialogFragment() {
         btTenho.setOnClickListener {
             if (!countTenho) {
                 btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
-                countTenho = true
+                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "T")
             }
-            else {
+            else{
                 btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                countTenho = false
+                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "T")
             }
+
+            countTenho = !countTenho
 
             Toast.makeText(ctx, "Você clicou em 'TENHO'", Toast.LENGTH_SHORT).show()
         }
         //////
 
         var countStars = false
-        // Botões de estrela - implementar para ficar com cor
         for (i in 0..4) {
             btStars[i].setOnClickListener {
                 if (!countStars) {
@@ -207,10 +242,11 @@ class ComicFragment : DialogFragment() {
             }
         }
 
-        var title = arguments?.getString("title");
+        title = arguments?.getString("title")!!;
         titulo.text = title
 
-        var finalText = ""
+        finalText = ""
+        originalText = arguments?.getString("desc").toString()
 
         if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null){
 
@@ -237,6 +273,7 @@ class ComicFragment : DialogFragment() {
 
                             translator.translate(arguments?.getString("desc")!!)
                                     .addOnSuccessListener { translatedText ->
+                                        finalText = translatedText
                                         descricao.text = translatedText
                                         Log.i("TRANSLATOR", "translate: successful")
                                     }
@@ -255,24 +292,45 @@ class ComicFragment : DialogFragment() {
                 finalText = arguments?.getString("desc").toString().trim()
             }
         } else {
-            finalText = arguments?.getString("desc").toString().trim()
+            finalText = " "
         }
 
         descricao.text = finalText
 
-        var dataP = arguments?.getString("date");
+        comicId = arguments?.getInt("id")!!
+        viewModel.getClassificationsFromComic(comicId)
+
+        viewModel.listInfo.observe(viewLifecycleOwner){
+            it.forEach {
+                if (it == "T") {
+                    countTenho = true
+                    btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
+                } else if (it == "Q") {
+                    countQler = true
+                    btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
+                } else if (it == "J") {
+                    countJali = true
+                    btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
+                } else {
+                    countFav = true
+                    btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
+                }
+            }
+        }
+
+        dataP = arguments?.getString("date")!!
         dataPub.text = dataP
 
-        var creators = arguments?.getString("creators");
+        creators = arguments?.getString("creators")!!
         criadores.text = creators
 
-        var drawers = arguments?.getString("drawers");
+        drawers = arguments?.getString("drawers")!!
         desenhistas.text = drawers
 
-        var cover = arguments?.getString("cover");
+        cover = arguments?.getString("cover")!!
         artistasCapa.text = cover
 
-        var urlImg = arguments?.getString("urlImage");
+        urlImg = arguments?.getString("urlImage")!!
         Glide
             .with(ctx)
             .load(urlImg)

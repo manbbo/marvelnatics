@@ -60,6 +60,7 @@ class HePAdapter(
             val frag: DialogFragment = ComicFragment.newInstance()
 
             var bundle = Bundle()
+            bundle.putInt("id", item!!.id)
             bundle.putString("title", item!!.title)
             bundle.putString("urlImage", urlImg)
             bundle.putString("desc", item!!.description)
