@@ -292,7 +292,7 @@ class ComicFragment : DialogFragment() {
                 finalText = arguments?.getString("desc").toString().trim()
             }
         } else {
-            finalText = arguments?.getString("desc").toString().trim()
+            finalText = " "
         }
 
         descricao.text = finalText
