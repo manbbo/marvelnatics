@@ -1,9 +1,11 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.dao
 
 
+import android.util.Log
 import androidx.room.*
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicColecaoInfoDB
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicDB
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.wrapper.ComicWithInfosDB
 
 
 @Dao
@@ -19,36 +21,38 @@ interface ComicsDao {
     //Get
     @Transaction
     @Query("SELECT * FROM comic")
-    suspend fun getAllComics(): List<ComicDB>
+    suspend fun getAllComics(): List<ComicDB?>
 
     @Transaction
     @Query("SELECT info FROM comic_colecao_info WHERE comicID = :comicID")
-    suspend fun getAllClassificationFromComic(comicID: Long): List<String>
+    suspend fun getAllClassificationsFromComic(comicID: Long): List<String>
 
     @Transaction
-    @Query("SELECT * FROM comic INNER JOIN comic_colecao_info ON comic.dbID = comic_colecao_info.comicID AND comic_colecao_info.info = :info")
-    suspend fun getAllComicsFromClassification(info: String): List<ComicDB>
+    @Query("SELECT * FROM comic")
+    suspend fun getAllComicsWithAllClassifications(): List<ComicWithInfosDB>
 
     @Transaction
     @Query("SELECT * FROM comic WHERE apiID = :apiID")
-    suspend fun getComicById(apiID: Long): List<ComicDB>
+    suspend fun getComicByApiIdWithAllClassifications(apiID: Int): List<ComicWithInfosDB>
+
+    @Transaction
+    @Query("SELECT * FROM comic WHERE apiID = :apiID")
+    suspend fun getComicById(apiID: Int): List<ComicDB>
 
     @Transaction
     @Query("SELECT * FROM comic_colecao_info WHERE comicID = :comicID")
-    suspend fun getColectionByIdAndClassification(comicID: Long): List<ComicColecaoInfoDB>
-
-
+    suspend fun getCollectionsById(comicID: Long): List<ComicColecaoInfoDB>
 
     //Delete
-    @Query("DELETE FROM comic_colecao_info WHERE dbid = :dbid")
-    suspend fun delByIdAncClassification(dbid: Long)
+    @Query("DELETE FROM comic_colecao_info WHERE dbid = :dbid AND info = :info")
+    suspend fun delByIdAndClassification(dbid: Long, info: String)
 
     //Delete
     @Query("DELETE FROM comic WHERE dbID = :dbID")
     suspend fun delComicById(dbID: Long)
 
 
-    suspend fun insertComicList(comic: ComicDB, info: String) {
+    suspend fun insertComicDBList(comic: ComicDB, info: String) {
         var listId = getComicById(comic.apiID)
         if (listId.isEmpty()) {
             val id: Long = insertComic(comic)
@@ -60,18 +64,15 @@ interface ComicsDao {
     }
 
     suspend fun deleteComicList(comic: ComicDB, info: String) {
-        var comic = getComicById(comic.apiID)
-        var listComics = getColectionByIdAndClassification(comic[0].dbID!!)
-        lateinit var colectionComic: ComicColecaoInfoDB
-        listComics.forEach { if (it.info == info) colectionComic = it }
-        delByIdAncClassification(colectionComic.dbid!!)
+        var listComicDB = getComicById(comic.apiID)
+        var listComics = getCollectionsById(listComicDB[0].dbID!!)
+        lateinit var collectionComic: ComicColecaoInfoDB
+
+        listComics.forEach { if (it.info == info) collectionComic = it }
+        delByIdAndClassification(collectionComic.dbid!!, collectionComic.info)
         if (listComics.size == 1) {
-            delComicById(colectionComic.comicID)
+            delComicById(collectionComic.comicID)
         }
     }
-
-
-
-
 }
 

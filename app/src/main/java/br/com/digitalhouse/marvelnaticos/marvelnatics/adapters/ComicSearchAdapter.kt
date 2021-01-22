@@ -75,6 +75,7 @@ class ComicSearchAdapter(private val context: Context, private val listComics: A
                 val frag: DialogFragment = ComicFragment.newInstance()
 
                 var bundle = Bundle()
+                bundle.putInt("id", item!!.id)
                 bundle.putString("title", item!!.title)
                 bundle.putString("urlImage", urlImg)
                 bundle.putString("desc", item!!.description)
