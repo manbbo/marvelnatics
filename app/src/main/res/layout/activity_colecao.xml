@@ -32,12 +32,15 @@
             android:paddingEnd="12dp">
 
             <EditText
+                android:id="@+id/et_busca_colecao"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingStart="28dp"
                 android:paddingEnd="14dp"
                 android:hint="@string/pesquisa"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
                 android:background="@drawable/drawable_rounded_corners"
                 android:drawableEnd="@drawable/ic_search_white"
                 android:drawableTint="#343434" />

@@ -37,4 +37,11 @@
     <string name="demo_comic_description">
     "KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!
     </string>
+
+
+    <string name="facebook_app_id">1735126296668229</string>
+    <string name="fb_login_protocol_scheme">fb1735126296668229</string>
+    <string name="default_web_client_id">663362792865-hjjr6sbr0l2qk3epbbtsk1vknsp9tuon.apps.googleusercontent.comm</string>
+
+
 </resources>

@@ -23,7 +23,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class HePAdapter(
     private val context: Context,
-    private val listHeP: MutableList<Comic>,
+    private val listHeP: MutableList<Comic?>,
     var ctx: MainActivity
 ) : PagerAdapter() {
 
@@ -55,15 +55,16 @@ class HePAdapter(
         // Define a ação de click
         card.setOnClickListener {
             var item = listHeP[position]
-            var urlImg : String = item.thumbnail.path.replace("http", "https")+"."+item.thumbnail.extension
+            var urlImg : String = item!!.thumbnail.path.replace("http", "https")+"."+item!!.thumbnail.extension
             val t = ctx.supportFragmentManager.beginTransaction()
             val frag: DialogFragment = ComicFragment.newInstance()
 
             var bundle = Bundle()
-            bundle.putString("title", item.title)
+            bundle.putInt("id", item!!.id)
+            bundle.putString("title", item!!.title)
             bundle.putString("urlImage", urlImg)
-            bundle.putString("desc", item.description)
-            bundle.putString("date", item.dates[0].date)
+            bundle.putString("desc", item!!.description)
+            bundle.putString("date", item!!.dates[0].date)
 
             var strCreator = ""
             var strCover = ""
@@ -100,13 +101,13 @@ class HePAdapter(
         Glide
             .with(context)
             .load(listHeP[position].let { comic ->
-                "${comic.thumbnail.path}.${comic.thumbnail.extension}".replace("http", "https")
+                "${comic!!.thumbnail.path}.${comic!!.thumbnail.extension}".replace("http", "https")
             })
             .placeholder(spinner)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view.findViewById<ImageView>(R.id.iv_story))
 
-        view.findViewById<TextView>(R.id.tv_comic_name).text = listHeP[position].title
+        view.findViewById<TextView>(R.id.tv_comic_name).text = listHeP[position]!!.title
 
         return view
     }

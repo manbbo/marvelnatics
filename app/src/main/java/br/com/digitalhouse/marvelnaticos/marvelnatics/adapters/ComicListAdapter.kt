@@ -18,7 +18,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.MainActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class ComicListAdapter(private val context: Context, private val listComics: MutableList<Comic>, var ctx: MainActivity): RecyclerView.Adapter<ComicListAdapter.ComicListViewHolder>(){
+class ComicListAdapter(private val context: Context, private val listComics: MutableList<Comic?>, var ctx: MainActivity): RecyclerView.Adapter<ComicListAdapter.ComicListViewHolder>(){
 
     inner class ComicListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var view = itemView
@@ -33,7 +33,7 @@ class ComicListAdapter(private val context: Context, private val listComics: Mut
     override fun onBindViewHolder(holder: ComicListViewHolder, position: Int) {
         var item = listComics[position]
 
-        var urlImg : String = item.thumbnail.path.replace("http", "https")+"."+item.thumbnail.extension
+        var urlImg : String = item!!.thumbnail.path.replace("http", "https")+"."+item!!.thumbnail.extension
 
         Glide
                 .with(context)
@@ -47,10 +47,11 @@ class ComicListAdapter(private val context: Context, private val listComics: Mut
             val frag: DialogFragment = ComicFragment.newInstance()
 
             var bundle = Bundle()
-            bundle.putString("title", item.title)
+            bundle.putString("title", item!!.title)
+            bundle.putInt("id", item!!.id)
             bundle.putString("urlImage", urlImg)
-            bundle.putString("desc", item.description)
-            bundle.putString("date", item.dates[0].date)
+            bundle.putString("desc", item!!.description)
+            bundle.putString("date", item!!.dates[0].date)
 
             var strCreator = ""
             var strCover = ""

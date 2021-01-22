@@ -46,26 +46,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
                     android:shadowColor="#34343434"
                     android:shadowDx="0"
                     android:shadowDy="2"
                     android:shadowRadius="1"
                     android:text="Nome"
                     android:textColor="#343434"
-                    android:textSize="24dp" />
+                    android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/tv_itemColecao_descricao"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:shadowColor="#ABABAB"
-                    android:shadowDx="0"
-                    android:shadowDy="1"
-                    android:shadowRadius="2"
-                    android:text="Descrição" />
             </LinearLayout>
 
             <ImageView
