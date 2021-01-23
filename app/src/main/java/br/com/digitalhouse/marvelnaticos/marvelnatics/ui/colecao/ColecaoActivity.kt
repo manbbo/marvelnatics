@@ -1,8 +1,10 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView.OnEditorActionListener
@@ -53,6 +55,8 @@ class ColecaoActivity : AppCompatActivity() {
         txtPesquisar.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.filterListByTitle(txtPesquisar.text.toString())
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
                 return@OnEditorActionListener true
             }
             false
