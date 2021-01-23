@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -73,9 +74,9 @@ class FavoritesActivity : AppCompatActivity() {
         val recyclerView4: RecyclerView = include4.findViewById(R.id.rv_list_listImages)
         val recyclerView5: RecyclerView = include5.findViewById(R.id.rv_list_listImages)
 
-        viewModel.listComicsTenho.observe(this){
+        viewModel.listComicsTenho.observe(this) {
             recyclerView3.adapter = ComicDBAdapter(this, viewModel.listComicsTenho.value!!)
-        }
+            }
 
         viewModel.listComicsFavoritos.observe(this){
             recyclerView4.adapter = ComicDBAdapter(this, viewModel.listComicsFavoritos.value!!)

@@ -3,13 +3,16 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +42,7 @@ class ColecaoActivity : AppCompatActivity() {
         val backBtn: ImageButton = findViewById(R.id.ib_colecao_backBtn)
         val rvColecao : RecyclerView = findViewById(R.id.rv_organizarColecao_resultado)
         val txtPesquisar : EditText =  findViewById(R.id.et_busca_colecao)
+        val message : TextView = findViewById(R.id.loading)
 
         viewModel.listComics.observe(this){
             viewModel.getAllInfos()
@@ -62,13 +66,17 @@ class ColecaoActivity : AppCompatActivity() {
             false
         })
 
-//        rv.adapter = ComicSearchAdapter(this, mutableListOf(
-//            //Comic(),
-//            //Comic(),
-//            //Comic(),
-//            //Comic(),
-//            //Comic()
-//        ), this)
+        viewModel.listComics.observe(this, Observer { listComics ->
+            if (listComics.isEmpty())  {
+                    Log.i("ViewModel", "onCreate: CRIOU")
+                    rv.visibility = View.INVISIBLE
+                    message.visibility = View.VISIBLE
+                } else {
+                Log.i("ViewModel", "onCreate: NAO CRIOU")
+                rv.visibility = View.VISIBLE
+                message.visibility = View.INVISIBLE
+            }
+                }) 
 
         rv.layoutManager = LinearLayoutManager(this)
         rv.setHasFixedSize(true)
