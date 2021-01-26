@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -26,12 +27,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ComicDBAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicCollectionAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
 import com.bumptech.glide.Glide
@@ -48,7 +54,9 @@ class ComicFragment : DialogFragment() {
 
     private lateinit var ctx: Context
     private lateinit var spinner: CircularProgressDrawable
+    private var dbId: Long = 0
     private var comicId: Int = 0
+    private var position: Int = 0
     private lateinit var title: String
     private lateinit var originalText: String
     private lateinit var finalText: String
@@ -57,6 +65,10 @@ class ComicFragment : DialogFragment() {
     private lateinit var cover: String
     private lateinit var creators: String
     private lateinit var drawers: String
+    var countQler = false
+    var countJali = false
+    var countFav = false
+    var countTenho = false
 
     val viewModel: OfflineViewModel by viewModels<OfflineViewModel>{
         object : ViewModelProvider.Factory{
@@ -125,7 +137,6 @@ class ComicFragment : DialogFragment() {
         btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
 
         // Botoes de ação
-        var countFav = false
         btFavorito.setOnClickListener {
             if (!countFav) {
                 btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
@@ -140,7 +151,6 @@ class ComicFragment : DialogFragment() {
             Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
         }
 
-        var countQler = false
         btQueroler.setOnClickListener {
             if (!countQler) {
                 btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
@@ -155,7 +165,6 @@ class ComicFragment : DialogFragment() {
             Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
         }
 
-        var countJali = false
         btJali.setOnClickListener {
             if (!countJali) {
                 btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
@@ -170,7 +179,6 @@ class ComicFragment : DialogFragment() {
             Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
         }
 
-        var countTenho = false
         btTenho.setOnClickListener {
             if (!countTenho) {
                 btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
@@ -458,6 +466,29 @@ class ComicFragment : DialogFragment() {
             }
         }
 
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dbId = arguments?.getLong("dbId")!!
+        position = arguments?.getInt("pos")!!
+
+        if (activity is ColecaoActivity){
+            if (!countTenho && !countFav && !countJali && !countQler){
+                (activity as ColecaoActivity).viewModel.eraseComic(position)
+                (activity as ColecaoActivity).rvColecao.adapter!!.notifyItemRemoved(position)
+            }else{
+                var adapter: ComicCollectionAdapter = (activity as ColecaoActivity).rvColecao.adapter as ComicCollectionAdapter
+                (activity as ColecaoActivity).viewModel.updateComic(dbId, comicId, position, adapter)
+            }
+        }else if (activity is FavoritesActivity){
+            var listBool: List<Boolean> = Arrays.asList(countQler, countTenho, countJali, countFav)
+            var listAdapters: List<ComicDBAdapter> = listOf((activity as FavoritesActivity).recyclerView1.adapter,
+                                                            (activity as FavoritesActivity).recyclerView2.adapter,
+                                                            (activity as FavoritesActivity).recyclerView3.adapter,
+                                                            (activity as FavoritesActivity).recyclerView4.adapter) as List<ComicDBAdapter>
+            (activity as FavoritesActivity).viewModel.updateInfosLists(listBool, dbId, comicId, listAdapters)
+        }
     }
 
     companion object {

@@ -161,6 +161,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/view_comic_separator">
 
                     <ImageView
+                        android:id="@+id/bt_queroler_comic"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_marginStart="2dp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_favorite"
+                        app:tint="#FFFFFFFF" />
+
+                    <ImageView
                         android:id="@+id/bt_tenho_comic"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
@@ -178,16 +188,6 @@
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_book"
-                        app:tint="#FFFFFFFF" />
-
-                    <ImageView
-                        android:id="@+id/bt_queroler_comic"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginStart="2dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_favorite"
                         app:tint="#FFFFFFFF" />
 
                     <ImageView

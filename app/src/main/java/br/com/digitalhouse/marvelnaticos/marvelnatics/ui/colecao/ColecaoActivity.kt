@@ -32,15 +32,15 @@ class ColecaoActivity : AppCompatActivity() {
             }
         }
     }
+    lateinit var rvColecao: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_colecao)
         viewModel.getAllComics()
 
-        val rv:RecyclerView = findViewById(R.id.rv_organizarColecao_resultado)
         val backBtn: ImageButton = findViewById(R.id.ib_colecao_backBtn)
-        val rvColecao : RecyclerView = findViewById(R.id.rv_organizarColecao_resultado)
+        rvColecao = findViewById(R.id.rv_organizarColecao_resultado)
         val txtPesquisar : EditText =  findViewById(R.id.et_busca_colecao)
         val message : TextView = findViewById(R.id.loading)
 
@@ -69,17 +69,17 @@ class ColecaoActivity : AppCompatActivity() {
         viewModel.listComics.observe(this, Observer { listComics ->
             if (listComics.isEmpty())  {
                     Log.i("ViewModel", "onCreate: CRIOU")
-                    rv.visibility = View.INVISIBLE
+                rvColecao.visibility = View.INVISIBLE
                     message.visibility = View.VISIBLE
                 } else {
                 Log.i("ViewModel", "onCreate: NAO CRIOU")
-                rv.visibility = View.VISIBLE
+                rvColecao.visibility = View.VISIBLE
                 message.visibility = View.INVISIBLE
             }
-                }) 
+                })
 
-        rv.layoutManager = LinearLayoutManager(this)
-        rv.setHasFixedSize(true)
+        rvColecao.layoutManager = LinearLayoutManager(this)
+        rvColecao.setHasFixedSize(true)
 
         backBtn.setOnClickListener {
             onBackPressed()
