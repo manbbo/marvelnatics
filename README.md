@@ -12,28 +12,6 @@
 [![GitHub watchers](https://img.shields.io/github/watchers/manbbo/marvelnatics.svg?style=social&label=Watch)](https://github.com/manbbo/marvelnatics)
 [![GitHub followers](https://img.shields.io/github/followers/manbbo.svg?style=social&label=Follow)](https://github.com/manbbo)
 
-<!--
-### Screenshots
-
-- First Screen
-
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/login.png"  height="400em"/>
-
-- HomePage
-
-    <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/home.png" height="400em"/>
-  
-- Payment
-
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/entrepreneur1.png"  height="400em"/>
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/entrepreneur2.png"  height="400em"/>
-
-- Profile
-
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/profile.png" height="400em"/>
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/journey.png" height="400em"/>
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/deleteacc.png" height="400em"/>
--->
 
 ## Usage example
 
@@ -100,7 +78,7 @@ The repo for marvel can be found [here!](https://developer.marvel.com/docs)
 
 ## Contributing
 
-1. [Fork it](https://github.com/manbbo/getclub/fork)
+1. [Fork it](https://github.com/manbbo/marvelnatics/fork)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
