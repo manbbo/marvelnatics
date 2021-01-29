@@ -19,6 +19,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.User
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.login.LoginActivity
+import com.facebook.login.LoginManager
 import kotlinx.android.synthetic.main.fragment_profile.*
 import com.google.firebase.auth.FirebaseAuth
 
@@ -78,6 +79,7 @@ class ProfileFragment : Fragment() {
 
         btn_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            LoginManager.getInstance().logOut()
             activity!!.finish()
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
