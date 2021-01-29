@@ -9,11 +9,13 @@ import androidx.core.view.get
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.viewpager2.widget.ViewPager2
+import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.MainPagerAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainPagerAdapter: MainPagerAdapter
     private lateinit var navbar: BottomNavigationView
     private lateinit var pager: ViewPager2
+
+    private var checkInit = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,14 +89,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        networkViewModel.registerNetworkListener(this)
-    }
-
     override fun onPause() {
         super.onPause()
         networkViewModel.unregisterNetworkListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkViewModel.registerNetworkListener(this)
+        if (checkInit) { // TODO Melhorar a forma de identificar se está offline
+            checkInit = false
+            thread {
+                Thread.sleep(250) // 250ms para verificar se está conectado ou não
+                runOnUiThread {
+                    networkViewModel.networkAvaliable.value?.also { avaliable ->
+                        if (!avaliable) goToActivity(
+                            FavoritesActivity::class.java,
+                            R.anim.slide_in_right,
+                            R.anim.static_animation
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

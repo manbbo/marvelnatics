@@ -12,11 +12,12 @@ import kotlinx.coroutines.launch
 
 class NetworkViewModel : ViewModel() {
 
-    val networkAvaliable = MutableLiveData<Boolean>()
+    val networkAvaliable = MutableLiveData(false)
+
+    @Volatile
+    private var avaliableAmount = 0
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-
-        private var avaliableAmount = 0
 
         override fun onAvailable(network: Network) {
             avaliableAmount++
@@ -28,19 +29,12 @@ class NetworkViewModel : ViewModel() {
             updateStatus()
         }
 
-        private fun updateStatus() {
-            (avaliableAmount > 0).also { isAvaliable ->
-                if (networkAvaliable.value != isAvaliable) {
-                    setNetworkStatus(isAvaliable)
-                }
-            }
-        }
-
     }
 
     fun registerNetworkListener(context: Context) {
         (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).also { cm ->
-            networkAvaliable.value = false
+            avaliableAmount = 0
+            updateStatus(force = true)
             cm.registerNetworkCallback(
                 NetworkRequest.Builder()
                     .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
@@ -52,11 +46,21 @@ class NetworkViewModel : ViewModel() {
     fun unregisterNetworkListener(context: Context) {
         (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).also { cm ->
             cm.unregisterNetworkCallback(networkCallback)
+            avaliableAmount = 0
+            updateStatus()
         }
     }
 
     private fun setNetworkStatus(avaliable: Boolean) {
         viewModelScope.launch { networkAvaliable.value = avaliable }
+    }
+
+    private fun updateStatus(force: Boolean = false) {
+        (avaliableAmount > 0).also { isAvaliable ->
+            if (networkAvaliable.value != isAvaliable || force) {
+                setNetworkStatus(isAvaliable)
+            }
+        }
     }
 
 
