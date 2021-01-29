@@ -2,11 +2,10 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.viewpager2.widget.ViewPager2
@@ -14,17 +13,30 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.MainPagerAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
+    private val networkViewModel: NetworkViewModel by viewModels()
+
     private lateinit var mainPagerAdapter: MainPagerAdapter
     private lateinit var navbar: BottomNavigationView
-    private lateinit var pager : ViewPager2
+    private lateinit var pager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Snackbar.make(
+            findViewById(R.id.activityMain_rootLayout),
+            "Sem internet! :(",
+            Snackbar.LENGTH_INDEFINITE
+        ).also { snackbar ->
+            snackbar.setAnchorView(R.id.include_main_navbar)
+            networkViewModel.networkAvaliable.observe(this) { avaliable ->
+                if (avaliable) snackbar.dismiss() else snackbar.show()
+            }
+        }
 
         pager = findViewById(R.id.vp_main_fragmentViewer)
         val includeMainNavbar: View = findViewById(R.id.include_main_navbar)
@@ -73,9 +85,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        networkViewModel.registerNetworkListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        networkViewModel.unregisterNetworkListener(this)
+    }
+
     override fun onBackPressed() {
         if (navbar.menu.get(0).isChecked) super.onBackPressed()
-        else{
+        else {
             navbar.menu.get(0).isChecked = true
             navbar.menu.get(0).setIcon(R.drawable.ic_selected_home)
             navbar.menu.get(1).setIcon(R.drawable.ic_search_white)
@@ -92,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         overridePendingTransition(enterAnim, exitAnim)
     }
 
-    fun changeFragment(){
+    fun changeFragment() {
         val comicFragment = ComicFragment.newInstance()
         supportFragmentManager.commit {
             replace<ComicFragment>(R.id.vp_main_fragmentViewer)

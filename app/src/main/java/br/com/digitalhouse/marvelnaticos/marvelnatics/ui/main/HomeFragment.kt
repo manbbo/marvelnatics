@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.DialogFragment
@@ -35,13 +36,16 @@ import java.security.MessageDigest
 import kotlin.concurrent.thread
 
 
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment() {
 
     private lateinit var ctx: MainActivity
     private lateinit var adapterComicsML: ComicListAdapter
     private lateinit var adapterComicsMA: ComicListAdapter
-    val viewModel: HomeViewModel by viewModels<HomeViewModel>{
-        object : ViewModelProvider.Factory{
+
+    private val networkViewModel: NetworkViewModel by viewModels()
+
+    val viewModel: HomeViewModel by viewModels<HomeViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return HomeViewModel(repo) as T
             }
@@ -108,7 +112,8 @@ class HomeFragment : Fragment(){
         val includeHML: View = root.findViewById(R.id.include_hml)
         val includeHMA: View = root.findViewById(R.id.include_hma)
         val rvHistoriasMaisLidas: RecyclerView = includeHML.findViewById(R.id.rv_list_listImages)
-        val rvHistoriasMaisAvaliadas: RecyclerView = includeHMA.findViewById(R.id.rv_list_listImages)
+        val rvHistoriasMaisAvaliadas: RecyclerView =
+            includeHMA.findViewById(R.id.rv_list_listImages)
 
         val titleHML: TextView = includeHML.findViewById(R.id.tv_list_listName)
         val titleHMA: TextView = includeHMA.findViewById(R.id.tv_list_listName)
@@ -116,7 +121,7 @@ class HomeFragment : Fragment(){
         titleHML.text = "Histórias mais lidas"
         titleHMA.text = "Histórias melhor avaliadas"
 
-        viewModel.listComics.observe(viewLifecycleOwner){
+        viewModel.listComics.observe(viewLifecycleOwner) {
             adapterComicsML = ComicListAdapter(rvHistoriasMaisLidas.context, it, ctx)
             adapterComicsMA = ComicListAdapter(rvHistoriasMaisAvaliadas.context, it, ctx)
             rvHistoriasMaisLidas.adapter = adapterComicsML
@@ -124,8 +129,20 @@ class HomeFragment : Fragment(){
             vpHeP.adapter = HePAdapter(vpHeP.context, it, ctx)
         }
 
-        viewModel.popListResult("Iron")
+        networkViewModel.networkAvaliable.observe(viewLifecycleOwner) { avaliable ->
+            if (avaliable) viewModel.popListResult("Iron")
+        }
         return root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        context?.also { c -> networkViewModel.registerNetworkListener(c) }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        context?.also { c -> networkViewModel.unregisterNetworkListener(c) }
     }
 
     companion object {
