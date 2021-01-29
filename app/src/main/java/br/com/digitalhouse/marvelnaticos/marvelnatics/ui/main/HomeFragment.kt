@@ -135,14 +135,14 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    override fun onStart() {
-        super.onStart()
-        context?.also { c -> networkViewModel.registerNetworkListener(c) }
-    }
-
     override fun onPause() {
         super.onPause()
         context?.also { c -> networkViewModel.unregisterNetworkListener(c) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        context?.also { c -> networkViewModel.registerNetworkListener(c) }
     }
 
     companion object {
