@@ -36,6 +36,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicCollectionAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
@@ -478,8 +479,13 @@ class ComicFragment : DialogFragment() {
                 (activity as ColecaoActivity).viewModel.eraseComic(position)
                 (activity as ColecaoActivity).rvColecao.adapter!!.notifyItemRemoved(position)
             }else{
-                var adapter: ComicCollectionAdapter = (activity as ColecaoActivity).rvColecao.adapter as ComicCollectionAdapter
-                (activity as ColecaoActivity).viewModel.updateComic(dbId, comicId, position, adapter)
+                var actColecao = activity as ColecaoActivity
+                var adapter: ComicCollectionAdapter = actColecao.rvColecao.adapter as ComicCollectionAdapter
+                adapter.countTenho[position] = countTenho
+                adapter.countFav[position] = countFav
+                adapter.countJali[position] = countJali
+                adapter.countQler[position] = countQler
+                actColecao.viewModel.updateComic(dbId, comicId, position, adapter)
             }
         }else if (activity is FavoritesActivity){
             var listBool: List<Boolean> = Arrays.asList(countQler, countTenho, countJali, countFav)

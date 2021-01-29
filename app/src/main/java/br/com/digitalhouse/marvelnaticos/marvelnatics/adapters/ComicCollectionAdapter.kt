@@ -37,10 +37,10 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
     private lateinit var cover: String
     private lateinit var creators: String
     private lateinit var drawers: String
-    private var countFav = BooleanArray(listComics.size){false}
-    private var countQler = BooleanArray(listComics.size){false}
-    private var countJali = BooleanArray(listComics.size){false}
-    private var countTenho = BooleanArray(listComics.size){false}
+    var countFav = BooleanArray(listComics.size){false}
+    var countQler = BooleanArray(listComics.size){false}
+    var countJali = BooleanArray(listComics.size){false}
+    var countTenho = BooleanArray(listComics.size){false}
     private lateinit var ctx : Context
 
 
