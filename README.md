@@ -12,7 +12,6 @@
 [![GitHub watchers](https://img.shields.io/github/watchers/manbbo/marvelnatics.svg?style=social&label=Watch)](https://github.com/manbbo/marvelnatics)
 [![GitHub followers](https://img.shields.io/github/followers/manbbo.svg?style=social&label=Follow)](https://github.com/manbbo)
 
-
 ## Usage example
 
 ### Para novos NERDS

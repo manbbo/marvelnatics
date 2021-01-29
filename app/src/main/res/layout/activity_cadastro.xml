@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/view_cadastro_main">
 
     <ImageView
         android:id="@+id/iv_cadastro_background"
@@ -129,7 +130,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="47dp"
-                                android:inputType="textPassword" />
+                                android:inputType="textEmailAddress" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -167,27 +168,15 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/til_cadastro_senhaLayout">
 
-                            <TextView
-                                android:id="@+id/tv_login_btnFacebook"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="top"
-                                android:lineSpacingExtra="2sp"
-                                android:text="@string/cadastrar_com_facebook"
-                                android:textColor="@color/white"
-                                android:textSize="12sp"
+                            <com.facebook.login.widget.LoginButton
+                                xmlns:facebook="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/cl_cadastro_Facebook"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
+                                facebook:com_facebook_login_text="@string/cadastrar_com_facebook"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/iv_login_btnFacebook"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageView
-                                android:id="@+id/iv_login_btnFacebook"
-                                android:layout_width="23dp"
-                                android:layout_height="23dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/facebook_icon"
-                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 

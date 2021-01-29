@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -55,7 +56,10 @@ class BuscaFragment : Fragment() {
                                 viewModel.clearList()
                                 txtPesquisaUsr = txtPesquisar.text.toString()
                                 viewModel.popListResult(txtPesquisaUsr)
+                                val imm = ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                                imm.hideSoftInputFromWindow(root.windowToken, 0)
                                 true
+
                             }
                             else -> false
                         }

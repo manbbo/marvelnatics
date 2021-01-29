@@ -39,9 +39,11 @@
     </string>
 
 
-    <string name="facebook_app_id">1735126296668229</string>
-    <string name="fb_login_protocol_scheme">fb1735126296668229</string>
-    <string name="default_web_client_id">663362792865-hjjr6sbr0l2qk3epbbtsk1vknsp9tuon.apps.googleusercontent.comm</string>
+    <string name="facebook_app_id">1772865956205403</string>
+    <string name="fb_login_protocol_scheme">fb1772865956205403</string>
+<!--    <string name="default_web_client_id">663362792865-hjjr6sbr0l2qk3epbbtsk1vknsp9tuon.apps.googleusercontent.comm</string>-->
 
+    <string name="empty_list">A lista está vazia</string>
+    <string name="logout">Sair</string>
 
 </resources>

@@ -37,10 +37,10 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
     private lateinit var cover: String
     private lateinit var creators: String
     private lateinit var drawers: String
-    private var countFav = BooleanArray(listComics.size){false}
-    private var countQler = BooleanArray(listComics.size){false}
-    private var countJali = BooleanArray(listComics.size){false}
-    private var countTenho = BooleanArray(listComics.size){false}
+    var countFav = BooleanArray(listComics.size){false}
+    var countQler = BooleanArray(listComics.size){false}
+    var countJali = BooleanArray(listComics.size){false}
+    var countTenho = BooleanArray(listComics.size){false}
     private lateinit var ctx : Context
 
 
@@ -73,6 +73,10 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
                 .into(holder.iv_item_comic)
 
         holder.tv_item_comic.text = currentItem.titulo
+        holder.btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), PorterDuff.Mode.SRC_IN)
+        holder.btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), PorterDuff.Mode.SRC_IN)
+        holder.btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), PorterDuff.Mode.SRC_IN)
+        holder.btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.black), PorterDuff.Mode.SRC_IN)
 
         val currentListInfos = listInfos[holder.adapterPosition]
         currentListInfos.forEach {
@@ -93,7 +97,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
 
         // Botoes de ação
         holder.btFavorito.setOnClickListener {
-            Log.i("POSITION", holder.adapterPosition.toString())
             setItemValues(holder.adapterPosition)
             if (!countFav[holder.adapterPosition]) {
                 holder.btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
@@ -109,7 +112,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
         }
 
         holder.btQueroler.setOnClickListener {
-            Log.i("POSITION", holder.adapterPosition.toString())
             setItemValues(holder.adapterPosition)
             if (!countQler[holder.adapterPosition]) {
                 holder.btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
@@ -125,7 +127,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
         }
 
         holder.btJali.setOnClickListener {
-            Log.i("POSITION", holder.adapterPosition.toString())
             setItemValues(holder.adapterPosition)
             if (!countJali[holder.adapterPosition]) {
                 holder.btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
@@ -141,7 +142,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
         }
 
         holder.btTenho.setOnClickListener {
-            Log.i("POSITION", holder.adapterPosition.toString())
             setItemValues(holder.adapterPosition)
             if (!countTenho[holder.adapterPosition]) {
                 holder.btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
@@ -164,6 +164,8 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
 
                 var bundle = Bundle()
                 bundle.putString("title", currentItem!!.titulo)
+                bundle.putLong("dbId", currentItem!!.dbID!!)
+                bundle.putInt("pos", holder.adapterPosition)
                 bundle.putInt("id", currentItem!!.apiID)
                 bundle.putString("urlImage", currentItem!!.imagemCapaUrl)
                 bundle.putString("desc", currentItem!!.descricao)

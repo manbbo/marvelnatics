@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,23 +19,44 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicColecaoInfo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicDB
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.HomeViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.NetworkViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.coroutines.launch
 
 class FavoritesActivity : AppCompatActivity() {
 
-    val viewModel: OfflineViewModel by viewModels<OfflineViewModel>{
-        object : ViewModelProvider.Factory{
+    lateinit var recyclerView1: RecyclerView
+    lateinit var recyclerView2: RecyclerView
+    lateinit var recyclerView3: RecyclerView
+    lateinit var recyclerView4: RecyclerView
+    lateinit var recyclerView5: RecyclerView
+
+    val viewModel: OfflineViewModel by viewModels<OfflineViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return OfflineViewModel(repo, this@FavoritesActivity) as T
             }
         }
     }
 
+    private val networkViewModel: NetworkViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
+
+        Snackbar.make(
+            findViewById(R.id.activityFavorites_rootLayout),
+            "Sem internet! :(",
+            Snackbar.LENGTH_INDEFINITE
+        ).also { snackbar ->
+            networkViewModel.networkAvaliable.observe(this) { avaliable ->
+                if (avaliable) snackbar.dismiss() else snackbar.show()
+            }
+        }
+
         viewModel.popLists()
 
         setSupportActionBar(findViewById(R.id.favToolbar))
@@ -43,18 +65,19 @@ class FavoritesActivity : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
 
         val include1: View = findViewById(R.id.include1)
-        include1.findViewById<TextView>(R.id.tv_list_listName).text = "Lidos"
-        include1.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_book)
+        include1.findViewById<TextView>(R.id.tv_list_listName).text = "Quero Ler"
+        include1.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_favorite)
 
         val include2: View = findViewById(R.id.include2)
-        include2.findViewById<TextView>(R.id.tv_list_listName).text = "Quero Ler"
-        include2.findViewById<ImageView>(R.id.iv_list_icon).setImageResource(R.drawable.ic_favorite)
+        include2.findViewById<TextView>(R.id.tv_list_listName).text = "Minha Coleção"
+        include2.findViewById<ImageView>(R.id.iv_list_icon)
+            .setImageResource(R.drawable.ic_check_circle)
 
 
         val include3: View = findViewById(R.id.include3)
-        include3.findViewById<TextView>(R.id.tv_list_listName).text = "Minha Coleção"
+        include3.findViewById<TextView>(R.id.tv_list_listName).text = "Lidos"
         include3.findViewById<ImageView>(R.id.iv_list_icon)
-            .setImageResource(R.drawable.ic_check_circle)
+            .setImageResource(R.drawable.ic_book)
 
         val include4: View = findViewById(R.id.include4)
         include4.findViewById<TextView>(R.id.tv_list_listName).text = "Meus Favoritos"
@@ -67,26 +90,26 @@ class FavoritesActivity : AppCompatActivity() {
             .setImageResource(R.drawable.ic_baseline_star_24_checked)
 
 
-        val recyclerView1: RecyclerView = include1.findViewById(R.id.rv_list_listImages)
-        val recyclerView2: RecyclerView = include2.findViewById(R.id.rv_list_listImages)
-        val recyclerView3: RecyclerView = include3.findViewById(R.id.rv_list_listImages)
-        val recyclerView4: RecyclerView = include4.findViewById(R.id.rv_list_listImages)
-        val recyclerView5: RecyclerView = include5.findViewById(R.id.rv_list_listImages)
+        recyclerView1 = include1.findViewById(R.id.rv_list_listImages)
+        recyclerView2 = include2.findViewById(R.id.rv_list_listImages)
+        recyclerView3 = include3.findViewById(R.id.rv_list_listImages)
+        recyclerView4 = include4.findViewById(R.id.rv_list_listImages)
+        recyclerView5 = include5.findViewById(R.id.rv_list_listImages)
 
-        viewModel.listComicsTenho.observe(this){
-            recyclerView3.adapter = ComicDBAdapter(this, viewModel.listComicsTenho.value!!)
+        viewModel.listComicsTenho.observe(this) {
+            recyclerView2.adapter = ComicDBAdapter(this, viewModel.listComicsTenho.value!!)
         }
 
-        viewModel.listComicsFavoritos.observe(this){
+        viewModel.listComicsFavoritos.observe(this) {
             recyclerView4.adapter = ComicDBAdapter(this, viewModel.listComicsFavoritos.value!!)
         }
 
-        viewModel.listComicsJaLi.observe(this){
-            recyclerView1.adapter = ComicDBAdapter(this, viewModel.listComicsJaLi.value!!)
+        viewModel.listComicsJaLi.observe(this) {
+            recyclerView3.adapter = ComicDBAdapter(this, viewModel.listComicsJaLi.value!!)
         }
 
-        viewModel.listComicsQueroLer.observe(this){
-            recyclerView2.adapter = ComicDBAdapter(this, viewModel.listComicsQueroLer.value!!)
+        viewModel.listComicsQueroLer.observe(this) {
+            recyclerView1.adapter = ComicDBAdapter(this, viewModel.listComicsQueroLer.value!!)
 
             //TODO: substituir pelos dados do banco
             recyclerView5.adapter = ComicDBAdapter(this, viewModel.listComicsQueroLer.value!!)
@@ -109,5 +132,17 @@ class FavoritesActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        networkViewModel.unregisterNetworkListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        networkViewModel.registerNetworkListener(this)
+    }
+
 
 }
