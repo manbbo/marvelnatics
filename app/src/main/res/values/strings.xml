@@ -51,8 +51,18 @@
 
     <!--fragment comic-->
     <string name="personagens">Characters</string>
+    <string name="titulo_comic">Title here</string>
+    <string name="Data_publicação">Publication date: </string>
+    <string name="Criador">Creator: </string>
+    <string name="Artistas_capa">Cover artists: </string>
+    <string name="Desenhistas">Designers: </string>
 
+    <!--fragment profile-->
+    <string name="NOME_APELIDO">Name (NICKNAME)</string>
 
+    <!--item_busca_resultado-->
+    <string name="titulo">Title</string>
+    <string name="ano">Year</string>
 
     <!-- <string name="demo_comic_description">KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!</string> -->
     <string name="demo_comic_description" translatable="false">

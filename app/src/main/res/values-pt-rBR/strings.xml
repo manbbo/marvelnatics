@@ -8,6 +8,7 @@
     <!--HOME-->
     <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
     <string name="tb_favorites">FAVORITOS</string>
+    <string name="tb_titulo_cadastro">Cadastro</string>
 
     <!--MENU-->
     <string name="nb_home">PRINCIPAL</string>
@@ -49,8 +50,19 @@
     <!--list histories-->
     <string name="nome_lista">Lista de nomes</string>
 
-    <!--fragment comic-->
+    <!--fragmento da comic-->
     <string name="personagens">Personagens</string>
+    <string name="titulo_comic">Título aqui</string>
+    <string name="Data_publicação">Data publicação: </string>
+    <string name="Criador">Criador: </string>
+    <string name="Artistas_capa">Artistas da capa: </string>
+    <string name="Desenhistas">Desenhistas: </string>
 
+    <!--fragment profile-->
+    <string name="NOME_APELIDO">NOME (APELIDO)</string>
+
+    <!--item_busca_resultado-->
+    <string name="titulo">Titulo</string>
+    <string name="ano">Ano</string>
 
 </resources>

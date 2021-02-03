@@ -32,7 +32,7 @@
             android:id="@+id/tv_buscaResultado_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Titulo"
+            android:text="@string/titulo"
             android:textColor="#000000"
             android:textSize="18dp"
             tools:text="Lorem ipsum"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:text="Ano"
+            android:text="@string/ano"
             android:textColor="#000000"
             android:textSize="10dp"
             tools:text="2020" />

@@ -51,6 +51,17 @@
 
     <!--fragment comic-->
     <string name="personagens">Caracteres</string>
+    <string name="titulo_comic">Título aquí</string>
+    <string name="Data_publicação">Fecha de publicación: </string>
+    <string name="Criador">Creador: </string>
+    <string name="Artistas_capa">Artistas de portada: </string>
+    <string name="Desenhistas">Diseñadores: </string>
 
+    <!--fragment profile-->
+    <string name="NOME_APELIDO">NOMBRE (APELLIDO)</string>
+
+    <!--item_busca_resultado-->
+    <string name="titulo">Título</string>
+    <string name="ano">Año</string>
 
 </resources>
