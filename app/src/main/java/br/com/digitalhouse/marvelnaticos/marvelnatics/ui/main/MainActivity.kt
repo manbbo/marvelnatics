@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.MainPagerAdapter
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar

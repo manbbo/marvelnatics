@@ -9,37 +9,47 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.User
+import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var ctx : MainActivity
+    val viewModel: OfflineViewModel by viewModels<OfflineViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return OfflineViewModel(repo, context!!) as T
+            }
+        }
+    }
+
+    private lateinit var ctx: MainActivity
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainActivity) ctx = context
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        val favoritos : AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
+        val favoritos: AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
 
-        favoritos.setOnClickListener{
+        favoritos.setOnClickListener {
             ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
@@ -78,9 +88,12 @@ class ProfileFragment : Fragment() {
 
         btn_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            activity!!.finish()
+
+            viewModel.clearDatabase()
+
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
+            activity?.finish()
         }
 
         return root
