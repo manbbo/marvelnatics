@@ -1,13 +1,16 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.cache.CacheData
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
 import kotlinx.coroutines.launch
 import java.io.*
+import java.lang.Exception
 import kotlin.concurrent.thread
 
 class CacheViewModel : ViewModel() {
@@ -15,19 +18,25 @@ class CacheViewModel : ViewModel() {
     val cacheData = MutableLiveData<CacheData>()
 
     fun loadData(context: Context, firebase: FirebaseViewModel?) {
-        loadDataFromCache(context)
+        if (firebase == null || cacheData.value == null) loadDataFromCache(context)
         if (firebase != null) loadDataFromNetwork(firebase, context)
     }
 
 
-    private fun loadDataFromNetwork(firebase: FirebaseViewModel, context: Context) {
+    private fun loadDataFromNetwork(firebase: FirebaseViewModel, context: Context) = TaskCompletionSource<Nothing>().also { result ->
         thread {
-            Tasks.await(firebase.loadMainDataForCache())?.also { data ->
-                viewModelScope.launch { cacheData.value = data }
-                saveData(context, data)
+            try {
+                Tasks.await(firebase.loadMainDataForCache())?.also { data ->
+                    viewModelScope.launch { cacheData.value = data }
+                    saveData(context, data)
+                    result.setResult(null)
+                }
+            } catch (ex: Exception) {
+                Log.e("CacheViewModel", "Erro!", ex)
+                result.setException(ex)
             }
         }
-    }
+    }.task
 
     private fun loadDataFromCache(context: Context) {
         context.cacheDir?.also { dir ->
@@ -66,7 +75,7 @@ class CacheViewModel : ViewModel() {
         }
     }
 
-    private fun newCache() = CacheData(System.currentTimeMillis(), arrayOf(), IntArray(0), IntArray(0), IntArray(0))
+    private fun newCache() = CacheData(System.currentTimeMillis(), arrayOf(), IntArray(0), IntArray(0), IntArray(0), HashMap())
 
 }
 

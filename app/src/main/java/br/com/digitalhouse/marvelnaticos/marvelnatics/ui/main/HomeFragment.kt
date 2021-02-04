@@ -122,13 +122,15 @@ class HomeFragment : Fragment() {
             rvHistoriasMaisLidas.adapter = adapterComicsML
             rvHistoriasMaisAvaliadas.adapter = adapterComicsMA
 
-            vpHeP.adapter = HePAdapter(vpHeP.context, data.emDestaque.let { array ->
-                mutableListOf<ComicCache>().also { list ->
-                    array.forEach { id ->
-                        data.comics.find { it.apiID == id }?.let { list.add(it) }
+            cacheViewModel.cacheData.observe(viewLifecycleOwner) { data ->
+                if (data != null) vpHeP.adapter = HePAdapter(vpHeP.context, data, data.emDestaque.let { array ->
+                    mutableListOf<ComicCache>().also { list ->
+                        array.forEach { id ->
+                            data.comics.find { it.apiID == id }?.let { list.add(it) }
+                        }
                     }
-                }
-            }, ctx)
+                }, ctx)
+            }
         }
 
 //        viewModel.listComics.observe(viewLifecycleOwner) {
@@ -140,9 +142,16 @@ class HomeFragment : Fragment() {
 //        }
 
         networkViewModel.networkAvaliable.observe(viewLifecycleOwner) { avaliable ->
-//            if (avaliable) viewModel.popListResult("Iron")
-            if (avaliable) {
+            if (avaliable ?: false) {
+                firebaseViewModel.isUserAvaliable.observe(viewLifecycleOwner) { isUserAvaliable ->
+                    if (isUserAvaliable) {
+                        firebaseViewModel.isUserAvaliable.removeObservers(viewLifecycleOwner)
+                        context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
+                    }
+                }
                 firebaseViewModel.setup()
+            } else {
+                context?.let { cacheViewModel.loadData(it, null) }
             }
         }
         return root
@@ -156,12 +165,6 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         context?.also { c -> networkViewModel.registerNetworkListener(c) }
-        firebaseViewModel.isUserAvaliable.observe(viewLifecycleOwner) { isUserAvaliable ->
-            if (isUserAvaliable) {
-                firebaseViewModel.isUserAvaliable.removeObservers(viewLifecycleOwner)
-                context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
-            }
-        }
     }
 
     companion object {

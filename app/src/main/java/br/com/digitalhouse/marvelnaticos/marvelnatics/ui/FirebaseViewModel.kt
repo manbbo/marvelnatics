@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.cache.CacheData
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.cache.ComicCache
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.firebase.ComicFB
@@ -30,67 +29,88 @@ class FirebaseViewModel : ViewModel() {
 
 
     fun loadMainDataForCache() = TaskCompletionSource<CacheData>().also { result ->
-        thread {
-            try {
-                val destaque = Tasks.await(firestoreComicInfo().orderBy("totals.Q", Query.Direction.DESCENDING).limit(10).get()).toObjects(ComicGlobalInfoFB::class.java).toTypedArray().let { data ->
-                    IntArray(data.size) { i -> data[i].comicID }
-                }
+        if (currentUserToken == null) result.setException(Exception("Acesso indisponível"))
+        currentUserToken?.also { userToken ->
+            thread {
+                try {
+                    val destaque = Tasks.await(firestoreComicInfo().orderBy("totals.Q", Query.Direction.DESCENDING).limit(10).get()).toObjects(ComicGlobalInfoFB::class.java).toTypedArray().let { data ->
+                        IntArray(data.size) { i -> data[i].comicID }
+                    }
 
-                val lidas = Tasks.await(firestoreComicInfo().orderBy("totals.J", Query.Direction.DESCENDING).limit(10).get()).toObjects(ComicGlobalInfoFB::class.java).toTypedArray().let { data ->
-                    IntArray(data.size) { i -> data[i].comicID }
-                }
+                    val lidas = Tasks.await(firestoreComicInfo().orderBy("totals.J", Query.Direction.DESCENDING).limit(10).get()).toObjects(ComicGlobalInfoFB::class.java).toTypedArray().let { data ->
+                        IntArray(data.size) { i -> data[i].comicID }
+                    }
 
-                val avaliadas = Tasks.await(firestoreComicInfo().whereGreaterThan("ratingAverage", 0).orderBy("ratingAverage", Query.Direction.DESCENDING).limit(10).get()).toObjects(ComicGlobalInfoFB::class.java).toTypedArray().let { data ->
-                    IntArray(data.size) { i -> data[i].comicID }
-                }
+                    val avaliadas = Tasks.await(firestoreComicInfo().whereGreaterThan("ratingAverage", 0).orderBy("ratingAverage", Query.Direction.DESCENDING).limit(10).get()).toObjects(ComicGlobalInfoFB::class.java).toTypedArray().let { data ->
+                        IntArray(data.size) { i -> data[i].comicID }
+                    }
 
-                val comicIDs = mutableSetOf<Int>().also { set ->
-                    set.addAll(destaque.asIterable())
-                    set.addAll(lidas.asIterable())
-                    set.addAll(avaliadas.asIterable())
-                }.toIntArray()
+                    val comicIDs = mutableSetOf<Int>().also { set ->
+                        set.addAll(destaque.asIterable())
+                        set.addAll(lidas.asIterable())
+                        set.addAll(avaliadas.asIterable())
+                    }.toIntArray()
 
-
-                val tasks = mutableListOf<Task<DocumentSnapshot>>()
-
-                val comics = Collections.synchronizedList(mutableListOf<ComicFB>())
-
-
-                val lock = Object()
-
-                comicIDs.onEach { comicID ->
-                    tasks.add(getComicUsingTask(comicID).also { task ->
-                        task.addOnSuccessListener { doc ->
-                            doc.toObject(ComicFB::class.java)?.let {
-                                synchronized(comics) {
-                                    comics.add(it)
-                                }
-                                synchronized(lock) {
-                                    lock.notifyAll()
-                                }
+                    val userAvaliadas = Tasks.await(firestoreComicList().whereGreaterThanOrEqualTo("rating.$userToken", 0).get()).toObjects(ComicFB::class.java).toTypedArray().let { data ->
+                        HashMap<Int, Int>().also { map ->
+                            data.forEach { c ->
+                                c.rating[userToken]?.also { r -> map[c.apiID] = r }
                             }
                         }
-                    })
-                }
-
-                Tasks.await(Tasks.whenAll(tasks))
-                while (synchronized(comics) { comics.size } < tasks.size) {
-                    synchronized(lock) {
-                        lock.wait()
                     }
+
+
+                    val tasks = mutableListOf<Task<DocumentSnapshot>>()
+
+                    val comics = Collections.synchronizedList(mutableListOf<ComicFB>())
+
+
+                    val lock = Object()
+
+                    comicIDs.onEach { comicID ->
+                        tasks.add(getComicUsingTask(comicID).also { task ->
+                            task.addOnSuccessListener { doc ->
+                                doc.toObject(ComicFB::class.java)?.let {
+                                    synchronized(comics) {
+                                        comics.add(it)
+                                    }
+                                    synchronized(lock) {
+                                        lock.notifyAll()
+                                    }
+                                }
+                            }
+                        })
+                    }
+
+                    Tasks.await(Tasks.whenAll(tasks))
+                    while (synchronized(comics) { comics.size } < tasks.size) {
+                        synchronized(lock) {
+                            lock.wait()
+                        }
+                    }
+                    result.setResult(CacheData(System.currentTimeMillis(), synchronized(comics) { Array(comics.size) { i -> ComicCache.from(comics[i]) } }, destaque, lidas, avaliadas, userAvaliadas))
+                } catch (ex: Exception) {
+                    Log.e("FirebaseViewModel", "Erro!", ex)
+                    result.setException(Exception("Não foi possível carregar as informações"))
                 }
-                result.setResult(CacheData(System.currentTimeMillis(), synchronized(comics) { Array(comics.size) { i -> ComicCache.from(comics[i]) } }, destaque, lidas, avaliadas))
-            } catch (ex: Exception) {
-                Log.e("FirebaseViewModel", "Erro!", ex)
-                result.setException(Exception("Não foi possível carregar as informações"))
             }
         }
     }.task
 
+    fun getComicRatingAverage(comic: Int) = TaskCompletionSource<Double>().also { result ->
+        thread {
+            try {
+                result.setResult(getComicInfo(comic).ratingAverage)
+            } catch (ex: Exception) {
+                Log.e("FirebaseViewModel", "Erro!", ex)
+                result.setException(Exception("Não foi possível consultar as informações"))
+            }
+        }
+    }.task
 
     fun submitComicRating(comic: Int, rating: Int): Task<Nothing> {
         val result = TaskCompletionSource<Nothing>()
-        if (currentUserToken == null) result.setException(Exception("Usuário inválido"))
+        if (currentUserToken == null) result.setException(Exception("Acesso indisponível"))
         currentUserToken?.also { userToken ->
             thread {
                 val comicData = getComic(comic)
@@ -101,12 +121,13 @@ class FirebaseViewModel : ViewModel() {
                 val lastRate = comicData?.rating?.get(userToken) ?: 0
 
 
-                comicInfo.ratingUsers += if (hasRatedBefore) 1 else 0
+                comicInfo.ratingUsers += if (hasRatedBefore) 0 else 1
                 comicInfo.ratingTotal += rating - lastRate
                 comicInfo.ratingAverage = comicInfo.ratingTotal.toDouble() / comicInfo.ratingUsers
 
                 try {
-                    Tasks.await(firestoreComicList().document("$comic").collection("rating").document(userToken).set(rating, SetOptions.merge()))
+                    Tasks.await(firestoreComicList().document("$comic").update("rating.$userToken", rating))
+//                    Tasks.await(firestoreComicList().document("$comic").collection("rating").add(userToken to rating))
                     Tasks.await(firestoreComicInfo().document("$comic").set(comicInfo, SetOptions.merge()))
                     result.setResult(null)
                 } catch (ex: Exception) {
@@ -119,7 +140,7 @@ class FirebaseViewModel : ViewModel() {
     }
 
     fun changeComicInList(comic: Int, list: String, status: Boolean) = TaskCompletionSource<Nothing>().also { result ->
-        if (currentUserToken == null) result.setException(Exception("Usuário inválido"))
+        if (currentUserToken == null) result.setException(Exception("Acesso indisponível"))
         currentUserToken?.also { userToken ->
             thread {
                 try {
@@ -156,30 +177,6 @@ class FirebaseViewModel : ViewModel() {
         }
     }.task
 
-    fun uploadComic(comic: Comic): Task<Nothing> {
-        var strCreator = ""
-        var strCover = ""
-        var strDrawer = ""
-        for (it in comic.creators.items) {
-            if (it.role == "writer") strCreator += it.name + ", "
-            else if (it.role.contains("cover")) strCover += it.name + ", "
-            else if (it.role.contains("colorist") || it.role.contains("inker")) strDrawer += it.name + ", "
-        }
-
-        var l = strCreator.length
-        if (l > 1) strCreator = strCreator.substring(0, l - 2) + "."
-
-        l = strCover.length
-        if (l > 1) strCover = strCover.substring(0, l - 2) + "."
-
-        l = strDrawer.length
-        if (l > 1) strDrawer = strDrawer.substring(0, l - 2) + "."
-
-
-        val fb = ComicFB(comic.id, comic.title, comic.description, comic.dates[0].date, "${comic.thumbnail.path}.${comic.thumbnail.extension}".replace("http:", "https:", true), strCreator, strDrawer, strCover, mutableMapOf())
-        return uploadComic(fb)
-    }
-
     private fun getComicInfo(comic: Int) = Tasks.await(firestoreComicInfo().document("$comic").get()).toObject(ComicGlobalInfoFB::class.java) ?: ComicGlobalInfoFB(comic, 0.0, 0, 0, mutableMapOf())
 
     private fun getComic(comic: Int) = Tasks.await(getComicUsingTask(comic)).toObject(ComicFB::class.java)
@@ -196,7 +193,7 @@ class FirebaseViewModel : ViewModel() {
 
 
     fun loadUserDataToLocal(offlineViewModel: OfflineViewModel) = TaskCompletionSource<Nothing>().also { result ->
-        if (currentUserToken == null) result.setException(Exception("Usuário inválido"))
+        if (currentUserToken == null) result.setException(Exception("Acesso indisponível"))
         currentUserToken?.also { userToken ->
             thread {
                 try {

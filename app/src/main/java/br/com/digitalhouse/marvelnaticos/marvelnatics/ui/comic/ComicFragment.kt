@@ -36,11 +36,13 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.firebase.ComicFB
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.CacheViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.FirebaseViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.mlkit.common.model.DownloadConditions
@@ -50,6 +52,7 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
+import java.util.function.Consumer
 import kotlin.concurrent.thread
 
 class ComicFragment : DialogFragment() {
@@ -71,6 +74,10 @@ class ComicFragment : DialogFragment() {
     var countJali = false
     var countFav = false
     var countTenho = false
+
+    var userRating = 0
+
+    private val cacheViewModel: CacheViewModel by viewModels()
 
     private val networkViewModel: NetworkViewModel by viewModels()
 
@@ -114,6 +121,12 @@ class ComicFragment : DialogFragment() {
         dialog?.window?.setWindowAnimations(R.style.dialog_animation_from_top)
     }
 
+    fun updateUserCache() { // TODO
+        if (firebaseViewModel.isUserAvaliable.value ?: false) {
+            context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_comic, container, false)
 
@@ -133,11 +146,22 @@ class ComicFragment : DialogFragment() {
         val btJali: ImageView = root.findViewById(R.id.bt_jali_comic)
         val btTenho: ImageView = root.findViewById(R.id.bt_tenho_comic)
 
+
+        val tvRatingAverage = root.findViewById<TextView>(R.id.fragmentComic_tvRatingAverage)
+
         val btStars = arrayOf<ImageView>(root.findViewById(R.id.s0), root.findViewById(R.id.s1), root.findViewById(R.id.s2), root.findViewById(R.id.s3), root.findViewById(R.id.s4))
 
-        networkViewModel.networkAvaliable.observe(viewLifecycleOwner) { avaliable ->
-            if (avaliable) {
+        networkViewModel.networkAvaliable.observe(viewLifecycleOwner) { network ->
+            if (network ?: false) {
+                firebaseViewModel.isUserAvaliable.observe(viewLifecycleOwner) { isUserAvaliable ->
+                    if (isUserAvaliable) {
+                        firebaseViewModel.isUserAvaliable.removeObservers(viewLifecycleOwner)
+                        context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
+                    }
+                }
                 firebaseViewModel.setup()
+            } else {
+                context?.let { cacheViewModel.loadData(it, null) }
             }
         }
 
@@ -256,29 +280,63 @@ class ComicFragment : DialogFragment() {
         //////
 
 
+        tvRatingAverage.text = "-"
 
-        var countStars = false // TODO IMPLEMENTAR CLASSIFICAÇÃO
-        for (i in 0..4) {
-            btStars[i].setOnClickListener {
-                if (!countStars) {
-                    for (j in 0..4) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                    }
-
-                    for (j in 0..i) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
-                    }
-
-                } else {
-                    for (j in 0..4) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                    }
-
-                }
-                countStars = !countStars
-                Toast.makeText(ctx, "Você clicou em '$i ESTRELAS'", Toast.LENGTH_SHORT).show()
+        val updateRatingAverage = fun() {
+            firebaseViewModel.getComicRatingAverage(comicId).addOnSuccessListener { average ->
+                average?.also { avg -> tvRatingAverage.text = "%.1f".format(avg).replace('.', ',') }
             }
         }
+
+        val updateRatingStars = fun(rating: Int) {
+            context?.let { Utils.colorStars(btStars, rating, it) }
+        }
+
+        updateRatingStars(userRating)
+
+        cacheViewModel.cacheData.observe(viewLifecycleOwner) { data ->
+            userRating = data.avaliacoes[comicId] ?: 0
+
+            updateRatingStars(userRating)
+            updateRatingAverage()
+        }
+
+        btStars.forEachIndexed { i, bt ->
+            bt.setOnClickListener {
+                val r = i + 1
+                updateRatingStars(r)
+                firebaseViewModel.submitComicRating(comicId, r).addOnSuccessListener {
+                    updateUserCache()
+                }.addOnFailureListener { ex ->
+                    Toast.makeText(ctx, "Erro! ${ex.message}", Toast.LENGTH_SHORT).show()
+                    updateRatingStars(userRating)
+                }
+            }
+        }
+
+
+//        var countStars = false
+//        for (i in 0..4) {
+//            btStars[i].setOnClickListener {
+//                if (!countStars) {
+//                    for (j in 0..4) {
+//                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+//                    }
+//
+//                    for (j in 0..i) {
+//                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
+//                    }
+//
+//                } else {
+//                    for (j in 0..4) {
+//                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+//                    }
+//
+//                }
+//                countStars = !countStars
+//                Toast.makeText(ctx, "Você clicou em '$i ESTRELAS'", Toast.LENGTH_SHORT).show()
+//            }
+//        }
         ////
 
         backBtn.setOnClickListener {

@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ComicDBAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicDB
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.CacheViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.FirebaseViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
@@ -28,7 +29,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ComicCollectionAdapter(private val context: Context, val viewModel: OfflineViewModel, val firebaseViewModel: FirebaseViewModel, private val listComics: MutableList<ComicDB?>, private val listInfos: MutableList<List<String>>) :
+class ComicCollectionAdapter(private val context: Context, val viewModel: OfflineViewModel, val cacheViewModel: CacheViewModel, val firebaseViewModel: FirebaseViewModel, private val listComics: MutableList<ComicDB?>, private val listInfos: MutableList<List<String>>) :
     RecyclerView.Adapter<ComicCollectionAdapter.ComicCollectionViewHolder>() {
 
     private var comicId: Int = 0
@@ -204,7 +205,7 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
         holder.view.setOnClickListener {
             if (context is AppCompatActivity) {
                 val t = context.supportFragmentManager.beginTransaction()
-                val frag: DialogFragment = ComicFragment.newInstance()
+                val frag: ComicFragment = ComicFragment.newInstance()
 
                 var bundle = Bundle()
                 bundle.putString("title", currentItem!!.titulo)
@@ -219,6 +220,8 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
                 bundle.putString("cover", currentItem!!.artistasCapa)
 
                 frag.arguments = bundle
+
+                frag.userRating = cacheViewModel.cacheData.value?.avaliacoes?.get(currentItem.apiID) ?: 0
 
                 frag.show(t, "Comic")
             }

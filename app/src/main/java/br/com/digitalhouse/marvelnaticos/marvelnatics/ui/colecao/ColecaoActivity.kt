@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicCollectionAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.CacheViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.FirebaseViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
@@ -39,6 +40,8 @@ class ColecaoActivity : AppCompatActivity() {
         }
     }
     val firebaseViewModel: FirebaseViewModel by viewModels()
+
+    val cacheViewModel: CacheViewModel by viewModels()
 
     lateinit var rvColecao: RecyclerView
 
@@ -58,8 +61,16 @@ class ColecaoActivity : AppCompatActivity() {
         viewModel.getAllComics()
 
         networkViewModel.networkAvaliable.observe(this) { avaliable ->
-            if (avaliable) {
+            if (avaliable ?: false) {
+                firebaseViewModel.isUserAvaliable.observe(this) { isUserAvaliable ->
+                    if (isUserAvaliable) {
+                        firebaseViewModel.isUserAvaliable.removeObservers(this)
+                        cacheViewModel.loadData(this, firebaseViewModel)
+                    }
+                }
                 firebaseViewModel.setup()
+            } else {
+                cacheViewModel.loadData(this, null)
             }
         }
 
@@ -73,11 +84,11 @@ class ColecaoActivity : AppCompatActivity() {
         }
 
         viewModel.listInfos.observe(this) {
-            rvColecao.adapter = ComicCollectionAdapter(this, viewModel, firebaseViewModel, viewModel.listComics.value!!, viewModel.listInfos.value!!)
+            rvColecao.adapter = ComicCollectionAdapter(this, viewModel, cacheViewModel, firebaseViewModel, viewModel.listComics.value!!, viewModel.listInfos.value!!)
         }
 
         viewModel.listInfosSearch.observe(this) {
-            rvColecao.adapter = ComicCollectionAdapter(this, viewModel, firebaseViewModel, viewModel.listComicsSearch.value!!, viewModel.listInfosSearch.value!!)
+            rvColecao.adapter = ComicCollectionAdapter(this, viewModel, cacheViewModel, firebaseViewModel, viewModel.listComicsSearch.value!!, viewModel.listInfosSearch.value!!)
         }
 
         txtPesquisar.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->

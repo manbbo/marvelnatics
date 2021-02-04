@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -86,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
 
         mainView = findViewById(R.id.view_login_main)
         val btnCadastro: TextView = findViewById(R.id.tv_login_cadastreSe)
-        val btnLogin: TextView = findViewById(R.id.btn_login)
+        val btnLogin: Button = findViewById(R.id.btn_login)
         val btnFacebook: LoginButton = findViewById(R.id.btn_Facebook)
         val btngoogle: ConstraintLayout = findViewById(R.id.entrar_com_google)
         val inputEmail: TextInputLayout = findViewById(R.id.til_login_emailLayout)
@@ -106,6 +107,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
+            btnLogin.isEnabled = false
             mAuth.signInWithEmailAndPassword(inputEmail.editText?.text.toString(), inputPassword.editText?.text.toString()).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("Result signin", "signinWithEmail:success")
@@ -114,6 +116,7 @@ class LoginActivity : AppCompatActivity() {
                         openHome()
                     }
                 } else {
+                    btnLogin.isEnabled = true
                     Log.w("Result signup", "signinWithEmail:failure", task.exception);
                     Snackbar.make(mainView, "Authentication failed.", Snackbar.LENGTH_LONG).show()
                     updateUI(null, false) {}

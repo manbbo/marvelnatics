@@ -16,6 +16,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.cache.CacheData
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.cache.ComicCache
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.MainActivity
@@ -23,7 +24,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class HePAdapter(private val context: Context, private val listHeP: MutableList<out Any?>, var ctx: MainActivity) :
+class HePAdapter(private val context: Context, val cacheData: CacheData, private val listHeP: MutableList<out Any?>, var ctx: MainActivity) :
     PagerAdapter() {
 
     private val spinner = CircularProgressDrawable(context).apply {
@@ -62,7 +63,6 @@ class HePAdapter(private val context: Context, private val listHeP: MutableList<
                 view.findViewById(R.id.s4),
             )
             Utils.colorStars(stars, item.rating.toInt(), context)
-            Log.i("Adapter", "Estrelas: ${item.rating}")
         }
 
 
@@ -73,7 +73,7 @@ class HePAdapter(private val context: Context, private val listHeP: MutableList<
         // Define a ação de click
         card.setOnClickListener {
             val t = ctx.supportFragmentManager.beginTransaction()
-            val frag: DialogFragment = ComicFragment.newInstance()
+            val frag: ComicFragment = ComicFragment.newInstance()
 
             var bundle = Bundle()
             if (item is Comic) {
@@ -112,6 +112,8 @@ class HePAdapter(private val context: Context, private val listHeP: MutableList<
                 bundle.putString("creators", item.artistCreator)
                 bundle.putString("drawers", item.artistDrawer)
                 bundle.putString("cover", item.artistCover)
+
+                frag.userRating = cacheData.avaliacoes[item.apiID] ?: 0
             }
 
             frag.arguments = bundle
