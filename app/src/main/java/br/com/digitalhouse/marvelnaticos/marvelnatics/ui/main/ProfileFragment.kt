@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +27,11 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class ProfileFragment : Fragment() {
 
+    lateinit var currentUser : FirebaseUser
     val viewModel: OfflineViewModel by viewModels<OfflineViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -42,12 +45,17 @@ class ProfileFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainActivity) ctx = context
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        currentUser = FirebaseAuth.getInstance().currentUser!!
+
         val favoritos: AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
+
+        Log.i("CURRENT USER", "onAttach: $currentUser")
 
         favoritos.setOnClickListener {
             ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
@@ -55,18 +63,23 @@ class ProfileFragment : Fragment() {
 
         //Implementar regras p/ preencher os seguintes dados:
 
-        val nameUser = "Fulano da Silva"
+        val nameUser = if (currentUser.isAnonymous || currentUser == null) {
+            "Fulano da Silva"
+        } else currentUser.displayName
+        var emailUser = if (currentUser.isAnonymous || currentUser == null) "e@mail" else currentUser.email
         val readComics = "10% HQs lidas"
         val readSeries = "20% Séries lidas"
         val readCharacters = "7% Personagens vistos"
 
         val tv_nameUser: TextView = root.findViewById(R.id.tv_name_user)
+        val tv_emailUser: TextView = root.findViewById(R.id.tv_email_user)
         val tv_readComics: TextView = root.findViewById(R.id.tv_read_comics)
         val tv_readSeries: TextView = root.findViewById(R.id.tv_read_series)
         val tv_readCharacters: TextView = root.findViewById(R.id.tv_read_characters)
         val btn_logout: TextView = root.findViewById(R.id.btn_logout)
 
         tv_nameUser.text = nameUser
+        tv_emailUser.text = emailUser
         tv_readComics.text = readComics
         tv_readSeries.text = readSeries
         tv_readCharacters.text = readCharacters
