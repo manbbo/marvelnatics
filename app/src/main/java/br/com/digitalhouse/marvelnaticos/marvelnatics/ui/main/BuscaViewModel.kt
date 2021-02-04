@@ -11,6 +11,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Data
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.Repository
 import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils.Companion.hashFormat
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,37 +27,34 @@ class BuscaViewModel(val repository: Repository) : ViewModel() {
 
     fun popListResult(query: String) {
         viewModelScope.launch {
-            isLoading.value = true
-            adapterComics.value?.addNullData()
+            try {
+                isLoading.value = true
+                adapterComics.value?.addNullData()
 
-            var date = Date().toString()
-            var res = repository.getComics(
-                    credentials.publicKey,
-                    hashFormat(credentials.privateKey, credentials.publicKey, date),
-                    date,
-                    offset,
-                    titleStartWith = query
-            )
+                var date = Date().toString()
+                var res = repository.getComics(credentials.publicKey, hashFormat(credentials.privateKey, credentials.publicKey, date), date, offset, titleStartWith = query)
 
-            adapterComics.value?.removeNullData()
+                adapterComics.value?.removeNullData()
 
-            isLoading.value = false
-            if (offset == 0 || mutableListComics.value == null) mutableListComics.value = res.data.results
-            else {
-                mutableListComics.value?.addAll(res.data.results)
-                adapterComics.value?.notifyItemRangeInserted(offset + 1, res.data.count)
+                isLoading.value = false
+                if (offset == 0 || mutableListComics.value == null) mutableListComics.value = res.data.results
+                else {
+                    mutableListComics.value?.addAll(res.data.results)
+                    adapterComics.value?.notifyItemRangeInserted(offset + 1, res.data.count)
+                }
+
+                offset += res.data.count
+
+                totRes.value = res.data.total
+            } catch (ex: Exception) {
+                Log.e("BuscaViewModel", "Erro!", ex)
             }
-
-            offset += res.data.count
-
-            totRes.value = res.data.total
-
         }
     }
 
     fun isLoading() = (isLoading.value == true)
 
-    fun clearList(){
+    fun clearList() {
         offset = 0
         isLoading.value = false
         listComics.clear()

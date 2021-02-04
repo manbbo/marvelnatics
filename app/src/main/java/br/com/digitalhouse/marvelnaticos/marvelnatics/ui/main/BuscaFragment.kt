@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicSearchAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
 
 
 class BuscaFragment : Fragment() {
@@ -34,37 +35,38 @@ class BuscaFragment : Fragment() {
         if (context is MainActivity) ctx = context
     }
 
-    val viewModel: BuscaViewModel by viewModels<BuscaViewModel>{
-        object : ViewModelProvider.Factory{
+    val networkViewModel: NetworkViewModel by viewModels()
+
+    val viewModel: BuscaViewModel by viewModels<BuscaViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return BuscaViewModel(repo) as T
             }
         }
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_busca, container, false).also { root -> // VIEW
-            root.findViewById<EditText>(R.id.txt_busca_pesquisar)
-                .also { txtPesquisar -> // TXT PESQUISAR
-                    txtPesquisar.setOnEditorActionListener { v, actionId, event -> // LISTENER DE ACTIONS
-                        when (actionId) { // VERIFICA A ACTION REALIZADA
-                            EditorInfo.IME_ACTION_SEARCH -> { // TIPO DEFINIDO NO XML
+            root.findViewById<EditText>(R.id.txt_busca_pesquisar).also { txtPesquisar -> // TXT PESQUISAR
+                txtPesquisar.setOnEditorActionListener { v, actionId, event -> // LISTENER DE ACTIONS
+                    when (actionId) { // VERIFICA A ACTION REALIZADA
+                        EditorInfo.IME_ACTION_SEARCH -> { // TIPO DEFINIDO NO XML
+                            if (!(networkViewModel.networkAvaliable.value ?: false)) {
+                                false
+                            } else {
                                 viewModel.clearList()
                                 txtPesquisaUsr = txtPesquisar.text.toString()
                                 viewModel.popListResult(txtPesquisaUsr)
                                 val imm = ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                                 imm.hideSoftInputFromWindow(root.windowToken, 0)
                                 true
-
                             }
-                            else -> false
+
                         }
+                        else -> false
                     }
                 }
+            }
         }
 
         var totalResBusca = root.findViewById<TextView>(R.id.tv_busca_info)
@@ -73,7 +75,7 @@ class BuscaFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         rvBuscaRes.layoutManager = linearLayoutManager
 
-        viewModel.mutableListComics.observe(viewLifecycleOwner){
+        viewModel.mutableListComics.observe(viewLifecycleOwner) {
             rvBuscaRes.adapter = null
             rvBuscaRes.layoutManager = null
 
@@ -85,11 +87,11 @@ class BuscaFragment : Fragment() {
             rvBuscaRes.layoutManager = linearLayoutManager
         }
 
-        viewModel.totRes.observe(viewLifecycleOwner){
+        viewModel.totRes.observe(viewLifecycleOwner) {
             totalResBusca.text = viewModel.totRes.value.toString() + " resultado(s) encontrado(s)"
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner){
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             isLoading = viewModel.isLoading.value == true
         }
 
@@ -97,10 +99,22 @@ class BuscaFragment : Fragment() {
         return root;
     }
 
-    fun setScroller(){
+    override fun onPause() {
+        super.onPause()
+        context?.also { c -> networkViewModel.unregisterNetworkListener(c) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        context?.also { c -> networkViewModel.registerNetworkListener(c) }
+    }
+
+
+    fun setScroller() {
         rvBuscaRes.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(rvBuscaRes: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(rvBuscaRes, dx, dy)
+                if (!(networkViewModel.networkAvaliable.value ?: false)) return
 
                 val lItem = linearLayoutManager.childCount
                 val vItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()

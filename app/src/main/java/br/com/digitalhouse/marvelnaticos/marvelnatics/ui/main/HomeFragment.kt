@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GestureDetectorCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -19,21 +16,13 @@ import androidx.viewpager.widget.ViewPager
 import br.com.digitalhouse.marvelnaticos.marvelnatics.FavoritesActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.*
-import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
-import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.ComicClickListener
-import br.com.digitalhouse.marvelnaticos.marvelnatics.interfaces.HePClickListener
-import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
-import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.cache.ComicCache
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.CacheViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.FirebaseViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
-import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.security.MessageDigest
-import kotlin.concurrent.thread
+import com.google.firebase.ktx.Firebase
 
 
 class HomeFragment : Fragment() {
@@ -43,6 +32,9 @@ class HomeFragment : Fragment() {
     private lateinit var adapterComicsMA: ComicListAdapter
 
     private val networkViewModel: NetworkViewModel by viewModels()
+
+    private val cacheViewModel: CacheViewModel by viewModels()
+    private val firebaseViewModel: FirebaseViewModel by viewModels()
 
     val viewModel: HomeViewModel by viewModels<HomeViewModel> {
         object : ViewModelProvider.Factory {
@@ -57,10 +49,7 @@ class HomeFragment : Fragment() {
         if (context is MainActivity) ctx = context
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
         // Toolbar
@@ -70,37 +59,27 @@ class HomeFragment : Fragment() {
 
 
         colecao.setOnClickListener {
-            ctx.goToActivity(
-                ColecaoActivity::class.java,
-                R.anim.slide_in_right,
-                R.anim.static_animation
-            )
+            ctx.goToActivity(ColecaoActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
         favoritos.setOnClickListener {
-            ctx.goToActivity(
-                FavoritesActivity::class.java,
-                R.anim.slide_in_right,
-                R.anim.static_animation
-            )
+            ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
 
         // Personagens mais populares
         val includePmP: View = root.findViewById(R.id.include_pmp)
         val rvPmP: RecyclerView = includePmP.findViewById(R.id.rv_list_charsList)
-        rvPmP.adapter = CharacterAdapter(
-            root.context, mutableListOf(
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                // Character()
-            )
-        )
+        rvPmP.adapter = CharacterAdapter(root.context, mutableListOf(
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            //Character(),
+            // Character()
+        ))
 
         // Historias em destaques
         val includeHeP: View = root.findViewById(R.id.include_hep)
@@ -112,8 +91,7 @@ class HomeFragment : Fragment() {
         val includeHML: View = root.findViewById(R.id.include_hml)
         val includeHMA: View = root.findViewById(R.id.include_hma)
         val rvHistoriasMaisLidas: RecyclerView = includeHML.findViewById(R.id.rv_list_listImages)
-        val rvHistoriasMaisAvaliadas: RecyclerView =
-            includeHMA.findViewById(R.id.rv_list_listImages)
+        val rvHistoriasMaisAvaliadas: RecyclerView = includeHMA.findViewById(R.id.rv_list_listImages)
 
         val titleHML: TextView = includeHML.findViewById(R.id.tv_list_listName)
         val titleHMA: TextView = includeHMA.findViewById(R.id.tv_list_listName)
@@ -121,16 +99,60 @@ class HomeFragment : Fragment() {
         titleHML.text = "Histórias mais lidas"
         titleHMA.text = "Histórias melhor avaliadas"
 
-        viewModel.listComics.observe(viewLifecycleOwner) {
-            adapterComicsML = ComicListAdapter(rvHistoriasMaisLidas.context, it, ctx)
-            adapterComicsMA = ComicListAdapter(rvHistoriasMaisAvaliadas.context, it, ctx)
+        context?.let { cacheViewModel.loadData(it, null) }
+
+        cacheViewModel.cacheData.observe(viewLifecycleOwner) { data ->
+            Log.i("HomeFragment", "Cache carregado! Total: ${data.comics.size}")
+
+            adapterComicsML = ComicListAdapter(rvHistoriasMaisAvaliadas.context, data.maisLidas.let { array ->
+                mutableListOf<ComicCache>().also { list ->
+                    array.forEach { id ->
+                        data.comics.find { it.apiID == id }?.let { list.add(it) }
+                    }
+                }
+            }, ctx)
+
+            adapterComicsMA = ComicListAdapter(rvHistoriasMaisAvaliadas.context, data.melhorAvaliadas.let { array ->
+                mutableListOf<ComicCache>().also { list ->
+                    array.forEach { id ->
+                        data.comics.find { it.apiID == id }?.let { list.add(it) }
+                    }
+                }
+            }, ctx)
             rvHistoriasMaisLidas.adapter = adapterComicsML
             rvHistoriasMaisAvaliadas.adapter = adapterComicsMA
-            vpHeP.adapter = HePAdapter(vpHeP.context, it, ctx)
+
+            cacheViewModel.cacheData.observe(viewLifecycleOwner) { data ->
+                if (data != null) vpHeP.adapter = HePAdapter(vpHeP.context, data, data.emDestaque.let { array ->
+                    mutableListOf<ComicCache>().also { list ->
+                        array.forEach { id ->
+                            data.comics.find { it.apiID == id }?.let { list.add(it) }
+                        }
+                    }
+                }, ctx)
+            }
         }
 
+//        viewModel.listComics.observe(viewLifecycleOwner) {
+//            adapterComicsML = ComicListAdapter(rvHistoriasMaisLidas.context, it, ctx)
+//            adapterComicsMA = ComicListAdapter(rvHistoriasMaisAvaliadas.context, it, ctx)
+//            rvHistoriasMaisLidas.adapter = adapterComicsML
+//            rvHistoriasMaisAvaliadas.adapter = adapterComicsMA
+//            vpHeP.adapter = HePAdapter(vpHeP.context, it, ctx)
+//        }
+
         networkViewModel.networkAvaliable.observe(viewLifecycleOwner) { avaliable ->
-            if (avaliable) viewModel.popListResult("Iron")
+            if (avaliable ?: false) {
+                firebaseViewModel.isUserAvaliable.observe(viewLifecycleOwner) { isUserAvaliable ->
+                    if (isUserAvaliable) {
+                        firebaseViewModel.isUserAvaliable.removeObservers(viewLifecycleOwner)
+                        context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
+                    }
+                }
+                firebaseViewModel.setup()
+            } else {
+                context?.let { cacheViewModel.loadData(it, null) }
+            }
         }
         return root
     }

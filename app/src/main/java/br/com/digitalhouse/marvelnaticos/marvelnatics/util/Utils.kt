@@ -1,6 +1,10 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.util
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -16,7 +20,7 @@ class Utils {
             val displayMetrics = context.resources.displayMetrics
             val dpWidth = displayMetrics.widthPixels / displayMetrics.density
             val widthLeft = dpWidth - (width * spanCount)
-            return (widthLeft/(spanCount*2)).toInt()
+            return (widthLeft / (spanCount * 2)).toInt()
         }
 
         fun hashFormat(privateKey: String, pkey: String, dateTime: String): String {
@@ -28,6 +32,17 @@ class Utils {
             val md = MessageDigest.getInstance("MD5")
             val bigInt = BigInteger(1, md.digest(str.toByteArray(Charsets.UTF_8)))
             return String.format("%032x", bigInt)
+        }
+
+
+        fun colorStars(views: Array<ImageView>, amount: Int, context: Context) {
+            views.forEachIndexed { i, v ->
+                if (i < amount) {
+                    v.setColorFilter(ContextCompat.getColor(context, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
+                } else {
+                    v.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN)
+                }
+            }
         }
     }
 }

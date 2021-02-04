@@ -149,6 +149,17 @@
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_star" />
+
+                    <TextView
+                        android:id="@+id/fragmentComic_tvRatingAverage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="26dp"
+                        android:layout_marginLeft="8dp"
+                        android:fontFamily="monospace"
+                        android:gravity="center"
+                        android:text="4.5"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -228,87 +239,103 @@
                             android:id="@+id/tv_comic_data_pub"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
                             android:gravity="top"
                             android:lineSpacingExtra="2sp"
-                            android:layout_marginLeft="1dp"
                             android:text="05/10/2012"
                             android:textAppearance="@style/comic_info" />
                     </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"
                         android:text="@string/Criador"
                         android:textStyle="bold"
                         android:textAppearance="@style/comic_info" />
 
-                    <TextView
-                        android:id="@+id/tv_comic_creator"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:lineSpacingExtra="2sp"
+                            android:text="Criador:"
+                            android:textAppearance="@style/comic_info"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_comic_creator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:gravity="top"
+                            android:lineSpacingExtra="2sp"
+                            android:text="Grupo 2"
+                            android:textAppearance="@style/comic_info" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:lineSpacingExtra="2sp"
-                        android:layout_marginLeft="1dp"
-                        android:text="Grupo 2"
-                        android:textAppearance="@style/comic_info" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"
                         android:textStyle="bold"
                         android:text="@string/Artistas_capa"
                         android:textAppearance="@style/comic_info" />
 
-                    <TextView
-                        android:id="@+id/tv_comic_cover"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:lineSpacingExtra="2sp"
+                            android:text="Artistas da capa:"
+                            android:textAppearance="@style/comic_info"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_comic_cover"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:gravity="top"
+                            android:lineSpacingExtra="2sp"
+                            android:text="Michael Ryan"
+                            android:textAppearance="@style/comic_info" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:lineSpacingExtra="2sp"
-                        android:text="Michael Ryan"
-                        android:layout_marginLeft="1dp"
-                        android:textAppearance="@style/comic_info" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"
                         android:text="@string/Desenhistas"
                         android:textStyle="bold"
                         android:textAppearance="@style/comic_info" />
 
-                    <TextView
-                        android:id="@+id/tv_comic_ilustrator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:lineSpacingExtra="2sp"
-                        android:text="Gus Vazquez"
-                        android:layout_marginLeft="1dp"
-                        android:textAppearance="@style/comic_info" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:lineSpacingExtra="2sp"
+                            android:text="Desenhistas:"
+                            android:textAppearance="@style/comic_info"
+                            android:textStyle="bold" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_comic_ilustrator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:gravity="top"
+                            android:lineSpacingExtra="2sp"
+                            android:text="Gus Vazquez"
+                            android:textAppearance="@style/comic_info" />
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -362,9 +389,11 @@
                         <ScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
+
                                 <TextView
                                     android:id="@+id/tv_comic_descricao"
                                     android:layout_width="match_parent"
