@@ -38,7 +38,7 @@
                 android:theme="@style/Theme.Marvelnatics"
                 app:menu="@menu/cadastro_menu"
                 app:subtitleTextColor="@color/white"
-                app:title="Cadastro"
+                app:title="@string/tb_titulo_cadastro"
                 app:titleTextColor="@color/white" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

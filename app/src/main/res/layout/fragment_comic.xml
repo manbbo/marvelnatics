@@ -81,7 +81,7 @@
                     style="@style/comic_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Titulo aqui"
+                    android:text="@string/titulo_comic"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_editor_absoluteX="14dp" />
 
@@ -201,6 +201,7 @@
                         android:src="@drawable/ic_book"
                         app:tint="#FFFFFFFF" />
 
+
                     <ImageView
                         android:id="@+id/bt_favorito_comic"
                         android:layout_width="26dp"
@@ -230,9 +231,9 @@
                             android:layout_height="wrap_content"
                             android:gravity="top"
                             android:lineSpacingExtra="2sp"
-                            android:text="Data de publicação:"
-                            android:textAppearance="@style/comic_info"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:text="@string/Data_publicação"
+                            android:textAppearance="@style/comic_info" />
 
                         <TextView
                             android:id="@+id/tv_comic_data_pub"
@@ -248,7 +249,12 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="top"
+                        android:lineSpacingExtra="2sp"
+                        android:text="@string/Criador"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/comic_info" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -273,7 +279,12 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="top"
+                        android:lineSpacingExtra="2sp"
+                        android:textStyle="bold"
+                        android:text="@string/Artistas_capa"
+                        android:textAppearance="@style/comic_info" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -298,7 +309,12 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="top"
+                        android:lineSpacingExtra="2sp"
+                        android:text="@string/Desenhistas"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/comic_info" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -336,7 +352,7 @@
                         style="@style/comic_topics"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Personagens" />
+                        android:text="@string/personagens" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_comic_characters"
@@ -360,8 +376,8 @@
                         style="@style/comic_topics"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Descrição"
-                        android:textStyle="bold" />
+                        android:text="@string/descricao"
+                        android:textStyle="bold"/>
 
                     <FrameLayout
                         android:layout_width="match_parent"

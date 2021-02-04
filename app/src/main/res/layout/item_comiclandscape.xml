@@ -97,7 +97,7 @@
                     android:id="@+id/tv_comic_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NAME"
+                    android:text="@string/nome"
                     android:textColor="@color/white"
                     android:singleLine="true"
                     android:textSize="14sp" />
