@@ -12,51 +12,13 @@
 [![GitHub watchers](https://img.shields.io/github/watchers/manbbo/marvelnatics.svg?style=social&label=Watch)](https://github.com/manbbo/marvelnatics)
 [![GitHub followers](https://img.shields.io/github/followers/manbbo.svg?style=social&label=Follow)](https://github.com/manbbo)
 
-<!--
-### Screenshots
-
-- First Screen
-
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/login.png"  height="400em"/>
-
-- HomePage
-
-    <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/home.png" height="400em"/>
-  
-- Payment
-
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/entrepreneur1.png"  height="400em"/>
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/entrepreneur2.png"  height="400em"/>
-
-- Profile
-
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/profile.png" height="400em"/>
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/journey.png" height="400em"/>
-  <img src="https://github.com/manbbo/GetClub/blob/master/GetClub/screenshots/deleteacc.png" height="400em"/>
--->
-
 ## Usage example
 
-### Funcionalidades primárias
+### Para novos NERDS
             
 A funcionalidade principal será a organização e indexação de HQs utilizando a API da marvel.
 
-Dentro da plataforma, será possível pesquisar as HQs, personagens, séries ou autores que existem nesse mundo para organizar em sua coleção. Além disso, você poderá compartilhar essa HQ para venda nas redes sociais ou somente por gostar da série/hq em questão. 
-
-No futuro, porém, a plataforma vai oferecer análise de estatísticas de leitura e coleção.
-
-### Para novos NERDS
-
-O método de monetização 
-
-<!--            
-Dentro da plataforma, será possível pesquisar empresas cadastradas e 
-negociar e fechar acordos com os demais usuários através de chat nativo 
-da aplicação. Os detalhes dos acordos feitos ficarão por conta dos 
-empreendedores envolvidos. Caso haja entendimento mútuo da existência de
-discrepância entre o valor dos serviços ou produtos a serem trocados, os 
-empreendedores terão a chance de efetuar o pagamento da diferença através 
-da Getnet. -->
+Dentro da plataforma, será possível pesquisar as HQs, personagens, séries ou autores que existem nesse mundo para organizar em sua coleção. Além disso, você poderá compartilhar essa HQ para venda nas redes sociais ou somente por gostar da série/hq em questão. Você também poderá visualizar sua análise de estatísticas de leitura de HQs e coleções.
 
 
 # Development setup
@@ -67,9 +29,7 @@ da Getnet. -->
 
 If you want to use Android Studio, then [download](https://developer.android.com/studio?hl=es) it through the website;
 
-Else, you can just use Visual Code or any other IDE that supports Flutter;
-
-
+Else, you can just use Visual Code or any other IDE that supports Android development with Kotlin;
 
 ### If you downloaded Android Studio:
 
@@ -79,51 +39,15 @@ Go to File>Settings>Go to Pluggins and search and download Kotlin, or if your An
 
 Configure the Environment Variables needed at your machine, and download JAVA for the emulator (if using);
 
-
-
 ### Else:
 
-Download 
+Download the project;
 
-<!--
-Unzip it to "C:\". It can be other path but just make sure to know where it is;
-
-Configure the Environment Variables needed at your machine, with "flutter" as the name and "C:\flutter" as the path;
-
-
-To develop, you gonna need to:
-- have configured Flutter at your machine and all environment variables needed
-- have an IDE that supports Flutter
-- have access to CMD or PowerShell
-
-Then, you pull the project from the repository and execute:
-
-```sh
-flutter pub get
-flutter pub upgrade
-```
-
-and then you're going to be able to do
-
-```sh
-flutter run
-```
--->
-
+Create a file called Credentials under java>br.com.digitalhouse.marvelnaticos.marvelnatics>api (you can just use the CredentialsExample for that matter) and you're ready to modify the app.
 
 ## Api Marvel
 
 The repo for marvel can be found [here!](https://developer.marvel.com/docs)
-
-## Instalation
-
-<!--
-1. Download [Node]() and [Yarn]()
-2. Open the terminal inside the project's folder and type 'yarn' to add all remaining files and folters
-3. Create a file into project's root called .env and paste the content from the file .env.example
-4. Put the connection string into DB variable from .env
-5. To start the app, open the terminal and type yarn start
--->
 
 ## Release History
 
@@ -153,7 +77,7 @@ The repo for marvel can be found [here!](https://developer.marvel.com/docs)
 
 ## Contributing
 
-1. [Fork it](https://github.com/manbbo/getclub/fork)
+1. [Fork it](https://github.com/manbbo/marvelnatics/fork)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)

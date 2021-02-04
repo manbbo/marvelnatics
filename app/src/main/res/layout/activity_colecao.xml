@@ -32,18 +32,24 @@
             android:paddingEnd="12dp">
 
             <EditText
+                android:id="@+id/et_busca_colecao"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingStart="28dp"
                 android:paddingEnd="14dp"
                 android:hint="@string/pesquisa"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
                 android:background="@drawable/drawable_rounded_corners"
                 android:drawableEnd="@drawable/ic_search_white"
                 android:drawableTint="#343434" />
         </LinearLayout>
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_organizarColecao_resultado"
         android:layout_width="match_parent"
@@ -52,4 +58,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_colecao" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loading"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:text="@string/empty_list"/>
+    </FrameLayout>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.services
 
 import br.com.digitalhouse.marvelnaticos.marvelnatics.api.Credentials
+import br.com.digitalhouse.marvelnaticos.marvelnatics.database.AppDatabase
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Res
@@ -21,7 +22,7 @@ interface Repository {
         ts = Ao DateTime informado no hash
 
         foi disponibilizado a classe Credentials, onde contem as variaveis de chave publica
-        e chave privada, e na classe Utils foi disponibilizado a funcao hashFormat
+        e chave privada, e na classe Utilsfoi disponibilizado a funcao hashFormat
         que retorna o hash já em md5
     */
 
@@ -94,3 +95,6 @@ val retrofit = Retrofit.Builder()
 
 // Variavel a ser importada para utilizar da API
 val repo = retrofit.create(Repository::class.java)
+
+
+

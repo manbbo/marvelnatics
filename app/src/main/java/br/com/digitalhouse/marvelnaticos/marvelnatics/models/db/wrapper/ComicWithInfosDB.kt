@@ -9,7 +9,7 @@ data class ComicWithInfosDB(
     @Embedded
     var comic: ComicDB,
 
-    @Relation(parentColumn = "dbid", entityColumn = "comicID", entity = ComicColecaoInfoDB::class)
+    @Relation(parentColumn = "dbID", entityColumn = "comicID", entity = ComicColecaoInfoDB::class)
     var infos: List<ComicColecaoInfoDB>
 
-)
+)  

@@ -18,7 +18,9 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.R
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.User
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
 
@@ -35,28 +37,11 @@ class ProfileFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        val includePmP: View = root.findViewById(R.id.include_pmp)
-        val rvPmP: RecyclerView = includePmP.findViewById(R.id.rv_list_charsList)
-
-        rvPmP.adapter = CharacterAdapter(root.context, mutableListOf(
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-                //Character(),
-               // Character()
-        ))
-
         val favoritos : AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
 
         favoritos.setOnClickListener{
             ctx.goToActivity(FavoritesActivity::class.java, R.anim.slide_in_right, R.anim.static_animation)
         }
-
-
 
         //Implementar regras p/ preencher os seguintes dados:
 
@@ -69,6 +54,7 @@ class ProfileFragment : Fragment() {
         val tv_readComics: TextView = root.findViewById(R.id.tv_read_comics)
         val tv_readSeries: TextView = root.findViewById(R.id.tv_read_series)
         val tv_readCharacters: TextView = root.findViewById(R.id.tv_read_characters)
+        val btn_logout: TextView = root.findViewById(R.id.btn_logout)
 
         tv_nameUser.text = nameUser
         tv_readComics.text = readComics
@@ -90,7 +76,12 @@ class ProfileFragment : Fragment() {
             startActivity(shareIntent)
         }
 
-
+        btn_logout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            activity!!.finish()
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         return root
     }
@@ -106,8 +97,4 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
-
-
-
 }

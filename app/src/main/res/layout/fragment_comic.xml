@@ -161,6 +161,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/view_comic_separator">
 
                     <ImageView
+                        android:id="@+id/bt_queroler_comic"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_marginStart="2dp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_favorite"
+                        app:tint="#FFFFFFFF" />
+
+                    <ImageView
                         android:id="@+id/bt_tenho_comic"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
@@ -178,16 +188,6 @@
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_book"
-                        app:tint="#FFFFFFFF" />
-
-                    <ImageView
-                        android:id="@+id/bt_queroler_comic"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginStart="2dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_favorite"
                         app:tint="#FFFFFFFF" />
 
 
@@ -359,11 +359,19 @@
                         android:background="@drawable/bkg_rounded_2dp"
                         android:padding="10dp">
 
-                        <TextView
-                            android:id="@+id/tv_comic_descricao"
+                        <ScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="sfghknsjgjshsfgsgsgjlkahfckljsngjggkjdagljgfklnsbnklmn;lsajmgklnsf;,mghksngkj;dkgfjskljnjmdigjgopmoihjeojkhigjklnoghg" />
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/tv_comic_descricao"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="description" />
+                            </LinearLayout>
+                        </ScrollView>
                     </FrameLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
