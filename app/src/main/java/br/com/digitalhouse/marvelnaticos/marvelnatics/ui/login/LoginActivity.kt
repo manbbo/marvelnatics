@@ -107,20 +107,26 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            btnLogin.isEnabled = false
-            mAuth.signInWithEmailAndPassword(inputEmail.editText?.text.toString(), inputPassword.editText?.text.toString()).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("Result signin", "signinWithEmail:success")
-                    val user = mAuth.currentUser
-                    updateUI(user, false) {
-                        openHome()
+            if (!inputEmail.editText?.text.isNullOrEmpty() && !inputPassword.editText?.text.isNullOrEmpty()) {
+                btnLogin.isEnabled = false
+                mAuth.signInWithEmailAndPassword(inputEmail.editText?.text.toString(), inputPassword.editText?.text.toString()).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("Result signin", "signinWithEmail:success")
+                        val user = mAuth.currentUser
+                        updateUI(user, false) {
+                            openHome()
+                        }
+                    } else {
+                        btnLogin.isEnabled = true
+                        Log.w("Result signup", "signinWithEmail:failure", task.exception);
+                        Snackbar.make(mainView, "Authentication failed.", Snackbar.LENGTH_LONG).show()
+                        updateUI(null, false) {}
                     }
-                } else {
-                    btnLogin.isEnabled = true
-                    Log.w("Result signup", "signinWithEmail:failure", task.exception);
-                    Snackbar.make(mainView, "Authentication failed.", Snackbar.LENGTH_LONG).show()
-                    updateUI(null, false) {}
                 }
+            } else {
+                Snackbar.make(mainView, "Email and Password cannot be empty", Snackbar.LENGTH_LONG).show()
+
+                openHome()
             }
         }
 

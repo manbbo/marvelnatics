@@ -1,6 +1,7 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -55,6 +57,7 @@ class ColecaoActivity : AppCompatActivity() {
         networkViewModel.registerNetworkListener(this)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_colecao)
@@ -96,8 +99,10 @@ class ColecaoActivity : AppCompatActivity() {
                 viewModel.filterListByTitle(txtPesquisar.text.toString())
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
+                txtPesquisar.focusable = View.FOCUSABLE
                 return@OnEditorActionListener true
             }
+            txtPesquisar.focusable = View.NOT_FOCUSABLE
             false
         })
 

@@ -12,4 +12,5 @@ class Credentials_example {
         get() = "<CHAVE PUBLICA>"
     val privateKey: String
         get() = "<CHAVE PRIVADA>"
-}
+}gis
+

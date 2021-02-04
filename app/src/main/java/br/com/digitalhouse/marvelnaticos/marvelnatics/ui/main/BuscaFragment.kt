@@ -1,6 +1,7 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -45,6 +47,7 @@ class BuscaFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_busca, container, false).also { root -> // VIEW
             root.findViewById<EditText>(R.id.txt_busca_pesquisar).also { txtPesquisar -> // TXT PESQUISAR
@@ -59,11 +62,15 @@ class BuscaFragment : Fragment() {
                                 viewModel.popListResult(txtPesquisaUsr)
                                 val imm = ctx.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                                 imm.hideSoftInputFromWindow(root.windowToken, 0)
+                                txtPesquisar.focusable = View.FOCUSABLE
                                 true
                             }
 
                         }
-                        else -> false
+                        else -> {
+                            txtPesquisar.focusable = View.NOT_FOCUSABLE
+                            false
+                        }
                     }
                 }
             }

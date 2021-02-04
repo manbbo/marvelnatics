@@ -28,21 +28,13 @@
                 android:paddingBottom="10dp">
 
                 <include
-                    android:id="@+id/include_pmp"
-                    layout="@layout/list_characters"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <include
                     android:id="@+id/include_hep"
                     layout="@layout/layout_historia_em_destaque"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/include_pmp" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <include
                     android:id="@+id/include_hml"
