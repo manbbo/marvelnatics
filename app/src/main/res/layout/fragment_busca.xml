@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/white"
-            android:hint="Pesquisar"
+            android:hint="@string/search"
             android:inputType="text"
             android:imeOptions="actionSearch"
             android:paddingHorizontal="8dp" />
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
-                android:text="Já tenho"
+                android:text="@string/ja_tenho"
                 android:textColor="@color/white"
                 app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_check_circle"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
-                android:text="Já li"
+                android:text="@string/ja_li"
                 android:textColor="@color/white"
                 app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_book"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Quero ler"
+                android:text="@string/quero_ler"
                 android:textColor="@color/white"
                 app:chipBackgroundColor="@color/primaryColor"
                 app:chipIcon="@drawable/ic_favorite"
@@ -77,7 +77,7 @@
             android:id="@+id/tv_busca_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 resultado(s) encontrado(s)"
+            android:text="@string/motrando_qtd_resultados"
             android:textColor="@color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>

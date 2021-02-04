@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="Nome da Lista"
+        android:text="@string/nome_lista"
         android:textColor="#353535"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

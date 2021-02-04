@@ -233,7 +233,6 @@ class ComicFragment : DialogFragment() {
                 //Character(),
             )
         )
-        ////////
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 

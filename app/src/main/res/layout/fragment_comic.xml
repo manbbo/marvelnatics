@@ -81,7 +81,7 @@
                     style="@style/comic_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Titulo aqui"
+                    android:text="@string/titulo_comic"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_editor_absoluteX="14dp" />
 
@@ -190,6 +190,7 @@
                         android:src="@drawable/ic_book"
                         app:tint="#FFFFFFFF" />
 
+
                     <ImageView
                         android:id="@+id/bt_favorito_comic"
                         android:layout_width="26dp"
@@ -220,7 +221,7 @@
                             android:gravity="top"
                             android:lineSpacingExtra="2sp"
                             android:textStyle="bold"
-                            android:text="Data de publicação:"
+                            android:text="@string/Data_publicação"
                             android:textAppearance="@style/comic_info" />
 
                         <TextView
@@ -243,7 +244,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"
-                        android:text="Criador:"
+                        android:text="@string/Criador"
                         android:textStyle="bold"
                         android:textAppearance="@style/comic_info" />
 
@@ -269,7 +270,7 @@
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"
                         android:textStyle="bold"
-                        android:text="Artistas da capa:"
+                        android:text="@string/Artistas_capa"
                         android:textAppearance="@style/comic_info" />
 
                     <TextView
@@ -293,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="top"
                         android:lineSpacingExtra="2sp"
-                        android:text="Desenhistas:"
+                        android:text="@string/Desenhistas"
                         android:textStyle="bold"
                         android:textAppearance="@style/comic_info" />
 
@@ -324,7 +325,7 @@
                         style="@style/comic_topics"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Personagens" />
+                        android:text="@string/personagens" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_comic_characters"
@@ -348,7 +349,7 @@
                         style="@style/comic_topics"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Descrição"
+                        android:text="@string/descricao"
                         android:textStyle="bold"/>
 
                     <FrameLayout
