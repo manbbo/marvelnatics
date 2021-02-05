@@ -28,6 +28,10 @@ interface ComicsDao {
     suspend fun getAllClassificationsFromComic(comicID: Long): List<String>
 
     @Transaction
+    @Query("SELECT COUNT(*) FROM comic_colecao_info WHERE info = :info")
+    suspend fun getComicInfo(info: String): Int
+
+    @Transaction
     @Query("SELECT * FROM comic")
     suspend fun getAllComicsWithAllClassifications(): List<ComicWithInfosDB>
 
@@ -47,7 +51,6 @@ interface ComicsDao {
     @Query("DELETE FROM comic_colecao_info WHERE dbid = :dbid AND info = :info")
     suspend fun delByIdAndClassification(dbid: Long, info: String)
 
-    //Delete
     @Query("DELETE FROM comic WHERE dbID = :dbID")
     suspend fun delComicById(dbID: Long)
 

@@ -2,6 +2,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -43,9 +44,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         pager = findViewById(R.id.vp_main_fragmentViewer)
         val includeMainNavbar: View = findViewById(R.id.include_main_navbar)
         navbar = includeMainNavbar.findViewById(R.id.bn_main)
+
 
         navbar.itemIconTintList = null
         navbar.menu.get(0).setIcon(R.drawable.ic_selected_home)
@@ -89,6 +92,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+
 
     override fun onPause() {
         super.onPause()
@@ -134,10 +139,4 @@ class MainActivity : AppCompatActivity() {
         overridePendingTransition(enterAnim, exitAnim)
     }
 
-    fun changeFragment() {
-        val comicFragment = ComicFragment.newInstance()
-        supportFragmentManager.commit {
-            replace<ComicFragment>(R.id.vp_main_fragmentViewer)
-        }
-    }
 }

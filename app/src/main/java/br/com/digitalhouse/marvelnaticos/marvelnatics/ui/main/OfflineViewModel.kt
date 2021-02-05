@@ -27,6 +27,8 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
     val listInfosSearch = MutableLiveData<ArrayList<List<String>>>()
     val listInfo = MutableLiveData<ArrayList<String>>()
     val db = AppDatabase.invoke(context)
+    var statistics = MutableLiveData<MutableMap<String, Int>>()
+
 
     fun popLists() {
         viewModelScope.launch {
@@ -37,6 +39,7 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
             listComicsQueroLer.value = ArrayList<ComicDB?>()
             listComicsFavoritos.value = ArrayList<ComicDB?>()
 
+
             listAllComicsClassifications.forEach {
                 val comicInfo = it
                 it.infos.forEach {
@@ -46,13 +49,46 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
                     else listComicsFavoritos.value!!.add(comicInfo.comic)
                 }
             }
+
         }
     }
 
-    fun insertComicInList(id: Int, titulo: String, descricao: String, data: String, desenhistas: String, artistasCapa: String, criadores: String, urlImg: String, list: String) = TaskCompletionSource<Nothing>().also { result ->
+    fun getStatistics() {
+        viewModelScope.launch {
+            statistics.value = HashMap<String, Int>().apply {
+                put("Q", db.comicsDao().getComicInfo("Q"))
+                put("T", db.comicsDao().getComicInfo("T"))
+                put("J", db.comicsDao().getComicInfo("J"))
+                put("F", db.comicsDao().getComicInfo("F"))
+            }
+        }
+    }
+
+
+    fun insertComicInList(
+        id: Int,
+        titulo: String,
+        descricao: String,
+        data: String,
+        desenhistas: String,
+        artistasCapa: String,
+        criadores: String,
+        urlImg: String,
+        list: String
+    ) = TaskCompletionSource<Nothing>().also { result ->
         viewModelScope.launch {
             try {
-                val comicDB = ComicDB(null, id, titulo, descricao, data, desenhistas, artistasCapa, criadores, urlImg)
+                val comicDB = ComicDB(
+                    null,
+                    id,
+                    titulo,
+                    descricao,
+                    data,
+                    desenhistas,
+                    artistasCapa,
+                    criadores,
+                    urlImg
+                )
                 db.comicsDao().insertComicDBList(comicDB, list)
                 result.setResult(null)
             } catch (ex: Exception) {
@@ -62,9 +98,29 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
         }
     }.task
 
-    fun removeComicFromList(id: Int, titulo: String, descricao: String, data: String, desenhistas: String, artistasCapa: String, criadores: String, urlImg: String, list: String) {
+    fun removeComicFromList(
+        id: Int,
+        titulo: String,
+        descricao: String,
+        data: String,
+        desenhistas: String,
+        artistasCapa: String,
+        criadores: String,
+        urlImg: String,
+        list: String
+    ) {
         viewModelScope.launch {
-            val comicDB = ComicDB(null, id, titulo, descricao, data, desenhistas, artistasCapa, criadores, urlImg)
+            val comicDB = ComicDB(
+                null,
+                id,
+                titulo,
+                descricao,
+                data,
+                desenhistas,
+                artistasCapa,
+                criadores,
+                urlImg
+            )
             db.comicsDao().deleteComicList(comicDB, list)
         }
     }
@@ -106,7 +162,9 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
             try {
                 val listInfosComics = ArrayList<List<String>>()
                 listComics.value!!.forEach {
-                    listInfosComics.add(db.comicsDao().getAllClassificationsFromComic(it!!.dbID!!))
+                    listInfosComics.add(
+                        db.comicsDao().getAllClassificationsFromComic(it!!.dbID!!)
+                    )
                 }
                 listInfos.value = listInfosComics
                 result.setResult(null)
@@ -132,12 +190,15 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
 
     fun updateComic(dbId: Long, apiId: Int, position: Int, adapter: ComicCollectionAdapter) {
         viewModelScope.launch {
-            var updatedComicClassif = db.comicsDao().getComicByApiIdWithAllClassifications(apiId)
+            var updatedComicClassif =
+                db.comicsDao().getComicByApiIdWithAllClassifications(apiId)
 
             if (listInfosSearch.value != null) {
-                if (dbId != updatedComicClassif[0].comic.dbID) listComicsSearch.value!![position] = updatedComicClassif[0].comic
+                if (dbId != updatedComicClassif[0].comic.dbID) listComicsSearch.value!![position] =
+                    updatedComicClassif[0].comic
 
-                listInfosSearch.value!![position] = db.comicsDao().getAllClassificationsFromComic(updatedComicClassif[0].comic.dbID!!)
+                listInfosSearch.value!![position] = db.comicsDao()
+                    .getAllClassificationsFromComic(updatedComicClassif[0].comic.dbID!!)
 
                 var i = 0
                 while (i < listComics.value!!.size && listComics.value!![i]!!.apiID != apiId) i++
@@ -145,9 +206,11 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
                 listComics.value!![i] = listComicsSearch.value!![position]
                 listInfos.value!![i] = listInfosSearch.value!![position]
             } else {
-                if (dbId != updatedComicClassif[0].comic.dbID) listComics.value!![position] = updatedComicClassif[0].comic
+                if (dbId != updatedComicClassif[0].comic.dbID) listComics.value!![position] =
+                    updatedComicClassif[0].comic
 
-                listInfos.value!![position] = db.comicsDao().getAllClassificationsFromComic(updatedComicClassif[0].comic.dbID!!)
+                listInfos.value!![position] = db.comicsDao()
+                    .getAllClassificationsFromComic(updatedComicClassif[0].comic.dbID!!)
             }
 
             adapter.notifyItemChanged(position)
@@ -161,11 +224,18 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
         }
     }
 
-    fun updateInfosLists(countLists: List<Boolean>, dbId: Long, apiId: Int, adapters: List<ComicDBAdapter>) {
-        var mldComics: List<MutableLiveData<ArrayList<ComicDB?>>> = listOf(listComicsQueroLer, listComicsTenho, listComicsJaLi, listComicsFavoritos)
+    fun updateInfosLists(
+        countLists: List<Boolean>,
+        dbId: Long,
+        apiId: Int,
+        adapters: List<ComicDBAdapter>
+    ) {
+        var mldComics: List<MutableLiveData<ArrayList<ComicDB?>>> =
+            listOf(listComicsQueroLer, listComicsTenho, listComicsJaLi, listComicsFavoritos)
 
         viewModelScope.launch {
-            var updatedComicClassif = db.comicsDao().getComicByApiIdWithAllClassifications(apiId)
+            var updatedComicClassif =
+                db.comicsDao().getComicByApiIdWithAllClassifications(apiId)
             for (i in 0..countLists.size - 1) {
                 var j = 0
                 var found = false
@@ -198,4 +268,6 @@ class OfflineViewModel(val repository: Repository, val context: Context) : ViewM
             }
         }
     }.task
+
+
 }
