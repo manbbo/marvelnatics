@@ -24,10 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ComicDBAdapter
@@ -37,10 +34,15 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.CharacterAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.adapters.ComicCollectionAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Character
 import br.com.digitalhouse.marvelnaticos.marvelnatics.models.Comic
+import br.com.digitalhouse.marvelnaticos.marvelnatics.models.firebase.ComicFB
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.CacheViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.FirebaseViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.colecao.ColecaoActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.comic.ComicFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.util.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.mlkit.common.model.DownloadConditions
@@ -50,6 +52,8 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
+import java.util.function.Consumer
+import kotlin.concurrent.thread
 
 class ComicFragment : DialogFragment() {
 
@@ -71,13 +75,20 @@ class ComicFragment : DialogFragment() {
     var countFav = false
     var countTenho = false
 
-    val viewModel: OfflineViewModel by viewModels<OfflineViewModel>{
-        object : ViewModelProvider.Factory{
+    var userRating = 0
+
+    private val cacheViewModel: CacheViewModel by viewModels()
+
+    private val networkViewModel: NetworkViewModel by viewModels()
+
+    val viewModel: OfflineViewModel by viewModels<OfflineViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return OfflineViewModel(repo, context!!) as T
             }
         }
     }
+    val firebaseViewModel: FirebaseViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -91,149 +102,219 @@ class ComicFragment : DialogFragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        context?.also { c -> networkViewModel.unregisterNetworkListener(c) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        context?.also { c -> networkViewModel.registerNetworkListener(c) }
+    }
+
     override fun onStart() {
         super.onStart()
 
         val parameter = ViewGroup.LayoutParams.MATCH_PARENT
         dialog?.window?.setLayout(parameter, parameter)
-        dialog?.window?.setBackgroundDrawable(
-            ColorDrawable(
-                ContextCompat.getColor(
-                    ctx,
-                    R.color.backgroupDialog
-                )
-            )
-        )
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(ctx, R.color.backgroupDialog)))
         dialog?.window?.setWindowAnimations(R.style.dialog_animation_from_top)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    fun updateUserCache() { // TODO
+        if (firebaseViewModel.isUserAvaliable.value ?: false) {
+            context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_comic, container, false)
 
         val titulo: TextView = root.findViewById(R.id.tv_comic_title)
         val descricao: TextView = root.findViewById(R.id.tv_comic_descricao)
         val dataPub: TextView = root.findViewById(R.id.tv_comic_data_pub)
-        val ivCapa : ImageView = root.findViewById(R.id.iv_comic_capa)
+        val ivCapa: ImageView = root.findViewById(R.id.iv_comic_capa)
         val criadores: TextView = root.findViewById(R.id.tv_comic_creator)
         val desenhistas: TextView = root.findViewById(R.id.tv_comic_ilustrator)
         val artistasCapa: TextView = root.findViewById(R.id.tv_comic_cover)
 
-        val rc: RecyclerView = root.findViewById(R.id.rc_comic_characters)
         val backBtn: ImageButton = root.findViewById(R.id.ib_comic_backbtn)
 
-        val btFavorito : ImageView = root.findViewById(R.id.bt_favorito_comic)
-        val btQueroler : ImageView = root.findViewById(R.id.bt_queroler_comic)
-        val btJali : ImageView = root.findViewById(R.id.bt_jali_comic)
-        val btTenho : ImageView = root.findViewById(R.id.bt_tenho_comic)
+        val btFavorito: ImageView = root.findViewById(R.id.bt_favorito_comic)
+        val btQueroler: ImageView = root.findViewById(R.id.bt_queroler_comic)
+        val btJali: ImageView = root.findViewById(R.id.bt_jali_comic)
+        val btTenho: ImageView = root.findViewById(R.id.bt_tenho_comic)
 
-        val btStars : List<ImageView> = listOf(root.findViewById(R.id.s0), root.findViewById(R.id.s1),
-                root.findViewById(R.id.s2), root.findViewById(R.id.s3), root.findViewById(R.id.s4))
 
-        btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-        btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-        btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-        btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+        val tvRatingAverage = root.findViewById<TextView>(R.id.fragmentComic_tvRatingAverage)
+
+        val btStars = arrayOf<ImageView>(root.findViewById(R.id.s0), root.findViewById(R.id.s1), root.findViewById(R.id.s2), root.findViewById(R.id.s3), root.findViewById(R.id.s4))
+
+        networkViewModel.networkAvaliable.observe(viewLifecycleOwner) { network ->
+            if (network ?: false) {
+                firebaseViewModel.isUserAvaliable.observe(viewLifecycleOwner) { isUserAvaliable ->
+                    if (isUserAvaliable) {
+                        firebaseViewModel.isUserAvaliable.removeObservers(viewLifecycleOwner)
+                        context?.let { cacheViewModel.loadData(it, firebaseViewModel) }
+                    }
+                }
+                firebaseViewModel.setup()
+            } else {
+                context?.let { cacheViewModel.loadData(it, null) }
+            }
+        }
+
+        val colorActionButtons = Runnable {
+            if (countTenho) {
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
+            } else {
+                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+            }
+            if (countQler) {
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
+            } else {
+                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+            }
+            if (countJali) {
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
+            } else {
+                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+            }
+            if (countFav) {
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
+            } else {
+                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
+            }
+        }
+
+        colorActionButtons.run()
+
+        val uploadComic = Runnable {
+            thread {
+                try {
+                    firebaseViewModel.uploadComic(ComicFB(comicId, title, originalText, dataP, urlImg, creators, drawers, cover, mutableMapOf()))
+                } catch (ex: Exception) {
+                    Log.e("ComicFragment", "Erro!", ex)
+                }
+            }
+        }
 
         // Botoes de ação
         btFavorito.setOnClickListener {
-            if (!countFav) {
-                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
-                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "F")
-            } else {
-                btFavorito?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "F")
+            val current = countFav
+            countFav = !current
+            colorActionButtons.run()
+            firebaseViewModel.changeComicInList(comicId, "F", !current).addOnSuccessListener {
+                if (countFav) {
+                    viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "F")
+                    uploadComic.run()
+                } else {
+                    viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "F")
+                }
+            }.addOnFailureListener { ex ->
+                Toast.makeText(ctx, "Erro! ${ex.message}", Toast.LENGTH_SHORT).show()
+                countFav = current
+                colorActionButtons.run()
             }
 
-            countFav = !countFav
-
-            Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
         }
 
         btQueroler.setOnClickListener {
-            if (!countQler) {
-                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.querolerbt), PorterDuff.Mode.SRC_IN)
-                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "Q")
-            } else {
-                btQueroler?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "Q")
+            val current = countQler
+            countQler = !current
+            colorActionButtons.run()
+            firebaseViewModel.changeComicInList(comicId, "Q", !current).addOnSuccessListener {
+                if (countQler) {
+                    viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "Q")
+                    uploadComic.run()
+                } else {
+                    viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "Q")
+                }
+            }.addOnFailureListener { ex ->
+                Toast.makeText(ctx, "Erro! ${ex.message}", Toast.LENGTH_SHORT).show()
+                countQler = current
+                colorActionButtons.run()
             }
-
-            countQler = !countQler
-
-            Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
         }
 
         btJali.setOnClickListener {
-            if (!countJali) {
-                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.jalibt), PorterDuff.Mode.SRC_IN)
-                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "J")
-            }else {
-                btJali?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "J")
+            val current = countJali
+            countJali = !current
+            colorActionButtons.run()
+            firebaseViewModel.changeComicInList(comicId, "J", !current).addOnSuccessListener {
+                if (countJali) {
+                    viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "J")
+                    uploadComic.run()
+                } else {
+                    viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "J")
+                }
+            }.addOnFailureListener { ex ->
+                Toast.makeText(ctx, "Erro! ${ex.message}", Toast.LENGTH_SHORT).show()
+                countJali = current
+                colorActionButtons.run()
             }
-
-            countJali = !countJali
-
-            Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
         }
 
         btTenho.setOnClickListener {
-            if (!countTenho) {
-                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.tenhobt), PorterDuff.Mode.SRC_IN)
-                viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "T")
+            val current = countTenho
+            countTenho = !current
+            colorActionButtons.run()
+            firebaseViewModel.changeComicInList(comicId, "T", !current).addOnSuccessListener {
+                if (countTenho) {
+                    viewModel.insertComicInList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "T")
+                    uploadComic.run()
+                } else {
+                    viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "T")
+                }
+            }.addOnFailureListener { ex ->
+                Toast.makeText(ctx, "Erro! ${ex.message}", Toast.LENGTH_SHORT).show()
+                countTenho = current
+                colorActionButtons.run()
             }
-            else{
-                btTenho?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                viewModel.removeComicFromList(comicId, title, originalText, dataP, drawers, cover, creators, urlImg, "T")
-            }
-
-            countTenho = !countTenho
-
-            Toast.makeText(ctx, "Você clicou em 'TENHO'", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(ctx, "Você clicou em 'TENHO'", Toast.LENGTH_SHORT).show()
         }
         //////
 
-        var countStars = false
-        for (i in 0..4) {
-            btStars[i].setOnClickListener {
-                if (!countStars) {
-                    for (j in 0..4) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                    }
+        tvRatingAverage.text = "-"
 
-                    for (j in 0..i) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
-                    }
-
-                }
-                else {
-                    for (j in 0..4) {
-                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-                    }
-
-                }
-                countStars = !countStars
-                Toast.makeText(ctx, "Você clicou em '$i ESTRELAS'", Toast.LENGTH_SHORT).show()
+        val updateRatingAverage = fun() {
+            firebaseViewModel.getComicRatingAverage(comicId).addOnSuccessListener { average ->
+                average?.also { avg -> tvRatingAverage.text = "%.1f".format(avg).replace('.', ',') }
             }
         }
-        ////
+
+        val updateRatingStars = fun(rating: Int) {
+            context?.let { Utils.colorStars(btStars, rating, it) }
+        }
+
+        updateRatingStars(userRating)
+
+        cacheViewModel.cacheData.observe(viewLifecycleOwner) { data ->
+            userRating = data.avaliacoes[comicId] ?: 0
+
+            updateRatingStars(userRating)
+            updateRatingAverage()
+        }
+
+        btStars.forEachIndexed { i, bt ->
+            bt.setOnClickListener {
+                val r = i + 1
+                updateRatingStars(r)
+                firebaseViewModel.submitComicRating(comicId, r).addOnSuccessListener {
+                    updateUserCache()
+                }.addOnFailureListener { ex ->
+                    Toast.makeText(ctx, "Erro! ${ex.message}", Toast.LENGTH_SHORT).show()
+                    updateRatingStars(userRating)
+                }
+            }
+        }
 
         backBtn.setOnClickListener {
             dismiss()
         }
-
-        rc.adapter = CharacterAdapter(
-            root.context, mutableListOf(
-                //Character(),
-                //Character(),
-               // Character(),
-                //Character(),
-            )
-        )
-        ////////
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 
@@ -242,12 +323,7 @@ class ComicFragment : DialogFragment() {
         root.findViewById<ImageView>(R.id.iv_comic_capa).also { miniImg ->
             miniImg.setOnClickListener {
                 // CHAMA A ANIMAÇÃO
-                zoomImage(
-                        root,
-                        miniImg,
-                        imgExpandido!!,
-                        animShort
-                )
+                zoomImage(root, miniImg, imgExpandido!!, animShort)
             }
         }
 
@@ -257,44 +333,38 @@ class ComicFragment : DialogFragment() {
         finalText = ""
         originalText = arguments?.getString("desc").toString()
 
-        if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null){
+        if (arguments?.getString("desc").toString().trim() != "" && arguments?.getString("desc") != null) {
 
             val source = TranslateLanguage.ENGLISH
             val target = Locale.getDefault().language
 
-            val options = TranslatorOptions.Builder()
-                    .setSourceLanguage(source)
-                    .setTargetLanguage(target)
-                    .build()
+            val options = TranslatorOptions.Builder().setSourceLanguage(source).setTargetLanguage(target).build()
 
             val translator = Translation.getClient(options)
 
             getLifecycle().addObserver(translator)
 
-            if (source!=target) {
-                var conditions = DownloadConditions.Builder()
-                        .requireWifi()
-                        .build()
+            if (source != target) {
+                var conditions = DownloadConditions.Builder().requireWifi().build()
 
-                translator.downloadModelIfNeeded(conditions)
-                        .addOnSuccessListener {
-                            Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
-
-                            translator.translate(arguments?.getString("desc")!!)
-                                    .addOnSuccessListener { translatedText ->
-                                        finalText = translatedText
-                                        descricao.text = translatedText
-                                        Log.i("TRANSLATOR", "translate: successful")
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        finalText = descricao.text.toString()
-                                        Log.i("TRANSLATOR", "translate: failed, exception: $exception")
-                                    }
+                translator.downloadModelIfNeeded(conditions).addOnSuccessListener {
+                    Log.i("TRANSLATOR", "DOWNLOAD OF MODELS CONCLUDED")
+                    try {
+                        translator.translate(arguments?.getString("desc")!!).addOnSuccessListener { translatedText ->
+                            finalText = translatedText
+                            descricao.text = translatedText
+                            Log.i("TRANSLATOR", "translate: successful")
+                        }.addOnFailureListener { exception ->
+                            finalText = descricao.text.toString()
+                            Log.i("TRANSLATOR", "translate: failed, exception: $exception")
                         }
-                        .addOnFailureListener { exception ->
-                            finalText = " "
-                            Log.i("TRANSLATOR", "DOWNLOAD OF MODELS FAILED: $exception")
-                        }
+                    } catch (ex: Exception) {
+                        Log.e("ComicFragment", "Erro!", ex)
+                    }
+                }.addOnFailureListener { exception ->
+                    finalText = " "
+                    Log.i("TRANSLATOR", "DOWNLOAD OF MODELS FAILED: $exception")
+                }
 
 
             } else {
@@ -309,7 +379,7 @@ class ComicFragment : DialogFragment() {
         comicId = arguments?.getInt("id")!!
         viewModel.getClassificationsFromComic(comicId)
 
-        viewModel.listInfo.observe(viewLifecycleOwner){
+        viewModel.listInfo.observe(viewLifecycleOwner) { // TODO
             it.forEach {
                 if (it == "T") {
                     countTenho = true
@@ -328,7 +398,7 @@ class ComicFragment : DialogFragment() {
         }
 
         dataP = arguments?.getString("date")!!
-        dataPub.text = dataP
+        dataPub.text = dataP.substring(0, 10)
 
         creators = arguments?.getString("creators")!!
         criadores.text = creators
@@ -340,19 +410,9 @@ class ComicFragment : DialogFragment() {
         artistasCapa.text = cover
 
         urlImg = arguments?.getString("urlImage")!!
-        Glide
-            .with(ctx)
-            .load(urlImg)
-            .placeholder(spinner!!)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(ivCapa)
+        Glide.with(ctx).load(urlImg).placeholder(spinner!!).transition(DrawableTransitionOptions.withCrossFade()).into(ivCapa)
 
-        Glide
-            .with(ctx)
-            .load(urlImg)
-            .placeholder(spinner!!)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(imgExpandido)
+        Glide.with(ctx).load(urlImg).placeholder(spinner!!).transition(DrawableTransitionOptions.withCrossFade()).into(imgExpandido)
         return root
     }
 
@@ -409,14 +469,7 @@ class ComicFragment : DialogFragment() {
 
         // ANIMAÇÃO - COPIEI E AJUSTEI OS IDs E PARAMETROS
         animator = AnimatorSet().apply {
-            play(
-                ObjectAnimator.ofFloat(
-                    zoomImg,
-                    View.X,
-                    startBounds.left,
-                    finalBounds.left
-                )
-            ).apply {
+            play(ObjectAnimator.ofFloat(zoomImg, View.X, startBounds.left, finalBounds.left)).apply {
                 with(ObjectAnimator.ofFloat(zoomImg, View.Y, startBounds.top, finalBounds.top))
                 with(ObjectAnimator.ofFloat(zoomImg, View.SCALE_X, startScale, 1f))
                 with(ObjectAnimator.ofFloat(zoomImg, View.SCALE_Y, startScale, 1f))
@@ -474,11 +527,11 @@ class ComicFragment : DialogFragment() {
         dbId = arguments?.getLong("dbId")!!
         position = arguments?.getInt("pos")!!
 
-        if (activity is ColecaoActivity){
-            if (!countTenho && !countFav && !countJali && !countQler){
+        if (activity is ColecaoActivity) {
+            if (!countTenho && !countFav && !countJali && !countQler) {
                 (activity as ColecaoActivity).viewModel.eraseComic(position)
                 (activity as ColecaoActivity).rvColecao.adapter!!.notifyItemRemoved(position)
-            }else{
+            } else {
                 var actColecao = activity as ColecaoActivity
                 var adapter: ComicCollectionAdapter = actColecao.rvColecao.adapter as ComicCollectionAdapter
                 adapter.countTenho[position] = countTenho
@@ -487,22 +540,17 @@ class ComicFragment : DialogFragment() {
                 adapter.countQler[position] = countQler
                 actColecao.viewModel.updateComic(dbId, comicId, position, adapter)
             }
-        }else if (activity is FavoritesActivity){
+        } else if (activity is FavoritesActivity) {
             var listBool: List<Boolean> = Arrays.asList(countQler, countTenho, countJali, countFav)
-            var listAdapters: List<ComicDBAdapter> = listOf((activity as FavoritesActivity).recyclerView1.adapter,
-                                                            (activity as FavoritesActivity).recyclerView2.adapter,
-                                                            (activity as FavoritesActivity).recyclerView3.adapter,
-                                                            (activity as FavoritesActivity).recyclerView4.adapter) as List<ComicDBAdapter>
+            var listAdapters: List<ComicDBAdapter> = listOf((activity as FavoritesActivity).recyclerView1.adapter, (activity as FavoritesActivity).recyclerView2.adapter, (activity as FavoritesActivity).recyclerView3.adapter, (activity as FavoritesActivity).recyclerView4.adapter) as List<ComicDBAdapter>
             (activity as FavoritesActivity).viewModel.updateInfosLists(listBool, dbId, comicId, listAdapters)
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            ComicFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
+        fun newInstance() = ComicFragment().apply {
+            arguments = Bundle().apply {}
+        }
     }
 }

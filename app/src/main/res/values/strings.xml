@@ -3,47 +3,79 @@
 
 
     <!--BARRA DE PESQUISA-->
-
-    <string name="search">Pesquisar</string>
+    <string name="search">Search</string>
 
     <!--HOME-->
-    <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
-    <string name="tb_favorites">FAVORITOS</string>
+    <string name="tb_organize">ORGANIZE COLLECTION</string>
+    <string name="tb_favorites">FAVORITES</string>
 
     <!--MENU-->
-    <string name="nb_home">PRINCIPAL</string>
-    <string name="nb_search">BUSCAR</string>
-    <string name="nb_profile">PERFIL</string>
+    <string name="nb_home">MAIN</string>
+    <string name="nb_search">SEARCH</string>
+    <string name="nb_profile">PROFILE</string>
 
     <!--Login e Cadastro -->
-    <string name="cadastre_se">Cadastre-se</string>
-    <string name="entrar_com_facebook">Entrar com Facebook</string>
-    <string name="entrar_com_google">Entrar com o Google</string>
-    <string name="login_entrar">Entrar</string>
-    <string name="cadastrar_com_facebook">Cadastrar com Facebook</string>
-    <string name="cadastrar_com_google">Cadastrar com Google</string>
-    <string name="cadastro_cadastrar">Cadastrar</string>
-    <string name="nome">Nome</string>
-    <string name="sobrenome">Sobrenome</string>
+    <string name="cadastre_se">Register</string>
+    <string name="entrar_com_facebook">Login with Facebook</string>
+    <string name="entrar_com_google">Sign in with Google</string>
+    <string name="login_entrar">Log in</string>
+    <string name= "Esqueci_Senha">Forgot Password</string>
+    <string name="cadastrar_com_facebook">Sign up with Facebook</string>
+    <string name="cadastrar_com_google">Sign up with Google</string>
+    <string name="cadastro_cadastrar">Register</string>
+    <string name="nome">Name</string>
+    <string name="sobrenome">Surname</string>
     <string name="email">Email</string>
-    <string name="senha">Senha</string>
+    <string name="senha">password</string>
 
     <!--Main activity-->
-    <string name="bt_my_favorites">MEUS FAVORITOS</string>
-    <string name="historia_em_destaque">Historia em Destaque</string>
-    <string name="personagens_mais_populares">Personagens mais populares</string>
-    <string name="pesquisa">Pesquisa</string>
+    <string name="bt_my_favorites">MY FAVORITES</string>
+    <string name="historia_em_destaque">Featured Story</string>
+    <string name="personagens_mais_populares">Most popular characters</string>
+    <string name="pesquisa">Search</string>
 
-    <string name="demo_comic_description">
+
+    <!--fragmento de busca-->
+    <string name="ja_tenho">Already have</string>
+    <string name="ja_li">Already have</string>
+    <string name="quero_ler">Want to read</string>
+    <string name="motrando_qtd_resultados">Showing 0 result(s)</string>
+
+
+    <!--item colecao-->
+    <string name="descricao">Description</string>
+
+    <!--list histories-->
+    <string name="nome_lista">List Name</string>
+
+
+    <!--fragment comic-->
+    <string name="personagens">Characters</string>
+    <string name="titulo_comic">Title here</string>
+    <string name="Data_publicação">Publication date: </string>
+    <string name="Criador">Creator: </string>
+    <string name="Artistas_capa">Cover artists: </string>
+    <string name="Desenhistas">Designers: </string>
+
+    <!--fragment profile-->
+    <string name="NOME_APELIDO">Name (NICKNAME)</string>
+
+    <!--item_busca_resultado-->
+    <string name="titulo">Title</string>
+    <string name="ano">Year</string>
+
+    <!-- <string name="demo_comic_description">KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!</string> -->
+    <string name="demo_comic_description" translatable="false">
     "KRAVEN THE HUNTER" The world\'s greatest big game hunter has come to New York City to stalk his newest prey. Will Spider-Man be up to the challenge? And if going up against Kraven isn\'t enough, the Chameleon is set to strike if Kraven fails!
     </string>
 
 
-    <string name="facebook_app_id">1772865956205403</string>
-    <string name="fb_login_protocol_scheme">fb1772865956205403</string>
-<!--    <string name="default_web_client_id">663362792865-hjjr6sbr0l2qk3epbbtsk1vknsp9tuon.apps.googleusercontent.comm</string>-->
 
-    <string name="empty_list">A lista está vazia</string>
-    <string name="logout">Sair</string>
+    <string name="facebook_app_id" translatable="false">1772865956205403</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1772865956205403</string>
+    <!--    <string name="default_web_client_id">663362792865-hjjr6sbr0l2qk3epbbtsk1vknsp9tuon.apps.googleusercontent.comm</string>-->
+
+    <string name="empty_list" translatable="false">A lista está vazia</string>
+    <string name="logout" translatable="false">Sair</string>
 
 </resources>

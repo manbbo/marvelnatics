@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Marvelnatics</string>
+
+    <!--BARRA DE PESQUISA-->
+    <string name="search">Chercher</string>
+
+    <!--HOME-->
+    <string name="tb_organize">ORGANISER LES COLLECTIONS</string>
+    <string name="tb_favorites">FAVORIS</string>
+
+    <!--MENU-->
+    <string name="nb_home">PRINCIPALE</string>
+    <string name="nb_search">CHERCHER</string>
+    <string name="nb_profile">PROFIL</string>
+
+    <!--Login e Cadastro -->
+    <string name="cadastre_se">S\'inscrire</string>
+    <string name="entrar_com_facebook">Connectez-vous avec Facebook</string>
+    <string name="entrar_com_google">Connectez-vous avec Google</string>
+    <string name="cadastrar_com_facebook">Inscrivez-vous avec Facebook</string>
+    <string name="cadastrar_com_google">Inscrivez-vous avec Google</string>
+    <string name="cadastro_cadastrar">S\'inscrire</string>
+    <string name="nome">Nom</string>
+    <string name="sobrenome">Nom de Famille</string>
+    <string name="email">Email</string>
+    <string name="senha">Mot de Passe</string>
+
+
+    <!--Main activity-->
+    <string name="bt_my_favorites">MES FAVORIS</string>
+    <string name="historia_em_destaque">Articles en vedette</string>
+    <string name="personagens_mais_populares">Personnages les plus populaires</string>
+    <string name="pesquisa">Chercher</string>
+
+
+    <!--fragmento de busca-->
+    <string name="login_entrar">S\'identifier</string>
+    <string name="Esqueci_Senha">J\'ai oublié le mot de passe</string>
+    <string name="ja_tenho">J\'ai déjá</string>
+    <string name="ja_li">Déjà lu</string>
+    <string name="quero_ler">Je veux lire</string>
+    <string name="motrando_qtd_resultados">Affichage de 0 résultats</string>
+
+
+    <!--item colecao-->
+    <string name="descricao">La description</string>
+
+    <!--list histories-->
+    <string name="nome_lista">Liste de nom</string>
+
+    <!--fragment comic-->
+    <string name="personagens">Personnages</string>
+    <string name="titulo_comic">Titre ici</string>
+    <string name="Artistas_capa">Artistes de couverture: </string>
+    <string name="Data_publicação">Date de publication: </string>
+    <string name="Criador">Créateur: </string>
+    <string name="Desenhistas">Designers: </string>
+
+    <!--fragment profile-->
+    <string name="NOME_APELIDO">NUM</string>
+
+    <!--item_busca_resultado-->
+    <string name="titulo">Titre</string>
+    <string name="ano">En</string>
+
+</resources>

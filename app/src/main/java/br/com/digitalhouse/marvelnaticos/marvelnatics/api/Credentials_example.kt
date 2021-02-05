@@ -13,3 +13,4 @@ class Credentials_example {
     val privateKey: String
         get() = "<CHAVE PRIVADA>"
 }
+

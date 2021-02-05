@@ -51,6 +51,16 @@ interface ComicsDao {
     @Query("DELETE FROM comic WHERE dbID = :dbID")
     suspend fun delComicById(dbID: Long)
 
+    @Query("DELETE FROM comic")
+    suspend fun deleteAllComics()
+
+    @Query("DELETE FROM comic_colecao_info")
+    suspend fun deleteAllInfos()
+
+    suspend fun clearDatabase() {
+        deleteAllComics()
+        deleteAllInfos()
+    }
 
     suspend fun insertComicDBList(comic: ComicDB, info: String) {
         var listId = getComicById(comic.apiID)
@@ -66,12 +76,17 @@ interface ComicsDao {
     suspend fun deleteComicList(comic: ComicDB, info: String) {
         var listComicDB = getComicById(comic.apiID)
         var listComics = getCollectionsById(listComicDB[0].dbID!!)
-        lateinit var collectionComic: ComicColecaoInfoDB
+        var collectionComic: ComicColecaoInfoDB? = null
 
-        listComics.forEach { if (it.info == info) collectionComic = it }
-        delByIdAndClassification(collectionComic.dbid!!, collectionComic.info)
-        if (listComics.size == 1) {
-            delComicById(collectionComic.comicID)
+        for (it in listComics) {
+            if (it.info == info) collectionComic = it
+        }
+
+        if (collectionComic != null) {
+            delByIdAndClassification(collectionComic.dbid ?: 0, collectionComic.info)
+            if (listComics.size == 1) {
+                delComicById(collectionComic.comicID)
+            }
         }
     }
 }

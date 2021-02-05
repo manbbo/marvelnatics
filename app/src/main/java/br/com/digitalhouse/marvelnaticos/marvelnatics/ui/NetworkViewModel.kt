@@ -1,4 +1,4 @@
-package br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main
+package br.com.digitalhouse.marvelnaticos.marvelnatics.ui
 
 import android.content.Context
 import android.net.ConnectivityManager
