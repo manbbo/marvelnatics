@@ -95,7 +95,7 @@ class ProfileFragment : Fragment() {
         val tv_readCharacters: TextView = root.findViewById(R.id.tv_read_characters)
         val btn_logout: TextView = root.findViewById(R.id.btn_logout)
 
-        var infoShared = "$nameUser's Statistics on Marvelnaltics: \n\n $queroLer \n $queroLer \n $queroLer \n\nYou can also keep track of your Marvel Comics with Marvelnatics!"
+        var infoShared = "Estatísticas de $nameUser no Marvelnaltics: \n\n Lidos: $jaLi \n Possui: $tenho \n Favoritos: $fav \n\nVocê também pode gerenciar suas comics da Marvel com o Marvelnatics!"
 
         viewModel.statistics.observe(viewLifecycleOwner) {
             queroLer = it["Q"].toString()
@@ -103,13 +103,12 @@ class ProfileFragment : Fragment() {
             jaLi = it["J"].toString()
             fav = it["F"].toString()
 
-
-            tv_readComics.text = "Read: $jaLi comics"
-            tv_readSeries.text = "Possesses: $tenho comics"
-            tv_readCharacters.text = "Favorite: $fav comics"
+            tv_readComics.text = "Lidos: $jaLi"
+            tv_readSeries.text = "Possui: $tenho"
+            tv_readCharacters.text = "Favoritos: $fav"
 
             infoShared=
-                "$nameUser's Statistics on Marvelnaltics: \n\n Read: $queroLer comics \n Possesses: $queroLer comics \n Favorite: $queroLer comics \n\nYou can also keep track of your Marvel Comics with Marvelnatics!"
+                "Estatísticas de $nameUser no Marvelnaltics: \n\n Lidos: $jaLi \n Possui: $tenho \n Favoritos: $fav \n\nVocê também pode gerenciar suas comics da Marvel com o Marvelnatics!"
 
         }
 
@@ -125,9 +124,9 @@ class ProfileFragment : Fragment() {
 
 
 
-        tv_readComics.text = "Read: $jaLi comics"
-        tv_readSeries.text = "Possesses: $tenho comics"
-        tv_readCharacters.text = "Favorite: $fav comics"
+        tv_readComics.text = "Lidos: $jaLi"
+        tv_readSeries.text = "Possui: $tenho"
+        tv_readCharacters.text = "Favoritos: $fav"
 
 
         val compartilhar: AppCompatImageButton = root.findViewById(R.id.bt_share_profile)
