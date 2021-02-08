@@ -47,6 +47,7 @@
 
     <!--list histories-->
     <string name="nome_lista">List Name</string>
+    <string name="logout">Logout</string>
 
 
     <!--fragment comic-->
@@ -76,6 +77,5 @@
     <!--    <string name="default_web_client_id">663362792865-hjjr6sbr0l2qk3epbbtsk1vknsp9tuon.apps.googleusercontent.comm</string>-->
 
     <string name="empty_list" translatable="false">A lista está vazia</string>
-    <string name="logout" translatable="false">Sair</string>
 
 </resources>

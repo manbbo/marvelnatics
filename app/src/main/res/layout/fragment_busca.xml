@@ -32,47 +32,6 @@
             android:layout_height="1dp"
             android:background="#555" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="4">
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:text="@string/ja_tenho"
-                android:textColor="@color/white"
-                app:chipBackgroundColor="@color/primaryColor"
-                app:chipIcon="@drawable/ic_check_circle"
-                app:chipIconTint="@color/white" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:text="@string/ja_li"
-                android:textColor="@color/white"
-                app:chipBackgroundColor="@color/primaryColor"
-                app:chipIcon="@drawable/ic_book"
-                app:chipIconTint="@color/white" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/quero_ler"
-                android:textColor="@color/white"
-                app:chipBackgroundColor="@color/primaryColor"
-                app:chipIcon="@drawable/ic_favorite"
-                app:chipIconTint="@color/white" />
-        </LinearLayout>
-
         <TextView
             android:id="@+id/tv_busca_info"
             android:layout_width="wrap_content"
