@@ -48,6 +48,7 @@
 
     <!--list histories-->
     <string name="nome_lista">Liste de nom</string>
+    <string name="logout">Se déconnecter</string>
 
     <!--fragment comic-->
     <string name="personagens">Personnages</string>

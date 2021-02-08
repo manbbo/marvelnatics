@@ -2,6 +2,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.adapters
 
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -55,6 +57,7 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
         val btQueroler: ImageView = itemView.findViewById(R.id.bt_queroler_colecao)
         val btJali: ImageView = itemView.findViewById(R.id.bt_jali_colecao)
         val btTenho: ImageView = itemView.findViewById(R.id.bt_tenho_colecao)
+        val btShare: ImageView = itemView.findViewById(R.id.shopping)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicCollectionViewHolder {
@@ -136,9 +139,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
                 countFav[holder.adapterPosition] = current
                 colorActionButtons.run()
             }
-
-
-//            Toast.makeText(ctx, "Você clicou em 'FAVORITOS'", Toast.LENGTH_SHORT).show()
         }
 
         holder.btQueroler.setOnClickListener {
@@ -157,8 +157,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
                 countQler[holder.adapterPosition] = current
                 colorActionButtons.run()
             }
-
-//            Toast.makeText(ctx, "Você clicou em 'QUERO LER'", Toast.LENGTH_SHORT).show()
         }
 
         holder.btJali.setOnClickListener {
@@ -177,9 +175,6 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
                 countJali[holder.adapterPosition] = current
                 colorActionButtons.run()
             }
-
-
-//            Toast.makeText(ctx, "Você clicou em 'Ja li'", Toast.LENGTH_SHORT).show()
         }
 
         holder.btTenho.setOnClickListener {
@@ -224,6 +219,28 @@ class ComicCollectionAdapter(private val context: Context, val viewModel: Offlin
                 frag.userRating = cacheViewModel.cacheData.value?.avaliacoes?.get(currentItem.apiID) ?: 0
 
                 frag.show(t, "Comic")
+            }
+        }
+
+        holder.btShare.setOnClickListener{
+            if (countTenho[position]){
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Selling ${currentItem.titulo}")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(context, shareIntent, null)
+            }else{
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Buying ${currentItem.titulo}")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(context, shareIntent, null)
             }
         }
     }

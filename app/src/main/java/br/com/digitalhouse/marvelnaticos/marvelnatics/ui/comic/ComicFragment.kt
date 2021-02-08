@@ -138,7 +138,6 @@ class ComicFragment : DialogFragment() {
         val desenhistas: TextView = root.findViewById(R.id.tv_comic_ilustrator)
         val artistasCapa: TextView = root.findViewById(R.id.tv_comic_cover)
 
-        val rc: RecyclerView = root.findViewById(R.id.rc_comic_characters)
         val backBtn: ImageButton = root.findViewById(R.id.ib_comic_backbtn)
 
         val btFavorito: ImageView = root.findViewById(R.id.bt_favorito_comic)
@@ -279,7 +278,6 @@ class ComicFragment : DialogFragment() {
         }
         //////
 
-
         tvRatingAverage.text = "-"
 
         val updateRatingAverage = fun() {
@@ -314,42 +312,9 @@ class ComicFragment : DialogFragment() {
             }
         }
 
-
-//        var countStars = false
-//        for (i in 0..4) {
-//            btStars[i].setOnClickListener {
-//                if (!countStars) {
-//                    for (j in 0..4) {
-//                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-//                    }
-//
-//                    for (j in 0..i) {
-//                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.favoritebt), PorterDuff.Mode.SRC_IN)
-//                    }
-//
-//                } else {
-//                    for (j in 0..4) {
-//                        btStars[j]?.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.SRC_IN)
-//                    }
-//
-//                }
-//                countStars = !countStars
-//                Toast.makeText(ctx, "Você clicou em '$i ESTRELAS'", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-        ////
-
         backBtn.setOnClickListener {
             dismiss()
         }
-
-        rc.adapter = CharacterAdapter(root.context, mutableListOf(
-            //Character(),
-            //Character(),
-            // Character(),
-            //Character(),
-        ))
-        ////////
 
         // ANIMAÇÃO DE EXPANDIR A IMAGEM
 
@@ -433,7 +398,7 @@ class ComicFragment : DialogFragment() {
         }
 
         dataP = arguments?.getString("date")!!
-        dataPub.text = dataP
+        dataPub.text = dataP.substring(0, 10)
 
         creators = arguments?.getString("creators")!!
         criadores.text = creators

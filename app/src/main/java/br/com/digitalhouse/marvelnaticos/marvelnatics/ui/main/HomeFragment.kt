@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -80,9 +81,11 @@ class HomeFragment : Fragment() {
 
         val titleHML: TextView = includeHML.findViewById(R.id.tv_list_listName)
         val titleHMA: TextView = includeHMA.findViewById(R.id.tv_list_listName)
+        val imgHML: ImageView = includeHML.findViewById(R.id.iv_list_icon)
 
         titleHML.text = "Histórias mais lidas"
         titleHMA.text = "Histórias melhor avaliadas"
+        imgHML.setImageResource(R.drawable.ic_book)
 
         context?.let { cacheViewModel.loadData(it, null) }
 

@@ -312,11 +312,10 @@
 
                     </LinearLayout>
 
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_comic_characters"
+                    android:id="@+id/ll_comic_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -327,56 +326,29 @@
                         style="@style/comic_topics"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/personagens" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rc_comic_characters"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_charbubble" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_comic_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_comic_characters">
-
-                    <TextView
-                        style="@style/comic_topics"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="@string/descricao"
                         android:textStyle="bold" />
 
-                    <FrameLayout
+                    <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/bkg_rounded_2dp"
-                        android:padding="10dp">
+                        android:padding="10dp"
+                        android:scrollbars="vertical"
+                        android:fillViewport="true">
 
-                        <ScrollView
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="match_parent">
 
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/tv_comic_descricao"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <TextView
-                                    android:id="@+id/tv_comic_descricao"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="description" />
-                            </LinearLayout>
-                        </ScrollView>
-                    </FrameLayout>
+                                android:layout_height="wrap_content"
+                                android:text="description" />
+                        </LinearLayout>
+                    </ScrollView>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--    ZOOM DA COMIC-->

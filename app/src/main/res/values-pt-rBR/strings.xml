@@ -49,6 +49,7 @@
 
     <!--list histories-->
     <string name="nome_lista">Lista de nomes</string>
+    <string name="logout">Sair</string>
 
     <!--fragmento da comic-->
     <string name="personagens">Personagens</string>

@@ -108,11 +108,9 @@ class ColecaoActivity : AppCompatActivity() {
 
         viewModel.listComics.observe(this, Observer { listComics ->
             if (listComics.isEmpty()) {
-                Log.i("ViewModel", "onCreate: CRIOU")
                 rvColecao.visibility = View.INVISIBLE
                 message.visibility = View.VISIBLE
             } else {
-                Log.i("ViewModel", "onCreate: NAO CRIOU")
                 rvColecao.visibility = View.VISIBLE
                 message.visibility = View.INVISIBLE
             }
