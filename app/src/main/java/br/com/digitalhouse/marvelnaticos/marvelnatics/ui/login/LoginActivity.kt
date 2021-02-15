@@ -45,7 +45,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var callbackManager: CallbackManager
     private lateinit var googleSignInClient: GoogleSignInClient
     private var RC_SIGN_IN = 6584
-    private var EMAIL = "email"
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mainView: View
 
@@ -138,7 +137,6 @@ class LoginActivity : AppCompatActivity() {
                 FacebookCallback<LoginResult?> {
 
                 override fun onSuccess(loginResult: LoginResult?) {
-                    Log.i("Status", "Entrou")
                     handlerFacebookAccessToken(loginResult!!.accessToken)
                 }
 

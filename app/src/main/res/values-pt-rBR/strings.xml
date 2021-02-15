@@ -8,7 +8,6 @@
     <!--HOME-->
     <string name="tb_organize">ORGANIZAR COLEÇÃO</string>
     <string name="tb_favorites">FAVORITOS</string>
-    <string name="tb_titulo_cadastro">Cadastro</string>
 
     <!--MENU-->
     <string name="nb_home">PRINCIPAL</string>
