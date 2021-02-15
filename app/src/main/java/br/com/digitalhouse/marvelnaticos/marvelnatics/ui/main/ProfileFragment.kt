@@ -140,7 +140,7 @@ class ProfileFragment : Fragment() {
             FirebaseAuth.getInstance().signOut()
 
             viewModel.clearDatabase()
-
+          
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()
