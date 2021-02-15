@@ -21,6 +21,7 @@ import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.login.LoginActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.facebook.AccessToken
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -61,8 +62,6 @@ class ProfileFragment : Fragment() {
 
         val favoritos: AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
 
-        Log.i("CURRENT USER", "onAttach: $currentUser")
-
         favoritos.setOnClickListener {
             ctx.goToActivity(
                 FavoritesActivity::class.java,
@@ -71,25 +70,20 @@ class ProfileFragment : Fragment() {
             )
         }
 
-        //Implementar regras p/ preencher os seguintes dados:
-
-        val nameUser = if (currentUser.isAnonymous || currentUser == null) {
+        val nameUser = if (currentUser.isAnonymous) {
             "Fulano da Silva"
         } else currentUser.displayName
-        val imageUser = if (!currentUser.isAnonymous && currentUser.photoUrl.toString()
-                .isNullOrEmpty()
-        ) currentUser.photoUrl else R.drawable.profilemock
+        val imageUser = if (!currentUser.isAnonymous && !currentUser.photoUrl.toString().isEmpty()) currentUser.photoUrl.toString()+"?height=500&access_token=${AccessToken.getCurrentAccessToken().token}" else R.drawable.profilemock
         val emailUser =
-            if (currentUser.isAnonymous || currentUser == null) "e@mail" else currentUser.email
+            if (currentUser.isAnonymous) "e@mail" else currentUser.email
 
 
         //Estatisticas do usuario
         viewModel.popLists()
 
-
         val tv_nameUser: TextView = root.findViewById(R.id.tv_name_user)
         val tv_emailUser: TextView = root.findViewById(R.id.tv_email_user)
-        val tv_photoUser: ImageView = root.findViewById(R.id.iv_profile)
+        val iv_photoUser: ImageView = root.findViewById(R.id.iv_profile)
         val tv_readComics: TextView = root.findViewById(R.id.tv_read_comics)
         val tv_readSeries: TextView = root.findViewById(R.id.tv_read_series)
         val tv_readCharacters: TextView = root.findViewById(R.id.tv_read_characters)
@@ -116,13 +110,13 @@ class ProfileFragment : Fragment() {
 
         tv_emailUser.text = emailUser
         tv_nameUser.text = nameUser
-        //tv_photoUser.7
+
+        Log.i("IMAGE", imageUser.toString())
+
         Glide.with(root).load(imageUser)
             .placeholder(R.drawable.profilemock)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .into(tv_photoUser)
-
-
+            .into(iv_photoUser)
 
         tv_readComics.text = "Lidos: $jaLi"
         tv_readSeries.text = "Possui: $tenho"

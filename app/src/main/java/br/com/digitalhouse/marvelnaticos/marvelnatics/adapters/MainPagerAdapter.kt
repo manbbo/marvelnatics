@@ -20,13 +20,9 @@ class MainPagerAdapter(fm: FragmentActivity, private val qtd: Int): FragmentStat
         }
     }
 
-/*    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-
-        if (recyclerView.findViewHolderForLayoutPosition(2)?.itemView!! is ProfileFragment) {
-            recyclerView.findViewHolderForLayoutPosition(2).itemView.viewModel.getStatistics()
-        }
-
-    }*/
-
+//    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+//        super.onAttachedToRecyclerView(recyclerView)
+//
+//        (recyclerView.findViewHolderForLayoutPosition(2)?.itemView!! as ProfileFragment).viewModel.getStatistics()
+//    }
 }
