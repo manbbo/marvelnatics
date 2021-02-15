@@ -124,8 +124,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             } else {
                 Snackbar.make(mainView, "Email and Password cannot be empty", Snackbar.LENGTH_LONG).show()
-
-                openHome()
             }
         }
 

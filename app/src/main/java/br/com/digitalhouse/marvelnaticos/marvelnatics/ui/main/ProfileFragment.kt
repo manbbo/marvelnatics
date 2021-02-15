@@ -62,8 +62,6 @@ class ProfileFragment : Fragment() {
 
         val favoritos: AppCompatButton = root.findViewById(R.id.bt_favorites_profile)
 
-        Log.i("CURRENT USER", "onAttach: $currentUser")
-
         favoritos.setOnClickListener {
             ctx.goToActivity(
                 FavoritesActivity::class.java,
@@ -71,8 +69,6 @@ class ProfileFragment : Fragment() {
                 R.anim.static_animation
             )
         }
-
-        //Implementar regras p/ preencher os seguintes dados:
 
         val nameUser = if (currentUser.isAnonymous) {
             "Fulano da Silva"
