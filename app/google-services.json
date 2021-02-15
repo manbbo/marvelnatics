@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "663362792865",
+    "project_id": "marvelnatics-1610810106012",
+    "storage_bucket": "marvelnatics-1610810106012.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663362792865:android:23d5b446543207f39c6fe0",
+        "android_client_info": {
+          "package_name": "br.com.digitalhouse.marvelnaticos.marvelnatics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663362792865-7p1jvjimm5kr6k77mjrj4qfa3bubt9r0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrMKEEMvHUrLH-M_0V7sXB674Lx8PfSOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663362792865-7p1jvjimm5kr6k77mjrj4qfa3bubt9r0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

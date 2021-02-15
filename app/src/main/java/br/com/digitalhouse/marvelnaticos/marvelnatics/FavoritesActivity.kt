@@ -1,29 +1,21 @@
 package br.com.digitalhouse.marvelnaticos.marvelnatics
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import br.com.digitalhouse.marvelnaticos.marvelnatics.dao.ComicsDao
-import br.com.digitalhouse.marvelnaticos.marvelnatics.database.AppDatabase
-import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicColecaoInfoDB
-import br.com.digitalhouse.marvelnaticos.marvelnatics.models.db.ComicDB
 import br.com.digitalhouse.marvelnaticos.marvelnatics.services.repo
-import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.HomeViewModel
-import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.NetworkViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.NetworkViewModel
+import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.MainActivity
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.OfflineViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_favorites.*
-import kotlinx.coroutines.launch
 
 class FavoritesActivity : AppCompatActivity() {
 
@@ -73,7 +65,6 @@ class FavoritesActivity : AppCompatActivity() {
         include2.findViewById<ImageView>(R.id.iv_list_icon)
             .setImageResource(R.drawable.ic_check_circle)
 
-
         val include3: View = findViewById(R.id.include3)
         include3.findViewById<TextView>(R.id.tv_list_listName).text = "Lidos"
         include3.findViewById<ImageView>(R.id.iv_list_icon)
@@ -88,7 +79,6 @@ class FavoritesActivity : AppCompatActivity() {
         include5.findViewById<TextView>(R.id.tv_list_listName).text = "Maiores Notas"
         include5.findViewById<ImageView>(R.id.iv_list_icon)
             .setImageResource(R.drawable.ic_baseline_star_24_checked)
-
 
         recyclerView1 = include1.findViewById(R.id.rv_list_listImages)
         recyclerView2 = include2.findViewById(R.id.rv_list_listImages)

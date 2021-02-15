@@ -2,6 +2,7 @@ package br.com.digitalhouse.marvelnaticos.marvelnatics.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.BuscaFragment
 import br.com.digitalhouse.marvelnaticos.marvelnatics.ui.main.HomeFragment
@@ -18,4 +19,10 @@ class MainPagerAdapter(fm: FragmentActivity, private val qtd: Int): FragmentStat
             else -> HomeFragment.newInstance(position+1)
         }
     }
+
+//    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+//        super.onAttachedToRecyclerView(recyclerView)
+//
+//        (recyclerView.findViewHolderForLayoutPosition(2)?.itemView!! as ProfileFragment).viewModel.getStatistics()
+//    }
 }
